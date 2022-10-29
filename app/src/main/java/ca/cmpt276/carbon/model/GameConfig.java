@@ -3,10 +3,31 @@ package ca.cmpt276.carbon.model;
 import java.util.ArrayList;
 
 public class GameConfig {
-    ArrayList<Game> gamesList;
+    public ArrayList<Game> getGamesList() {
+        return gamesList;
+    }
+
+    private ArrayList<Game> gamesList;
+    private static GameConfig instance;
 
     // Constructor
     public GameConfig() {
         this.gamesList = new ArrayList<>();
+    }
+    public static GameConfig getInstance(){
+        if(instance== null)
+        {
+            instance= new GameConfig();
+        }
+        return instance;
+    }
+    public ArrayList<String> gameStr() {
+        ArrayList<String> gameNames= new ArrayList<>();
+        for (int i = 0; i < gamesList.size(); i++)
+        {
+            String name= (gamesList.get(i).gameName);
+            gameNames.add(name);
+        }
+        return gameNames;
     }
 }
