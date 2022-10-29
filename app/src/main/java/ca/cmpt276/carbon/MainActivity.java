@@ -1,7 +1,9 @@
 package ca.cmpt276.carbon;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,8 +33,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         gameConfiguration=GameConfig.getInstance();
         populateListView();
+        setupPlusButton();
 
     }
+
+    private void setupPlusButton() {
+        FloatingActionButton btn = findViewById(R.id.floatingBtn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(MainActivity.this,GameConfigActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
 
     private void populateListView() {
         ArrayList<String> gameList=gameConfiguration.gameStr();
