@@ -4,7 +4,13 @@ import java.util.ArrayList;
 
 public class Game {
     ArrayList<Session> sessionsList;
-
+    String gameName;
+    public String getGameName() {
+        return gameName;
+    }
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
+    }
     public Game() {
         this.sessionsList = new ArrayList<>();
     }
