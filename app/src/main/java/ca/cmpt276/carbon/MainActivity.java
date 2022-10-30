@@ -20,8 +20,11 @@ import ca.cmpt276.carbon.model.GameConfig;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -37,6 +40,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+//    private void clickGameList() {
+//        ListView list = findViewById(R.id.listview);
+//        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
+//                TextView textView = (TextView) viewClicked;
+//                String message = "You clicked # " + position + ", which is string: " + textView.getText().toString();
+//                Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
+//                Intent intent = GameConfigActivity.makeIntent(MainActivity.this,gameConfiguration.getGamesList().get(position));
+//                startActivity(intent);
+//            }
+//        });
+//    }
+
     private void setupPlusButton() {
         FloatingActionButton btn = findViewById(R.id.floatingBtn);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -51,8 +69,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void populateListView() {
         ArrayList<String> gameList=gameConfiguration.gameStr();
-        gameList.add("Chess");
-        gameList.add("Monopoly");
         //String[] gameList= {"Blue","Green","Purple","Red"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,gameList);
         ListView list = findViewById(R.id.listview);
