@@ -6,6 +6,10 @@ public class GameConfig {
     public ArrayList<Game> getGamesList() {
         return gamesList;
     }
+    public void insertGame(Game game)
+    {
+        gamesList.add(game);
+    }
 
     private ArrayList<Game> gamesList;
     private static GameConfig instance;
@@ -26,6 +30,7 @@ public class GameConfig {
         for (int i = 0; i < gamesList.size(); i++)
         {
             String name= (gamesList.get(i).gameName);
+            //String name= "Chess";
             gameNames.add(name);
         }
         return gameNames;
