@@ -3,54 +3,65 @@ package ca.cmpt276.carbon.model;
 import java.util.ArrayList;
 
 public class Game {
+
+    // TODO CHECKLIST: Possibly pass some of these responsibilities to Session class
+    // 1) Save game session creation date: use LocalDateTime
+    // 2) Return string from session to display: sessionToString
+    // 3) Be able to edit session
+    // 4) ...
+
     ArrayList<Session> sessionsList;
-    String gameName;
-    int high_score;
-    int low_score;
-    public int getHigh_score() {
-        return high_score;
+
+    private String gameName;
+    private int highScore;
+    private int lowScore;
+
+    // default constructor
+    public Game() {
+        this.sessionsList = new ArrayList<>();
+        highScore = 0;
+        lowScore = 0;
+        gameName = "";
     }
 
-    public void setHigh_score(int high_score) {
-        this.high_score = high_score;
+    // custom constructor with parameters
+    public Game(String g,int ls,int hs) {
+        gameName = g;
+        this.lowScore = ls;
+        this.highScore = hs;
+        this.sessionsList = new ArrayList<>();
     }
 
-    public int getLow_score() {
-        return low_score;
+    public int getHighScore() {
+        return highScore;
     }
-
-    public void setLow_score(int low_score) {
-        this.low_score = low_score;
+    public int getLowScore() {
+        return lowScore;
     }
-
-
     public String getGameName() {
         return gameName;
+    }
+
+    public void setHighScore(int highScore) {
+        this.highScore = highScore;
+    }
+    public void setLowScore(int lowScore) {
+        this.lowScore = lowScore;
     }
     public void setGameName(String gameName) {
         this.gameName = gameName;
     }
-    public Game() {
-        this.sessionsList = new ArrayList<>();
-        high_score=0;
-        low_score=0;
-        gameName="";
-    }
-    public Game(String g,int lowScore,int highScore)
-    {
-        gameName=g;
-        low_score=lowScore;
-        high_score=highScore;
-        this.sessionsList = new ArrayList<>();
-    }
 
-    // Add new Game
-    public void addNewGame(Session session) {
-        sessionsList.add(session);
+    // Add new session
+    public void addSession(Session s) {
+        sessionsList.add(s);
+    }
+    public void removeSession(int index) {
+        sessionsList.remove(index);
     }
 
     // Helper methods
-    public Session getGameAtIndex(int index) {
+    public Session getSessionAtIndex(int index) {
         return sessionsList.get(index);
     }
 

@@ -6,31 +6,51 @@
     android:layout_height="match_parent"
     tools:context=".GameConfigActivity">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="412dp"
+        android:layout_height="57dp"
+        android:theme="@style/Theme.Carbon.AppBarOverlay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/game_config_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:backgroundTint="@color/black"
+            android:elevation="4dp"
+            android:minHeight="56dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:titleTextColor="#EDC95D" />
+    </com.google.android.material.appbar.AppBarLayout>
+
     <EditText
-        android:id="@+id/EditTextName"
+        android:id="@+id/etGameName"
         android:layout_width="206dp"
         android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="72dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="@string/Name"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.086" />
+        app:layout_constraintStart_toEndOf="@+id/Nametextview"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/Nametextview"
         android:layout_width="160dp"
         android:layout_height="50dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="80dp"
         android:text="NAME:"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/EditTextName"
-        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,70 +58,63 @@
         android:id="@+id/highscoretextview"
         android:layout_width="160dp"
         android:layout_height="50dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="27dp"
-        android:layout_marginEnd="18dp"
+        android:layout_marginTop="24dp"
         android:layout_marginBottom="17dp"
         android:text="LOW SCORE:"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textviewhighscore"
-        app:layout_constraintEnd_toStartOf="@+id/EditTextLowScore"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/Nametextview"
         app:layout_constraintTop_toBottomOf="@+id/Nametextview" />
 
     <TextView
         android:id="@+id/textviewhighscore"
         android:layout_width="160dp"
         android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:text="HIGH SCORE:"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/highscoretextview"
         app:layout_constraintTop_toBottomOf="@+id/highscoretextview" />
 
-    <EditText
-        android:id="@+id/EditTextLowScore"
-        android:layout_width="212dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="28dp"
-        android:ems="10"
-        android:hint="low_score"
-        android:inputType="textPersonName"
-        android:textAlignment="viewStart"
-        app:layout_constraintBottom_toTopOf="@+id/EditTextHighScore"
-        app:layout_constraintStart_toEndOf="@+id/highscoretextview"
-        app:layout_constraintTop_toBottomOf="@+id/EditTextName"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <EditText
-        android:id="@+id/EditTextHighScore"
-        android:layout_width="206dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:ems="10"
-        android:hint="high_score"
-        android:inputType="textPersonName"
-        android:textAlignment="viewStart"
-        app:layout_constraintStart_toEndOf="@+id/textviewhighscore"
-        app:layout_constraintTop_toBottomOf="@+id/EditTextLowScore" />
-
     <Button
-        android:id="@+id/SaveButton"
+        android:id="@+id/btnSaveConfig"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:text="SAVE"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.902"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EditTextHighScore"
-        app:layout_constraintVertical_bias="0.735" />
+        app:layout_constraintTop_toBottomOf="@+id/etHighScore"
+        tools:visibility="visible" />
+
+    <EditText
+        android:id="@+id/etLowScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="low score"
+        android:inputType="number"
+        android:minHeight="48dp"
+        app:layout_constraintStart_toStartOf="@+id/etGameName"
+        app:layout_constraintTop_toBottomOf="@+id/etGameName" />
+
+    <EditText
+        android:id="@+id/etHighScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="high score"
+        android:inputType="number"
+        android:minHeight="48dp"
+        app:layout_constraintStart_toStartOf="@+id/etLowScore"
+        app:layout_constraintTop_toBottomOf="@+id/etLowScore" />
 </androidx.constraintlayout.widget.ConstraintLayout>
