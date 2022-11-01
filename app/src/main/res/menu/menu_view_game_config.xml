@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- This is the menu for viewing a new game configuration and editing -->
+    <item
+        android:id="@+id/action_add_game"
+        android:icon="@drawable/ic_baseline_save_24"
+        android:title="Add Game!"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_edit_game"
+        android:icon="@drawable/ic_baseline_edit_24"
+        android:title="Add Game!"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_delete_game"
+        android:icon="@drawable/ic_baseline_delete_forever_24"
+        android:title="Add Game!"
+        app:showAsAction="always"/>
+
+</menu>

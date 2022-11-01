@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- "Mark Favorite", should appear as action button if possible -->
+
+    <!-- This is the menu for adding a new game configuration -->
+    <item
+        android:id="@+id/action_add_game"
+        android:icon="@drawable/ic_baseline_save_24"
+        android:title="Add Game!"
+        app:showAsAction="always"/>
+
+</menu>
