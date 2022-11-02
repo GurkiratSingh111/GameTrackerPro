@@ -19,6 +19,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import ca.cmpt276.carbon.model.Game;
 import ca.cmpt276.carbon.model.GameConfig;
 
@@ -131,9 +133,8 @@ public class GameConfigActivity extends AppCompatActivity {
             displayGame();
 
             // TODO add a button on bottom corner to add a new session
-            Button btnAddSession = findViewById(R.id.btnAddNewSession);
+            FloatingActionButton btnAddSession = findViewById(R.id.btnAddNewSession);
             btnAddSession.setOnClickListener(new View.OnClickListener() {
-
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(GameConfigActivity.this, SessionsActivity.class);
