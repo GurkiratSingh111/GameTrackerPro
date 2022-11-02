@@ -53,6 +53,9 @@ public class GameConfigActivity extends AppCompatActivity {
     // this will also be used later to update the game session scores
     private Boolean isEditGameConfig = false;
 
+    // view achievement level button
+    private Button viewAchievements;
+
     // Build an intent int input is the index of the game clicked
     public static Intent makeLaunchIntent(Context c, int input) {
         Intent intent = new Intent(c, GameConfigActivity.class);
@@ -67,6 +70,19 @@ public class GameConfigActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.game_config_toolbar);
         setSupportActionBar(toolbar);
+
+        // View achievements
+        viewAchievements = findViewById(R.id.btnViewAchievements);
+        viewAchievements.setVisibility(View.INVISIBLE);
+
+        viewAchievements.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = AchievementsActivity.makeLaunchIntent(GameConfigActivity.this,
+                        game.getLowScore(), game.getHighScore());
+                startActivity(i);
+            }
+        });
 
         // Enable up on toolbar
         ActionBar ab = getSupportActionBar();
@@ -97,6 +113,8 @@ public class GameConfigActivity extends AppCompatActivity {
         // in this mode, you can edit the HS, LS, add a session, remove session etc.
         else if (index >= 0) {
 
+            viewAchievements.setVisibility(View.VISIBLE);
+
             Button btn = findViewById(R.id.btnSaveConfig);
             btn.setVisibility(View.GONE);
 
@@ -115,7 +133,6 @@ public class GameConfigActivity extends AppCompatActivity {
             // TODO add a button on bottom corner to add a new session
 
         }
-
     }
 
     // disables the text fields because you're in viewing mode
@@ -123,11 +140,13 @@ public class GameConfigActivity extends AppCompatActivity {
         editText.setEnabled(false);
         editText.setBackgroundColor(Color.BLACK);
         editText.setTextColor(Color.YELLOW);
+        viewAchievements.setVisibility(View.VISIBLE);
     }
 
     // enables text fields because you're editing game config
     private void enableEditText(EditText editText) {
         editText.setEnabled(true);
+        viewAchievements.setVisibility(View.INVISIBLE);
         editText.setBackgroundColor(Color.LTGRAY);
         editText.setTextColor(Color.BLUE);
     }

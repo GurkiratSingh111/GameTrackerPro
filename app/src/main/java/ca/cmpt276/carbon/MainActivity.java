@@ -22,7 +22,7 @@ import ca.cmpt276.carbon.model.Game;
 import ca.cmpt276.carbon.model.GameConfig;
 
 /**
- * Main activity that initializes a collection of game conigurations
+ * Main activity that initializes a collection of game configurations
  * and lists them on screen. If no list is created, shows a nice welcome
  * message to prompt user to add games. Allows the user to add a new
  * game config or edit the game config by clicking on it once its created

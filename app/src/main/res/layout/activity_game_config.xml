@@ -7,6 +7,7 @@
     tools:context=".GameConfigActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout2"
         android:layout_width="412dp"
         android:layout_height="57dp"
         android:theme="@style/Theme.Carbon.AppBarOverlay"
@@ -117,4 +118,15 @@
         android:minHeight="48dp"
         app:layout_constraintStart_toStartOf="@+id/etLowScore"
         app:layout_constraintTop_toBottomOf="@+id/etLowScore" />
+
+    <Button
+        android:id="@+id/btnViewAchievements"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="380dp"
+        android:text="View Achievements"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
 </androidx.constraintlayout.widget.ConstraintLayout>
