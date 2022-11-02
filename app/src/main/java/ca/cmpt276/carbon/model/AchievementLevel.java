@@ -1,21 +1,21 @@
 package ca.cmpt276.carbon.model;
 
 public class AchievementLevel {
-    private int min;
-    private int max;
+    private double min;
+    private double max;
     private String name;
 
-    public AchievementLevel(int min, int max, String name) {
+    public AchievementLevel(double min, double max, String name) {
         this.min = min;
         this.max = max;
         this.name = name;
     }
 
-    public int getMin() {
+    public double getMin() {
         return min;
     }
 
-    public int getMax() {
+    public double getMax() {
         return max;
     }
 
@@ -23,11 +23,11 @@ public class AchievementLevel {
         return name;
     }
 
-    public void setMin(int min) {
+    public void setMin(double min) {
         this.min = min;
     }
 
-    public void setMax(int max) {
+    public void setMax(double max) {
         this.max = max;
     }
 
