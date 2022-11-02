@@ -78,7 +78,8 @@ public class GameConfigActivity extends AppCompatActivity {
         viewAchievements.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = AchievementsActivity.makeLaunchIntent(GameConfigActivity.this);
+                Intent i = AchievementsActivity.makeLaunchIntent(GameConfigActivity.this,
+                        game.getLowScore(), game.getHighScore());
                 startActivity(i);
             }
         });

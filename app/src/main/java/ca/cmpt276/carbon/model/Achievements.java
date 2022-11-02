@@ -31,7 +31,7 @@ public class Achievements {
     private double deltaScore;
     public static final int NUM_OF_LVLS = 10;
 
-    Achievements(int low, int high) {
+    public Achievements(int low, int high) {
         this.lowScore = low;
         this.highScore = high;
         deltaScore = (high - low) / NUM_OF_LVLS - 1;
