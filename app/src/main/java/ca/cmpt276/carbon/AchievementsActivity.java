@@ -25,7 +25,7 @@ public class AchievementsActivity extends AppCompatActivity {
     public static final String EXTRA_HIGH_SCORE = "high score";
     private int lowScore;
     private int highScore;
-    Achievements achievements;
+    Achievements achievementLvls;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class AchievementsActivity extends AppCompatActivity {
         lowScore = i.getIntExtra(EXTRA_LOW_SCORE, 0);
         highScore = i.getIntExtra(EXTRA_HIGH_SCORE, 0);
 
-        achievements = new Achievements(lowScore, highScore);
+        achievementLvls = new Achievements(lowScore, highScore);
     }
 
     public static Intent makeLaunchIntent(Context c, int lowScore, int highScore) {
@@ -80,29 +80,29 @@ public class AchievementsActivity extends AppCompatActivity {
                     populateListView(num);
                 }
             }
-            catch (NumberFormatException ex) {
+            catch (Exception ex) {
+                list.setVisibility(View.INVISIBLE);
             }
         }
     };
 
     private void populateListView(int num) {
-
-
         String[] achievements = {"Master Macadamia", "Amazing Almond", "Pretty Pecan",
                 "Crazy CornNut", "Wacky Walnut", "Savvy Soynut", "Crafty Cashew", "Happy Hazelnut",
                 "Playful Pistachio", "Pleasant Peanut"};
+        int arrSize = 10;
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 R.layout.achievement_list,
                 achievements);
 
-        achievements[0] += lowScore;
-        achievements[1] += highScore;
-
-//        for (int i = 0; i < 10; i++) {
-//            achievements += " Minimum Score required: " +
-//        }
-
+        // "Min score required" text
+        achievements[0] += ": Maximum achievement level";
+        for (int i = 1; i < arrSize - 1; i++) {
+            String index = Integer.toString(arrSize - 1 - i);
+            achievements[i] += ": Minimum Score Required: " + (num * achievementLvls.getLevel(index).getMin());
+        }
+        achievements[9] += ": Minimum achievement level";
 
         list.setAdapter(adapter);
     }

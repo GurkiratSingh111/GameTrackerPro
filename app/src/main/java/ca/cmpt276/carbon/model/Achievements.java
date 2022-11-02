@@ -31,10 +31,17 @@ public class Achievements {
     private double deltaScore;
     public static final int NUM_OF_LVLS = 10;
 
+    public double getDeltaScore() {
+        return deltaScore;
+    }
+
+
+
     public Achievements(int low, int high) {
         this.lowScore = low;
         this.highScore = high;
-        deltaScore = (high - low) / NUM_OF_LVLS - 1;
+        deltaScore = (high - low) / (NUM_OF_LVLS - 1);
+        initializeAchievements();
     }
 
     void initializeAchievements() {
@@ -50,46 +57,41 @@ public class Achievements {
         LVL_MIN = new AchievementLevel(NEG_INF, lowScore, "Pleasant Peanut");
     }
 
-//    String getAchievementLvl(int score, int numOfPlayers) {
-//        if (numOfPlayers <= 0) {
-//            throw new RuntimeException("players must be a positive integers");
-//        }
-//        int scorePerPerson = score / numOfPlayers;
-//
-//        if (scorePerPerson > highScore) {
-//            return LVL_MAX;
-//        }
-//        else if (scorePerPerson <= highScore && scorePerPerson > (highScore - deltaScore)) {
-//            return LVL_8;
-//        }
-//        else if (scorePerPerson <= (highScore - deltaScore) && scorePerPerson > (highScore -
-//                (2 * deltaScore))) {
-//            return LVL_7;
-//        }
-//        else if (scorePerPerson <= (highScore - 2 * deltaScore) && scorePerPerson > (highScore -
-//                (3 * deltaScore))){
-//            return LVL_6;
-//        }
-//        else if (scorePerPerson <= (highScore - 3 * deltaScore) && scorePerPerson > (highScore -
-//                (4 * deltaScore))) {
-//            return LVL_5;
-//        }
-//        else if (scorePerPerson <= (highScore - 4 * deltaScore) && scorePerPerson > (highScore -
-//                (5 * deltaScore))) {
-//            return LVL_4;
-//        }
-//        else if (scorePerPerson <= (highScore - 5 * deltaScore) && scorePerPerson > (highScore -
-//                (6 * deltaScore))) {
-//            return LVL_3;
-//        }
-//        else if (scorePerPerson <= (highScore - 6 * deltaScore) && scorePerPerson > (highScore -
-//                (7 * deltaScore))) {
-//            return LVL_2;
-//        }
-//        else {
-//            return LVL_MIN;
-//        }
-//    }
+    public AchievementLevel getLevel(String level) {
+        if (level.equals("MAX")) {
+            return LVL_MAX;
+        }
+        else if (level.equals("1")) {
+            return LVL_1;
+        }
+        else if (level.equals("2")) {
+            return LVL_2;
+        }
+        else if (level.equals("3")) {
+            return LVL_3;
+        }
+        else if (level.equals("4")) {
+            return LVL_4;
+        }
+        else if (level.equals("5")) {
+            return LVL_5;
+        }
+        else if (level.equals("6")) {
+            return LVL_6;
+        }
+        else if (level.equals("7")) {
+            return LVL_7;
+        }
+        else if (level.equals("8")) {
+            return LVL_8;
+        }
+        else if (level.equals("MIN")) {
+            return LVL_MIN;
+        }
+        else {
+            throw new RuntimeException("not valid level");
+        }
+    }
 
     public int getLowScore() {
         return lowScore;
