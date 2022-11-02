@@ -1,17 +1,6 @@
 package ca.cmpt276.carbon.model;
 
 public class Achievements {
-//    public static final String LVL_MAX = "Master Macadamia";
-//    public static final String LVL_8 = "Amazing Almond";
-//    public static final String LVL_7 = "Pretty Pecan";
-//    public static final String LVL_6 = "Crazy CornNut";
-//    public static final String LVL_5 = "Wacky Walnut";
-//    public static final String LVL_4 = "Savvy Soynut";
-//    public static final String LVL_3 = "Crafty Cashew";
-//    public static final String LVL_2 = "Happy Hazelnut";
-//    public static final String LVL_1 = "Playful Pistachio";
-//    public static final String LVL_MIN = "Pleasant Peanut";
-
     private AchievementLevel LVL_MAX;
     private AchievementLevel LVL_8;
     private AchievementLevel LVL_7;
@@ -34,8 +23,6 @@ public class Achievements {
     public double getDeltaScore() {
         return deltaScore;
     }
-
-
 
     public Achievements(int low, int high) {
         this.lowScore = low;
