@@ -58,6 +58,9 @@ public class GameConfigActivity extends AppCompatActivity {
     // view achievement level button
     private Button viewAchievements;
 
+    // Add new session button
+    FloatingActionButton btnAddSession;
+
     // Build an intent int input is the index of the game clicked
     public static Intent makeLaunchIntent(Context c, int input) {
         Intent intent = new Intent(c, GameConfigActivity.class);
@@ -70,7 +73,7 @@ public class GameConfigActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_config);
 
-        Toolbar toolbar = findViewById(R.id.game_config_toolbar);
+        Toolbar toolbar = findViewById(R.id.gameConfigToolbar);
         setSupportActionBar(toolbar);
 
         // View achievements
@@ -133,7 +136,7 @@ public class GameConfigActivity extends AppCompatActivity {
             displayGame();
 
             // TODO add a button on bottom corner to add a new session
-            FloatingActionButton btnAddSession = findViewById(R.id.btnAddNewSession);
+            btnAddSession = findViewById(R.id.btnAddNewSession);
             btnAddSession.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -150,6 +153,7 @@ public class GameConfigActivity extends AppCompatActivity {
         editText.setBackgroundColor(Color.BLACK);
         editText.setTextColor(Color.YELLOW);
         viewAchievements.setVisibility(View.VISIBLE);
+
     }
 
     // enables text fields because you're editing game config
