@@ -115,8 +115,8 @@ public class GameConfigActivity extends AppCompatActivity {
 
             viewAchievements.setVisibility(View.VISIBLE);
 
-            Button btn = findViewById(R.id.btnSaveConfig);
-            btn.setVisibility(View.GONE);
+            Button btnSaveConfig = findViewById(R.id.btnSaveConfig);
+            btnSaveConfig.setVisibility(View.GONE);
 
             // Change title to show editing game instead
             getSupportActionBar().setTitle("Game Sessions");
@@ -131,7 +131,15 @@ public class GameConfigActivity extends AppCompatActivity {
             displayGame();
 
             // TODO add a button on bottom corner to add a new session
+            Button btnAddSession = findViewById(R.id.btnAddNewSession);
+            btnAddSession.setOnClickListener(new View.OnClickListener() {
 
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(GameConfigActivity.this, SessionsActivity.class);
+                    startActivity(i);
+                }
+            });
         }
     }
 
