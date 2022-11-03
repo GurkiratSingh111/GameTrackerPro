@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import ca.cmpt276.carbon.model.Achievements;
 import ca.cmpt276.carbon.model.Game;
 import ca.cmpt276.carbon.model.GameConfig;
 
@@ -89,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
         // TODO - make a welcome screen
         // Print welcome message or display games
         //showWelcomeScreen();
-
     }
 
     @Override
@@ -105,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
     private void registerClickCallback() {
         // Get the list
         ListView list = findViewById(R.id.listViewGameList);
+
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
