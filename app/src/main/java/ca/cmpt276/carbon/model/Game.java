@@ -65,5 +65,9 @@ public class Game {
         return sessionsList.get(index);
     }
 
+    // Size of sessionsList
+    public int getSize() {
+        return sessionsList.size();
+    }
 
 }

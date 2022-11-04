@@ -14,12 +14,17 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import ca.cmpt276.carbon.model.Game;
 import ca.cmpt276.carbon.model.GameConfig;
@@ -61,6 +66,8 @@ public class GameConfigActivity extends AppCompatActivity {
     // Add new session button
     FloatingActionButton btnAddSession;
 
+    private ListView sessionList;       // For printing sessions played
+
     // Build an intent int input is the index of the game clicked
     public static Intent makeLaunchIntent(Context c, int input) {
         Intent intent = new Intent(c, GameConfigActivity.class);
@@ -101,6 +108,7 @@ public class GameConfigActivity extends AppCompatActivity {
         // get the instance of the singleton
         gameConfiguration = GameConfig.getInstance();
 
+
         // if index is -1, you're on add game screen
         if(index == -1) {
 
@@ -117,6 +125,9 @@ public class GameConfigActivity extends AppCompatActivity {
         // else you're in viewing game mode -
         // in this mode, you can edit the HS, LS, add a session, remove session etc.
         else if (index >= 0) {
+
+            // Populate game sessions
+            populateGameSessions(index);
 
             viewAchievements.setVisibility(View.VISIBLE);
 
@@ -453,6 +464,32 @@ public class GameConfigActivity extends AppCompatActivity {
                 }).show();
     }
 
+    private void populateGameSessions(int gameIndex) {
+        // List of Sessions
+        List<String> gameSessions = new ArrayList<>();
 
+        // Populate ListView
+        for (int i = 0; i < gameConfiguration.getGame(gameIndex).getSize(); i++) {
 
+            // TODO - add achievement to string
+            // Time played, total players, combined score, achievement earned
+            String time = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).formatTime();
+            int players = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getPlayers();
+            int score = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTotalScore();
+
+            gameSessions.add("Time played: " + time + ", Total Players: " + players + ", Score: " + score);
+        }
+
+        // Array adapter for ListView
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                gameSessions
+        );
+
+        sessionList = findViewById(R.id.sessionsListView);
+        sessionList.setAdapter(adapter);
+
+        adapter.notifyDataSetChanged();
+    }
 }

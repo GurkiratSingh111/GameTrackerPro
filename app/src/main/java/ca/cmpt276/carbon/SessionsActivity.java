@@ -2,6 +2,8 @@ package ca.cmpt276.carbon;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
@@ -9,10 +11,18 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ca.cmpt276.carbon.model.GameConfig;
+
 public class SessionsActivity extends AppCompatActivity {
 
-    // Index passed by GameConfigActivity on creating new/editing existing session
-    private int index;
+    // Variables
+    private int index;                  // For add/edit sessions
+
+    // Singleton
+    private GameConfig gameConfiguration;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,6 +36,8 @@ public class SessionsActivity extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
+
+
 
         // TODO - get extraIntent on whether it is add/edit session
         // Get Intent
@@ -43,4 +55,5 @@ public class SessionsActivity extends AppCompatActivity {
         }
 
     }
+
 }
