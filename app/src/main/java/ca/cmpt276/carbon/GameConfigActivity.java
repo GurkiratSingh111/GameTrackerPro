@@ -437,7 +437,6 @@ public class GameConfigActivity extends AppCompatActivity {
                 }).show();
     }
 
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();

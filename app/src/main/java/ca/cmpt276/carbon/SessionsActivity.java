@@ -38,7 +38,6 @@ public class SessionsActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
 
 
-
         // TODO - get extraIntent on whether it is add/edit session
         // Get Intent
         Intent i = getIntent();
