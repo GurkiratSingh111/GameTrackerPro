@@ -6,28 +6,26 @@ import java.util.ArrayList;
 
 public class Session {
     // Variables
-    private LocalDateTime timePlayed;
+    private String timePlayed;
     private int players;
     private int totalScore;
-    private String achievement;
 
-    // TODO - add achievement to this
+
+    // Default Constructor
+    public Session() {
+        this.timePlayed = null;
+        this.players = -1;
+        this.totalScore = -1;
+    }
 
     // Constructor
-    public Session(LocalDateTime timePlayed, int players, int totalScore) {
-        this.timePlayed = timePlayed;
+    public Session(int players, int totalScore) {
+        this.timePlayed = formatTime();
         this.players = players;
         this.totalScore = totalScore;
     }
 
     // Getter/Setter methods
-    public LocalDateTime getTimePlayed() {
-        return timePlayed;
-    }
-    public void setTimePlayed(LocalDateTime timePlayed) {
-        this.timePlayed = timePlayed;
-    }
-
     public int getPlayers() {
         return players;
     }
@@ -44,7 +42,8 @@ public class Session {
 
     // Time format
     public String formatTime() {
+        LocalDateTime currentTime = LocalDateTime.now();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("MMM d @ hh:mm a");
-        return timePlayed.format(format);
+        return currentTime.format(format);
     }
 }

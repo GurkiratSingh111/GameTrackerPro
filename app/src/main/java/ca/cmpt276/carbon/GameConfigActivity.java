@@ -160,11 +160,25 @@ public class GameConfigActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(GameConfigActivity.this, SessionsActivity.class);
+                    i.putExtra("SESSION_INDEX", -1);
+                    i.putExtra(EXTRA_GAME_INDEX, index);
                     startActivity(i);
                 }
             });
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Re-Populate ListView of Sessions
+        if (index != -1) {
+            populateGameSessions(index);
+        }
+    }
+
+
 
     // disables the text fields because you're in viewing mode
     private void disableEditText(EditText editText) {
@@ -173,6 +187,7 @@ public class GameConfigActivity extends AppCompatActivity {
         editText.setTextColor(Color.YELLOW);
         viewAchievements.setVisibility(View.VISIBLE);
         btnAddSession.setVisibility(View.VISIBLE);
+        sessionList.setVisibility(View.VISIBLE);
 
     }
 
@@ -181,6 +196,7 @@ public class GameConfigActivity extends AppCompatActivity {
         editText.setEnabled(true);
         viewAchievements.setVisibility(View.INVISIBLE);
         btnAddSession.setVisibility(View.INVISIBLE);
+        sessionList.setVisibility(View.INVISIBLE);
         editText.setBackgroundColor(Color.LTGRAY);
         editText.setTextColor(Color.BLUE);
     }
