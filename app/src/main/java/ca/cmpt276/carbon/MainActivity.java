@@ -173,7 +173,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }*/
 
-
     /*private void populateListView() {
 
         List<String> gameList = gameConfiguration.gameStr();

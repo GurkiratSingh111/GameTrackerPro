@@ -5,16 +5,17 @@ import java.util.Iterator;
 import java.util.List;
 
 public class GameConfig implements Iterable<Game> {
-
+    // Variables
     private List<Game> gamesList;
-    private static GameConfig instance;
 
     // Constructor
     public GameConfig() {
         this.gamesList = new ArrayList<>();
     }
 
-    // for singleton model
+    // Singleton
+    private static GameConfig instance;
+
     public static GameConfig getInstance(){
         if (instance == null) {
             instance = new GameConfig();

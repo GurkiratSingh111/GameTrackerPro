@@ -14,12 +14,17 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import ca.cmpt276.carbon.model.Game;
 import ca.cmpt276.carbon.model.GameConfig;
@@ -61,6 +66,8 @@ public class GameConfigActivity extends AppCompatActivity {
     // Add new session button
     FloatingActionButton btnAddSession;
 
+    private ListView sessionList;       // For printing sessions played
+
     // Build an intent int input is the index of the game clicked
     public static Intent makeLaunchIntent(Context c, int input) {
         Intent intent = new Intent(c, GameConfigActivity.class);
@@ -101,6 +108,10 @@ public class GameConfigActivity extends AppCompatActivity {
         // get the instance of the singleton
         gameConfiguration = GameConfig.getInstance();
 
+        // Initialize add session button
+        btnAddSession = findViewById(R.id.btnAddNewSession);
+
+
         // if index is -1, you're on add game screen
         if(index == -1) {
 
@@ -110,6 +121,9 @@ public class GameConfigActivity extends AppCompatActivity {
             // make a new game since we're adding
             game = new Game();
 
+            // Make button invisible
+            btnAddSession.setVisibility(View.INVISIBLE);
+
             // get user inputs
             setupGameConfigDataFields();
 
@@ -118,10 +132,15 @@ public class GameConfigActivity extends AppCompatActivity {
         // in this mode, you can edit the HS, LS, add a session, remove session etc.
         else if (index >= 0) {
 
+            // Populate game sessions
+            populateGameSessions(index);
+
             viewAchievements.setVisibility(View.VISIBLE);
+            btnAddSession.setVisibility(View.VISIBLE);
 
             Button btnSaveConfig = findViewById(R.id.btnSaveConfig);
             btnSaveConfig.setVisibility(View.GONE);
+
 
             // Change title to show editing game instead
             getSupportActionBar().setTitle("Game Sessions");
@@ -136,16 +155,30 @@ public class GameConfigActivity extends AppCompatActivity {
             displayGame();
 
             // TODO add a button on bottom corner to add a new session
-            btnAddSession = findViewById(R.id.btnAddNewSession);
+
             btnAddSession.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(GameConfigActivity.this, SessionsActivity.class);
+                    i.putExtra("SESSION_INDEX", -1);
+                    i.putExtra(EXTRA_GAME_INDEX, index);
                     startActivity(i);
                 }
             });
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Re-Populate ListView of Sessions
+        if (index != -1) {
+            populateGameSessions(index);
+        }
+    }
+
+
 
     // disables the text fields because you're in viewing mode
     private void disableEditText(EditText editText) {
@@ -153,6 +186,8 @@ public class GameConfigActivity extends AppCompatActivity {
         editText.setBackgroundColor(Color.BLACK);
         editText.setTextColor(Color.YELLOW);
         viewAchievements.setVisibility(View.VISIBLE);
+        btnAddSession.setVisibility(View.VISIBLE);
+        sessionList.setVisibility(View.VISIBLE);
 
     }
 
@@ -160,6 +195,8 @@ public class GameConfigActivity extends AppCompatActivity {
     private void enableEditText(EditText editText) {
         editText.setEnabled(true);
         viewAchievements.setVisibility(View.INVISIBLE);
+        btnAddSession.setVisibility(View.INVISIBLE);
+        sessionList.setVisibility(View.INVISIBLE);
         editText.setBackgroundColor(Color.LTGRAY);
         editText.setTextColor(Color.BLUE);
     }
@@ -426,7 +463,6 @@ public class GameConfigActivity extends AppCompatActivity {
                 }).show();
     }
 
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -453,6 +489,32 @@ public class GameConfigActivity extends AppCompatActivity {
                 }).show();
     }
 
+    private void populateGameSessions(int gameIndex) {
+        // List of Sessions
+        List<String> gameSessions = new ArrayList<>();
 
+        // Populate ListView
+        for (int i = 0; i < gameConfiguration.getGame(gameIndex).getSize(); i++) {
 
+            // TODO - add achievement to string
+            // Time played, total players, combined score, achievement earned
+            String time = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).formatTime();
+            int players = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getPlayers();
+            int score = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTotalScore();
+
+            gameSessions.add("Time played: " + time + ", Total Players: " + players + ", Score: " + score);
+        }
+
+        // Array adapter for ListView
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                gameSessions
+        );
+
+        sessionList = findViewById(R.id.sessionsListView);
+        sessionList.setAdapter(adapter);
+
+        adapter.notifyDataSetChanged();
+    }
 }

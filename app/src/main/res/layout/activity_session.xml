@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -25,4 +26,92 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:titleTextColor="#EDC95D" />
     </com.google.android.material.appbar.AppBarLayout>
+
+    <Button
+        android:id="@+id/saveSessionBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SAVE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/appBarSession"
+        app:layout_constraintVertical_bias="0.944" />
+
+    <TextView
+        android:id="@+id/totalPlayersTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TOTAL PLAYERS"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/appBarSession"
+        app:layout_constraintVertical_bias="0.21" />
+
+    <TextView
+        android:id="@+id/totalScoreTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TOTAL SCORE:"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/totalPlayersTextView"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/totalPlayersTextView"
+        app:layout_constraintTop_toBottomOf="@+id/totalPlayersTextView"
+        app:layout_constraintVertical_bias="0.103" />
+
+    <EditText
+        android:id="@+id/totalPlayers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="num of players"
+        android:inputType="number"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="@+id/totalPlayersTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/totalPlayersTextView"
+        app:layout_constraintTop_toTopOf="@+id/totalPlayersTextView"
+        app:layout_constraintVertical_bias="0.562" />
+
+    <EditText
+        android:id="@+id/totalScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="total score of players"
+        android:inputType="numberSigned"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/totalPlayers"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/totalPlayers"
+        app:layout_constraintTop_toBottomOf="@+id/totalPlayers"
+        app:layout_constraintVertical_bias="0.078" />
+
+    <TextView
+        android:id="@+id/achievementTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ACHIEVEMENT: "
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/totalScoreTextView"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/totalScoreTextView"
+        app:layout_constraintTop_toBottomOf="@+id/totalScoreTextView"
+        app:layout_constraintVertical_bias="0.113" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
