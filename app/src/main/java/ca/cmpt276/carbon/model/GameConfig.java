@@ -16,10 +16,14 @@ public class GameConfig implements Iterable<Game> {
 
     // for singleton model
     public static GameConfig getInstance(){
-        if(instance== null) {
-            instance= new GameConfig();
+        if (instance == null) {
+            instance = new GameConfig();
         }
         return instance;
+    }
+
+    public static void setInstance(GameConfig config) {
+        instance = config;
     }
 
     // returns the array list of games

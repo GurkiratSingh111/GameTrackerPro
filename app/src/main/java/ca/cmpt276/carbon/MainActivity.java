@@ -19,6 +19,8 @@ import java.util.Objects;
 import ca.cmpt276.carbon.model.Achievements;
 import ca.cmpt276.carbon.model.Game;
 import ca.cmpt276.carbon.model.GameConfig;
+import android.content.SharedPreferences;
+import com.google.gson.Gson;
 
 /**
  * Main activity that initializes a collection of game configurations
@@ -34,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
     // for displaying the games
     private ListView list;
 
+    // Shared preferences
+    public static final String SHARED_PREFS = "sharedPrefs";
+    public static final String NAME = "Game Config";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
         // Set the title of the action bar
         Objects.requireNonNull(getSupportActionBar()).setTitle("COOP Game!");
 
-        // get the singleton instance
-        gameConfiguration = GameConfig.getInstance();
+        // Load the game config
+        loadData();
 
         // TODO REMOVE WHEN TESTING DONE
         addTemporaryGamesForTesting();
@@ -66,6 +72,28 @@ public class MainActivity extends AppCompatActivity {
         //clickGameList();
 
 
+    }
+
+    // Saves data for next launch
+    private void saveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(gameConfiguration);
+        editor.putString(NAME, json);
+        editor.apply();
+    }
+
+    private void loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(NAME, "");
+
+        if (!json.isEmpty()) {
+            GameConfig newConfig = gson.fromJson(json, GameConfig.class);
+            GameConfig.setInstance(newConfig);
+        }
+        gameConfiguration = GameConfig.getInstance();
     }
 
     // TEMP METHOD TO ADD RANDOM GAMES
@@ -99,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Populate list view on startup, if any games
         populateListView();
+
 
     }
 
@@ -164,6 +193,7 @@ public class MainActivity extends AppCompatActivity {
 
     // List of things
     private void populateListView() {
+        saveData();
 
         // make a list of games
         List<String> gameList = new ArrayList<>();
