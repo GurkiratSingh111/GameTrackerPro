@@ -108,6 +108,9 @@ public class GameConfigActivity extends AppCompatActivity {
         // get the instance of the singleton
         gameConfiguration = GameConfig.getInstance();
 
+        // Initialize add session button
+        btnAddSession = findViewById(R.id.btnAddNewSession);
+
 
         // if index is -1, you're on add game screen
         if(index == -1) {
@@ -117,6 +120,9 @@ public class GameConfigActivity extends AppCompatActivity {
 
             // make a new game since we're adding
             game = new Game();
+
+            // Make button invisible
+            btnAddSession.setVisibility(View.INVISIBLE);
 
             // get user inputs
             setupGameConfigDataFields();
@@ -130,9 +136,11 @@ public class GameConfigActivity extends AppCompatActivity {
             populateGameSessions(index);
 
             viewAchievements.setVisibility(View.VISIBLE);
+            btnAddSession.setVisibility(View.VISIBLE);
 
             Button btnSaveConfig = findViewById(R.id.btnSaveConfig);
             btnSaveConfig.setVisibility(View.GONE);
+
 
             // Change title to show editing game instead
             getSupportActionBar().setTitle("Game Sessions");
@@ -147,7 +155,7 @@ public class GameConfigActivity extends AppCompatActivity {
             displayGame();
 
             // TODO add a button on bottom corner to add a new session
-            btnAddSession = findViewById(R.id.btnAddNewSession);
+
             btnAddSession.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -164,6 +172,7 @@ public class GameConfigActivity extends AppCompatActivity {
         editText.setBackgroundColor(Color.BLACK);
         editText.setTextColor(Color.YELLOW);
         viewAchievements.setVisibility(View.VISIBLE);
+        btnAddSession.setVisibility(View.VISIBLE);
 
     }
 
@@ -171,6 +180,7 @@ public class GameConfigActivity extends AppCompatActivity {
     private void enableEditText(EditText editText) {
         editText.setEnabled(true);
         viewAchievements.setVisibility(View.INVISIBLE);
+        btnAddSession.setVisibility(View.INVISIBLE);
         editText.setBackgroundColor(Color.LTGRAY);
         editText.setTextColor(Color.BLUE);
     }
