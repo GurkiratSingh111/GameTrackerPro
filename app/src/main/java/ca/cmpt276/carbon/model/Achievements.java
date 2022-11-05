@@ -41,7 +41,45 @@ public class Achievements {
 
     // Returns AchievementLevel object from score and number of players
     // PRE: players must be greater than 0
-
+    public AchievementLevel getAchievement(int score, int numOfPlayers) {
+        if (numOfPlayers <= 0) {
+            throw new RuntimeException("Players must be a positive integer");
+        }
+        double scorePerPlayer = score / numOfPlayers;
+        if (scorePerPlayer > highScore) {
+            return LVL_MAX;
+        }
+        else if (scorePerPlayer >= LVL_8.getMin() && scorePerPlayer <= highScore) {
+            return LVL_8;
+        }
+        else if (scorePerPlayer >= LVL_7.getMin() && scorePerPlayer < LVL_8.getMin()) {
+            return LVL_7;
+        }
+        else if (scorePerPlayer >= LVL_6.getMin() && scorePerPlayer < LVL_7.getMin()) {
+            return LVL_6;
+        }
+        else if (scorePerPlayer >= LVL_5.getMin() && scorePerPlayer < LVL_6.getMin()) {
+            return LVL_5;
+        }
+        else if (scorePerPlayer >= LVL_4.getMin() && scorePerPlayer < LVL_5.getMin()) {
+            return LVL_4;
+        }
+        else if (scorePerPlayer >= LVL_3.getMin() && scorePerPlayer < LVL_4.getMin()) {
+            return LVL_3;
+        }
+        else if (scorePerPlayer >= LVL_2.getMin() && scorePerPlayer < LVL_3.getMin()) {
+            return LVL_2;
+        }
+        else if (scorePerPlayer >= lowScore && scorePerPlayer < LVL_2.getMin()) {
+            return LVL_1;
+        }
+        else if (scorePerPlayer < lowScore) {
+            return LVL_MIN;
+        }
+        else {
+            throw new RuntimeException("Invalid level");
+        }
+    }
 
     public AchievementLevel getLevel(String level) {
         if (level.equals("MAX")) {
