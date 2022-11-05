@@ -14,6 +14,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -135,6 +136,9 @@ public class GameConfigActivity extends AppCompatActivity {
             // Populate game sessions
             populateGameSessions(index);
 
+            // ListView for Sessions
+            registerClickCallback();
+
             viewAchievements.setVisibility(View.VISIBLE);
             btnAddSession.setVisibility(View.VISIBLE);
 
@@ -166,6 +170,19 @@ public class GameConfigActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void registerClickCallback() {
+        ListView sessionsList = findViewById(R.id.sessionsListView);
+
+        sessionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(GameConfigActivity.this, SessionsActivity.class);
+                i.putExtra("SESSION_INDEX", position);
+                startActivity(i);
+            }
+        });
     }
 
     @Override

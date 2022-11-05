@@ -2,6 +2,8 @@ package ca.cmpt276.carbon;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -32,6 +34,9 @@ public class SessionsActivity extends AppCompatActivity {
     private Button saveBtn;             // Save button for saving data to List
     private int intPlayers;             // Integer of total players
     private int intScore;               // Integer of total score
+
+    private String stringPlayers;       // String of total players
+    private String stringScore;         // String of total score
 
     // Objects
     private Session session;            // Session for add session
@@ -102,5 +107,29 @@ public class SessionsActivity extends AppCompatActivity {
         }
 
     }
+
+    private TextWatcher inputTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // Not needed
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            try {
+                if (!totalPlayers.getText().toString().isEmpty()) {
+
+                }
+            }
+            catch (NumberFormatException e) {
+                Toast.makeText(SessionsActivity.this, "Fields must not be empty.", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            // Not needed
+        }
+    };
 
 }
