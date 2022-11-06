@@ -27,6 +27,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.cmpt276.carbon.model.Achievements;
 import ca.cmpt276.carbon.model.Game;
 import ca.cmpt276.carbon.model.GameConfig;
 
@@ -158,14 +159,15 @@ public class GameConfigActivity extends AppCompatActivity {
             // Display the game and it's sessions (if any)
             displayGame();
 
-            // TODO add a button on bottom corner to add a new session
-
+            // Button for add session
             btnAddSession.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(GameConfigActivity.this, SessionsActivity.class);
                     i.putExtra("SESSION_INDEX", -1);
                     i.putExtra(EXTRA_GAME_INDEX, index);
+                    i.putExtra("LOW_SCORE", game.getLowScore());
+                    i.putExtra("HIGH_SCORE", game.getHighScore());
                     startActivity(i);
                 }
             });
@@ -518,8 +520,10 @@ public class GameConfigActivity extends AppCompatActivity {
             String time = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).formatTime();
             int players = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getPlayers();
             int score = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTotalScore();
+            String level = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getAchievementLevel();
 
-            gameSessions.add("Time played: " + time + ", Total Players: " + players + ", Score: " + score);
+            gameSessions.add("Time played: " + time + ", Total Players: " + players +
+                           ", Score: " + score + ", Level: " + level);
         }
 
         // Array adapter for ListView
