@@ -53,11 +53,44 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="32dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/btnAddGame"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/imageViewPeanut"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:contentDescription="@string/main_activity_image_peanut"
+        android:src="@mipmap/ic_launcher_foreground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+
+    <TextView
+        android:id="@+id/tvPistolPete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+        android:text="Hi there! I'm Pistol Pete, the Peanut!\nTo add a game, follows the arrow\n and click the button!"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewPeanut"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgArrow"
+        android:layout_width="106dp"
+        android:layout_height="99dp"
+        android:rotation="41"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewPeanut"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewPeanut"
+        app:srcCompat="@drawable/ic_baseline_arrow_right_alt_24" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
