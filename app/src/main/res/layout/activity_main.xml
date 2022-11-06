@@ -45,22 +45,6 @@
         app:tint="@color/theme_yellow"
         tools:visibility="visible" />
 
-    <ListView
-        android:id="@+id/listViewGameList"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="32dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/btnAddGame"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-        tools:visibility="gone" />
-
     <ImageView
         android:id="@+id/imageViewPeanut"
         android:layout_width="280dp"
@@ -91,6 +75,34 @@
         app:layout_constraintEnd_toEndOf="@+id/imageViewPeanut"
         app:layout_constraintTop_toBottomOf="@+id/imageViewPeanut"
         app:srcCompat="@drawable/ic_baseline_arrow_right_alt_24" />
+
+    <ScrollView
+        android:layout_width="411dp"
+        android:layout_height="577dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:layout_constraintVertical_bias="1.0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/listViewGameList"
+                android:layout_width="wrap_content"
+                android:layout_height="462dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="32dp"
+                android:visibility="visible"
+                tools:visibility="invisible" />
+        </LinearLayout>
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
