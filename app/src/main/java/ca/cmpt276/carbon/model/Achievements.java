@@ -16,13 +16,8 @@ public class Achievements {
     public static final double NEG_INF = -2;
     private int lowScore;
     private int highScore;
-    private int numOfPlayers;
     private double deltaScore;
     public static final int NUM_OF_LVLS = 10;
-
-    public double getDeltaScore() {
-        return deltaScore;
-    }
 
     public Achievements(int low, int high) {
         this.lowScore = low;
@@ -42,6 +37,48 @@ public class Achievements {
         LVL_2 = new AchievementLevel(highScore - 7 * deltaScore, highScore - 6 * deltaScore, "Happy Hazelnut");
         LVL_1 = new AchievementLevel(lowScore, highScore - 7 * deltaScore, "Playful Pistachio");
         LVL_MIN = new AchievementLevel(NEG_INF, lowScore, "Pleasant Peanut");
+    }
+
+    // Returns AchievementLevel object from score and number of players
+    // PRE: players must be greater than 0
+    public AchievementLevel getAchievement(int score, int numOfPlayers) {
+        if (numOfPlayers <= 0) {
+            throw new RuntimeException("Players must be a positive integer");
+        }
+        double scorePerPlayer = score / numOfPlayers;
+        if (scorePerPlayer > highScore) {
+            return LVL_MAX;
+        }
+        else if (scorePerPlayer >= LVL_8.getMin() && scorePerPlayer <= highScore) {
+            return LVL_8;
+        }
+        else if (scorePerPlayer >= LVL_7.getMin() && scorePerPlayer < LVL_8.getMin()) {
+            return LVL_7;
+        }
+        else if (scorePerPlayer >= LVL_6.getMin() && scorePerPlayer < LVL_7.getMin()) {
+            return LVL_6;
+        }
+        else if (scorePerPlayer >= LVL_5.getMin() && scorePerPlayer < LVL_6.getMin()) {
+            return LVL_5;
+        }
+        else if (scorePerPlayer >= LVL_4.getMin() && scorePerPlayer < LVL_5.getMin()) {
+            return LVL_4;
+        }
+        else if (scorePerPlayer >= LVL_3.getMin() && scorePerPlayer < LVL_4.getMin()) {
+            return LVL_3;
+        }
+        else if (scorePerPlayer >= LVL_2.getMin() && scorePerPlayer < LVL_3.getMin()) {
+            return LVL_2;
+        }
+        else if (scorePerPlayer >= lowScore && scorePerPlayer < LVL_2.getMin()) {
+            return LVL_1;
+        }
+        else if (scorePerPlayer < lowScore) {
+            return LVL_MIN;
+        }
+        else {
+            throw new RuntimeException("Invalid level");
+        }
     }
 
     public AchievementLevel getLevel(String level) {
@@ -80,6 +117,10 @@ public class Achievements {
         }
     }
 
+    public double getDeltaScore() {
+        return deltaScore;
+    }
+
     public int getLowScore() {
         return lowScore;
     }
@@ -96,11 +137,5 @@ public class Achievements {
         this.highScore = highScore;
     }
 
-    public int getNumOfPlayers() {
-        return numOfPlayers;
-    }
 
-    public void setNumOfPlayers(int numOfPlayers) {
-        this.numOfPlayers = numOfPlayers;
-    }
 }
