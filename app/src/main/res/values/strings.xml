@@ -12,4 +12,6 @@
     <string name="Add_Game">addGame</string>
     <string name="Name">name</string>
     <string name="title_activity_main3">MainActivity3</string>
+    <string name="pleasant_peanut"><![CDATA[Pleasant Peanut < :]]></string>
+    <string name="main_activity_image_peanut">main activity image peanut</string>
 </resources>

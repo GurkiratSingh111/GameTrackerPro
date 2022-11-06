@@ -12,10 +12,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import ca.cmpt276.carbon.model.AchievementLevel;
 import ca.cmpt276.carbon.model.Achievements;
+import ca.cmpt276.carbon.model.GameConfig;
 
 public class AchievementsActivity extends AppCompatActivity {
     private EditText etNumPlayers;
@@ -27,6 +29,8 @@ public class AchievementsActivity extends AppCompatActivity {
     private int highScore;
     Achievements achievementLvls;
 
+    TextView[] textViewArray;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,9 +38,9 @@ public class AchievementsActivity extends AppCompatActivity {
 
         etNumPlayers = findViewById(R.id.etTempNumPlayers);
         etNumPlayers.addTextChangedListener(playerNumWatcher);
-        list = (ListView) findViewById(R.id.lvList);
 
-        list.setVisibility(View.INVISIBLE);
+        // make an array of text views for the levels
+        makeTextViewArray();
 
         Intent i = getIntent();
         lowScore = i.getIntExtra(EXTRA_LOW_SCORE, 0);
@@ -55,55 +59,62 @@ public class AchievementsActivity extends AppCompatActivity {
     TextWatcher playerNumWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+            // Not needed. Do not implement.
         }
-
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            list.setVisibility(View.INVISIBLE);
-        }
 
-        @Override
-        public void afterTextChanged(Editable s) {
             try {
                 num = Integer.parseInt(etNumPlayers.getText().toString());
 
                 if (num <= 0) {
-                    list.setVisibility(View.INVISIBLE);
                     Toast.makeText(AchievementsActivity.this, "Number of players must" +
-                                    "be greater than zero",
-                                    Toast.LENGTH_SHORT).show();
+                                    " be greater than zero",
+                            Toast.LENGTH_SHORT).show();
                     throw new IllegalArgumentException();
                 }
                 else {
-                    list.setVisibility(View.VISIBLE);
-                    populateListView(num);
+                    populateTextView();
                 }
             }
             catch (Exception ex) {
-                list.setVisibility(View.INVISIBLE);
+                // Watch text, do nothing.
             }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            // Not needed. Do not implement.
         }
     };
 
-    private void populateListView(int num) {
-        String[] achievements = {"Master Macadamia", "Amazing Almond", "Pretty Pecan",
-                "Crazy CornNut", "Wacky Walnut", "Savvy Soynut", "Crafty Cashew", "Happy Hazelnut",
-                "Playful Pistachio", "Pleasant Peanut"};
-        int arrSize = 10;
+    private void populateTextView() {
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                R.layout.achievement_list,
-                achievements);
+        // Set the lowest level as low score
+        textViewArray[0].setText("" + num * achievementLvls.getLowScore() );
 
-        // "Min score required" text
-        achievements[0] += ": Maximum achievement level";
-        for (int i = 1; i < arrSize - 1; i++) {
-            String index = Integer.toString(arrSize - 1 - i);
-            achievements[i] += ": Minimum Score Required: " + (num * achievementLvls.getLevel(index).getMin());
+        // set the middle 8 levels as required
+        for (int i = 1; i < 9; i++) {
+            String index = Integer.toString(i);
+            textViewArray[i].setText("" + num * achievementLvls.getLevel(index).getMin());
         }
-        achievements[9] += ": Minimum achievement level";
 
-        list.setAdapter(adapter);
+        // set the highest level as high score
+        textViewArray[9].setText("" + num * achievementLvls.getHighScore() );
     }
+
+    private void makeTextViewArray() {
+        textViewArray = new TextView[] {
+                (TextView) findViewById(R.id.tvDisplayScoreLvl1),
+                (TextView) findViewById(R.id.tvDisplayScoreLvl2),
+                (TextView) findViewById(R.id.tvDisplayScoreLvl3),
+                (TextView) findViewById(R.id.tvDisplayScoreLvl4),
+                (TextView) findViewById(R.id.tvDisplayScoreLvl5),
+                (TextView) findViewById(R.id.tvDisplayScoreLvl6),
+                (TextView) findViewById(R.id.tvDisplayScoreLvl7),
+                (TextView) findViewById(R.id.tvDisplayScoreLvl8),
+                (TextView) findViewById(R.id.tvDisplayScoreLvl9),
+                (TextView) findViewById(R.id.tvDisplayScoreLvl10) };
+    }
+
 }
