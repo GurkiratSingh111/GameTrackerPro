@@ -22,24 +22,207 @@
 
     <EditText
         android:id="@+id/etTempNumPlayers"
-        android:layout_width="191dp"
-        android:layout_height="45dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="128dp"
         android:ems="10"
         android:hint="Number of players"
         android:inputType="number"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ListView
-        android:id="@+id/lvList"
-        android:layout_width="343dp"
-        android:layout_height="587dp"
-        android:layout_marginTop="52dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+    <TextView
+        android:id="@+id/tvLvl10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Master Macadamia > :"
+        app:layout_constraintStart_toStartOf="@+id/etTempNumPlayers"
         app:layout_constraintTop_toBottomOf="@+id/etTempNumPlayers" />
+
+    <TextView
+        android:id="@+id/tvLvl9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Amazing Almond > :"
+        app:layout_constraintEnd_toEndOf="@+id/tvLvl10"
+        app:layout_constraintTop_toBottomOf="@+id/tvLvl10" />
+
+    <TextView
+        android:id="@+id/tvLvl8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Pretty Pecan > :"
+        app:layout_constraintEnd_toEndOf="@+id/tvLvl9"
+        app:layout_constraintTop_toBottomOf="@+id/tvLvl9" />
+
+    <TextView
+        android:id="@+id/tvLvl7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Crazy CornNut > :"
+        app:layout_constraintEnd_toEndOf="@+id/tvLvl8"
+        app:layout_constraintTop_toBottomOf="@+id/tvLvl8" />
+
+    <TextView
+        android:id="@+id/tvLvl6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Wacky Walnut > :"
+        app:layout_constraintEnd_toEndOf="@+id/tvLvl7"
+        app:layout_constraintTop_toBottomOf="@+id/tvLvl7" />
+
+    <TextView
+        android:id="@+id/tvLvl5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Savvy SoyNut > :"
+        app:layout_constraintEnd_toEndOf="@+id/tvLvl6"
+        app:layout_constraintTop_toBottomOf="@+id/tvLvl6" />
+
+    <TextView
+        android:id="@+id/tvLvl4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Crafty Cashew > :"
+        app:layout_constraintEnd_toEndOf="@+id/tvLvl5"
+        app:layout_constraintTop_toBottomOf="@+id/tvLvl5" />
+
+    <TextView
+        android:id="@+id/tvLvl3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Happy Hazelnut > :"
+        app:layout_constraintEnd_toEndOf="@+id/tvLvl4"
+        app:layout_constraintTop_toBottomOf="@+id/tvLvl4" />
+
+    <TextView
+        android:id="@+id/tvLvl2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Playful Pistachio > :"
+        app:layout_constraintEnd_toEndOf="@+id/tvLvl3"
+        app:layout_constraintTop_toBottomOf="@+id/tvLvl3" />
+
+    <TextView
+        android:id="@+id/tvLvl1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/pleasant_peanut"
+        app:layout_constraintEnd_toEndOf="@+id/tvLvl2"
+        app:layout_constraintTop_toBottomOf="@+id/tvLvl2" />
+
+    <TextView
+        android:id="@+id/tvDisplayScoreLvl10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:hint="level 10"
+        app:layout_constraintStart_toEndOf="@+id/tvLvl10"
+        app:layout_constraintTop_toBottomOf="@+id/etTempNumPlayers" />
+
+    <TextView
+        android:id="@+id/tvDisplayScoreLvl9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:hint="level 9"
+        app:layout_constraintStart_toEndOf="@+id/tvLvl9"
+        app:layout_constraintTop_toBottomOf="@+id/tvDisplayScoreLvl10" />
+
+    <TextView
+        android:id="@+id/tvDisplayScoreLvl8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:hint="level 8"
+        app:layout_constraintStart_toEndOf="@+id/tvLvl8"
+        app:layout_constraintTop_toBottomOf="@+id/tvDisplayScoreLvl9" />
+
+    <TextView
+        android:id="@+id/tvDisplayScoreLvl7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:hint="level 7"
+        app:layout_constraintStart_toEndOf="@+id/tvLvl7"
+        app:layout_constraintTop_toBottomOf="@+id/tvDisplayScoreLvl8" />
+
+    <TextView
+        android:id="@+id/tvDisplayScoreLvl6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:hint="level 6"
+        app:layout_constraintStart_toEndOf="@+id/tvLvl6"
+        app:layout_constraintTop_toBottomOf="@+id/tvDisplayScoreLvl7" />
+
+    <TextView
+        android:id="@+id/tvDisplayScoreLvl5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:hint="level 5"
+        app:layout_constraintStart_toEndOf="@+id/tvLvl5"
+        app:layout_constraintTop_toBottomOf="@+id/tvDisplayScoreLvl6" />
+
+    <TextView
+        android:id="@+id/tvDisplayScoreLvl4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:hint="level 4"
+        app:layout_constraintStart_toEndOf="@+id/tvLvl4"
+        app:layout_constraintTop_toBottomOf="@+id/tvDisplayScoreLvl5" />
+
+    <TextView
+        android:id="@+id/tvDisplayScoreLvl3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:hint="level 3"
+        app:layout_constraintStart_toEndOf="@+id/tvLvl3"
+        app:layout_constraintTop_toBottomOf="@+id/tvDisplayScoreLvl4" />
+
+    <TextView
+        android:id="@+id/tvDisplayScoreLvl2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:hint="level 2"
+        app:layout_constraintStart_toEndOf="@+id/tvLvl2"
+        app:layout_constraintTop_toBottomOf="@+id/tvDisplayScoreLvl3" />
+
+    <TextView
+        android:id="@+id/tvDisplayScoreLvl1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:hint="level 1"
+        app:layout_constraintStart_toEndOf="@+id/tvLvl1"
+        app:layout_constraintTop_toBottomOf="@+id/tvDisplayScoreLvl2" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -61,9 +63,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         });
 
-        //clickGameList();
-
-
     }
 
     // TEMP METHOD TO ADD RANDOM GAMES
@@ -86,10 +85,32 @@ public class MainActivity extends AppCompatActivity {
         // Populate list view on startup, if any games
         populateListView();
 
-        // TODO - make a welcome screen
-        // Print welcome message or display games
-        //showWelcomeScreen();
+        // Print welcome message if no games found
+        showWelcomeScreen();
 
+    }
+
+    private void showWelcomeScreen() {
+
+        // Assets for welcome image screen
+        TextView welcomeScreenMsg = findViewById(R.id.tvPistolPete);
+        ImageView welcomeImage = findViewById(R.id.imageViewPeanut);
+        ImageView welcomePointer = findViewById(R.id.imgArrow);
+
+        // If listview is empty, show welcome image
+        if (gameConfiguration.size() == 0) {
+            list.setVisibility(View.GONE);
+            welcomeScreenMsg.setVisibility(View.VISIBLE);
+            welcomeImage.setVisibility(View.VISIBLE);
+            welcomePointer.setVisibility(View.VISIBLE);
+        }
+        // otherwise, show list
+        else {
+            list.setVisibility(View.VISIBLE);
+            welcomeScreenMsg.setVisibility(View.GONE);
+            welcomeImage.setVisibility(View.GONE);
+            welcomePointer.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -113,6 +134,38 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+
+    // List of things
+    private void populateListView() {
+
+        // make a list of games
+        List<String> gameList = new ArrayList<>();
+
+        // for all the games in the manager, convert to string to display on screen
+        for (int i = 0; i < gameConfiguration.size(); i++) {
+
+            String name = gameConfiguration.getGame(i).getGameName();
+            int ls =  gameConfiguration.getGame(i).getLowScore();
+            int hs = gameConfiguration.getGame(i).getHighScore();
+
+            gameList.add(" " + name + ",  " + ls + ", " + hs + " ");
+        }
+
+        // adapter to connect between listview and items
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                gameList
+        );
+
+        // Configure the list view
+        list = findViewById(R.id.listViewGameList);
+        list.setAdapter(adapter);
+
+        //list.setVisibility(View.GONE);
+        adapter.notifyDataSetChanged();
+
     }
 
     /*private void clickGameList() {
@@ -160,39 +213,6 @@ public class MainActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }*/
 
-    // List of things
-    private void populateListView() {
 
-        // make a list of games
-        List<String> gameList = new ArrayList<>();
-
-        // for all the games in the manager, convert to string to display on screen
-        for (int i = 0; i < gameConfiguration.size(); i++) {
-
-            String name = gameConfiguration.getGame(i).getGameName();
-            int ls =  gameConfiguration.getGame(i).getLowScore();
-            int hs = gameConfiguration.getGame(i).getHighScore();
-
-            gameList.add(" " + name + ",  " + ls + ", " + hs + " ");
-
-
-        }
-
-        // adapter to connect between listview and items
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                gameList
-        );
-
-        // Configure the list view
-        list = findViewById(R.id.listViewGameList);
-        list.setAdapter(adapter);
-
-        //list.setVisibility(View.GONE);
-
-        adapter.notifyDataSetChanged();
-
-    }
 
 }
