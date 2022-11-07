@@ -153,6 +153,7 @@ public class GameConfigActivity extends AppCompatActivity {
         // else you're in viewing game mode -
         // in this mode, you can edit the HS, LS, add a session, remove session etc.
         else if (index >= 0) {
+
             // Populate game sessions
             populateGameSessions(index);
 
@@ -437,6 +438,9 @@ public class GameConfigActivity extends AppCompatActivity {
                 // set editing games to true
                 isEditGameConfig = true;
 
+                // hide the session empty state images
+                hideMascotOnAddConfig();
+
                 // Save values in case the user changes mind
                 storeOldValues();
 
@@ -488,6 +492,11 @@ public class GameConfigActivity extends AppCompatActivity {
 
         if (newGameName.isEmpty()) {
             Toast.makeText(GameConfigActivity.this, "Name must not be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (newHighScore <= newLowScore ) {
+            Toast.makeText(this, "High score must be greater than Low score", Toast.LENGTH_SHORT).show();
             return;
         }
 
