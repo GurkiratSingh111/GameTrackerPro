@@ -27,7 +27,6 @@ import ca.cmpt276.carbon.model.GameConfig;
 import ca.cmpt276.carbon.model.Session;
 
 public class SessionsActivity extends AppCompatActivity {
-
     // Variables
     private int sessionIndex;           // For add/edit sessions
     private int configIndex;            // Game index of gameConfig
@@ -140,34 +139,43 @@ public class SessionsActivity extends AppCompatActivity {
 
     // Toolbar widget helper methods
     private void saveSession() {
-        if (!totalPlayers.getText().toString().equals("") && !totalScore.getText().toString().equals("")) {
-            stringPlayers = totalPlayers.getText().toString();
-            stringScore = totalScore.getText().toString();
+        try {
+            if (!totalPlayers.getText().toString().equals("") && !totalScore.getText().toString().equals("")) {
+                stringPlayers = totalPlayers.getText().toString();
+                stringScore = totalScore.getText().toString();
 
-            intPlayers = Integer.parseInt(stringPlayers);
-            intScore = Integer.parseInt(stringScore);
+                intPlayers = Integer.parseInt(stringPlayers);
+                intScore = Integer.parseInt(stringScore);
 
-            String achievedLevel = level.getAchievement(intScore, intPlayers).getName();
-            Log.i("Session Index", Integer.toString(sessionIndex));
-            // Creating new session
-            if (sessionIndex == -1) {
-                // Create new session and add to List
-                session = new Session(intPlayers, intScore);
-                session.setAchievementLevel(level.getAchievement(intScore, intPlayers).getName());
-                gameConfiguration.getGame(configIndex).addSession(session);
+                // Check if players are 0
+                if (intPlayers == 0) {
+                    throw new IllegalArgumentException();
+                }
+
+                String achievedLevel = level.getAchievement(intScore, intPlayers).getName();
+                Log.i("Session Index", Integer.toString(sessionIndex));
+                // Creating new session
+                if (sessionIndex == -1) {
+                    // Create new session and add to List
+                    session = new Session(intPlayers, intScore);
+                    session.setAchievementLevel(level.getAchievement(intScore, intPlayers).getName());
+                    gameConfiguration.getGame(configIndex).addSession(session);
+                }
+                // Editing existing session
+                else {
+                    // Replace values in the session
+                    gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setPlayers(intPlayers);
+                    gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setTotalScore(intScore);
+                    gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setAchievementLevel(achievedLevel);
+                }
+
+                finish();
+            } else {
+                Toast.makeText(SessionsActivity.this, "Fields cannot be empty.", Toast.LENGTH_SHORT).show();
             }
-            // Editing existing session
-            else {
-                // Replace values in the session
-                gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setPlayers(intPlayers);
-                gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setTotalScore(intScore);
-                gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setAchievementLevel(achievedLevel);
-            }
-
-            finish();
         }
-        else {
-            Toast.makeText(SessionsActivity.this, "Fields cannot be empty.", Toast.LENGTH_SHORT).show();
+        catch (IllegalArgumentException e) {
+            Toast.makeText(SessionsActivity.this, "Players cannot be zero.", Toast.LENGTH_SHORT).show();
         }
     }
     private void editSession() {
@@ -207,7 +215,7 @@ public class SessionsActivity extends AppCompatActivity {
     }
 
     // TextWatcher for data fields
-    private TextWatcher inputTextWatcher = new TextWatcher() {
+    private final TextWatcher inputTextWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             // Not needed
@@ -216,11 +224,19 @@ public class SessionsActivity extends AppCompatActivity {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             try {
                 if (!totalPlayers.getText().toString().equals("") && !totalScore.getText().toString().equals("")) {
+                    // Get data fields
                     stringPlayers = totalPlayers.getText().toString();
                     stringScore = totalScore.getText().toString();
                     intPlayers = Integer.parseInt(stringPlayers);
                     intScore = Integer.parseInt(stringScore);
-                    achievement.setText("ACHIEVEMENT: " + level.getAchievement(intScore, intPlayers).getName());
+
+                    // Check if players is 0
+                    if (intPlayers != 0) {
+                        achievement.setText("ACHIEVEMENT: " + level.getAchievement(intScore, intPlayers).getName());
+                    }
+                    else {
+                        throw new IllegalArgumentException();
+                    }
                 }
                 else {
                     achievement.setText("ACHIEVEMENT: ");
@@ -228,6 +244,9 @@ public class SessionsActivity extends AppCompatActivity {
             }
             catch (NumberFormatException e) {
                 Toast.makeText(SessionsActivity.this, "Invalid input.", Toast.LENGTH_SHORT).show();
+            }
+            catch (IllegalArgumentException e) {
+                Toast.makeText(SessionsActivity.this, "Players cannot be zero.", Toast.LENGTH_SHORT).show();
             }
         }
         @Override
