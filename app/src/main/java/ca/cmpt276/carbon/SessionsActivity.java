@@ -61,29 +61,13 @@ public class SessionsActivity extends AppCompatActivity {
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
-        // Initialization
-        gameConfiguration = GameConfig.getInstance();
-        totalPlayers = findViewById(R.id.totalPlayers);
-        totalScore = findViewById(R.id.totalScore);
-        achievement = findViewById(R.id.achievementTextView);
-
-        // Get Intent
-        Intent i = getIntent();
-        sessionIndex = i.getIntExtra("SESSION_INDEX", -1);
-        configIndex = i.getIntExtra("GAME_INDEX", -1);
-        lowScore = i.getIntExtra("LOW_SCORE", -1);
-        highScore = i.getIntExtra("HIGH_SCORE", -1);
-
-        // Initialize achievement levels
-        level = new Achievements(lowScore, highScore);
+        // Initialization/intents
+        initializeSession();
 
         // If index is -1, go to add new session screen
         if (sessionIndex == -1) {
             // Set title to New Session
             getSupportActionBar().setTitle("New Session");
-
-            // Create new Session
-            session = new Session();
 
             // Watch for change to display correct achievement level
             totalScore.addTextChangedListener(inputTextWatcher);
@@ -105,6 +89,23 @@ public class SessionsActivity extends AppCompatActivity {
             disableTextFields(totalPlayers);
             disableTextFields(totalScore);
         }
+    }
+
+    private void initializeSession() {
+        gameConfiguration = GameConfig.getInstance();
+        totalPlayers = findViewById(R.id.totalPlayers);
+        totalScore = findViewById(R.id.totalScore);
+        achievement = findViewById(R.id.achievementTextView);
+
+        // Get Intent
+        Intent i = getIntent();
+        sessionIndex = i.getIntExtra("SESSION_INDEX", -1);
+        configIndex = i.getIntExtra("GAME_INDEX", -1);
+        lowScore = i.getIntExtra("LOW_SCORE", -1);
+        highScore = i.getIntExtra("HIGH_SCORE", -1);
+
+        // Initialize achievement levels
+        level = new Achievements(lowScore, highScore);
     }
 
     @Override
