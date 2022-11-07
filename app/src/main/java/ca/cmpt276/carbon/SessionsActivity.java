@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 
@@ -88,30 +91,7 @@ public class SessionsActivity extends AppCompatActivity {
             totalScore.addTextChangedListener(inputTextWatcher);
             totalPlayers.addTextChangedListener(inputTextWatcher);
 
-            saveBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!totalPlayers.getText().toString().equals("") && !totalScore.getText().toString().equals("")) {
-                        stringPlayers = totalPlayers.getText().toString();
-                        stringScore = totalScore.getText().toString();
-
-
-                        intPlayers = Integer.parseInt(stringPlayers);
-                        intScore = Integer.parseInt(stringScore);
-
-
-                        // Create new session and add to List
-                        session = new Session(intPlayers, intScore);
-                        session.setAchievementLevel(level.getAchievement(intScore, intPlayers).getName());
-                        gameConfiguration.getGame(configIndex).addSession(session);
-
-                        finish();
-                    }
-                    else {
-                        Toast.makeText(SessionsActivity.this, "Fields cannot be empty.", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
+            saveButton();
         }
         else {
             // Set title to Edit Session
@@ -130,35 +110,80 @@ public class SessionsActivity extends AppCompatActivity {
             totalPlayers.addTextChangedListener(inputTextWatcher);
 
             // Save new input
-            saveBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!totalPlayers.getText().toString().equals("") && !totalScore.getText().toString().equals("")) {
-                        stringPlayers = totalPlayers.getText().toString();
-                        stringScore = totalScore.getText().toString();
+            saveButton();
+        }
+    }
 
+    @Override
+    // Add/View session menus
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (sessionIndex == -1) {
+            getMenuInflater().inflate(R.menu.menu_add_session, menu);
+        }
+        else {
+            getMenuInflater().inflate(R.menu.menu_view_session, menu);
+        }
+        return true;
+    }
 
-                        intPlayers = Integer.parseInt(stringPlayers);
-                        intScore = Integer.parseInt(stringScore);
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_save_session:
 
+                return true;
+            case R.id.menu_edit_session:
 
-                        String achievedLevel = level.getAchievement(intScore, intPlayers).getName();
+                return true;
+            case R.id.menu_delete_session:
 
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    // Initializes session save button depending on if user is creating
+    // new session or editing an existing session
+    private void saveButton() {
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!totalPlayers.getText().toString().equals("") && !totalScore.getText().toString().equals("")) {
+                    stringPlayers = totalPlayers.getText().toString();
+                    stringScore = totalScore.getText().toString();
+
+                    intPlayers = Integer.parseInt(stringPlayers);
+                    intScore = Integer.parseInt(stringScore);
+
+                    String achievedLevel = level.getAchievement(intScore, intPlayers).getName();
+
+                    // Creating new session
+                    if (sessionIndex == -1) {
+                        // Create new session and add to List
+                        session = new Session(intPlayers, intScore);
+                        session.setAchievementLevel(level.getAchievement(intScore, intPlayers).getName());
+                        gameConfiguration.getGame(configIndex).addSession(session);
+                    }
+                    // Editing existing session
+                    else {
                         // Replace values in the session
                         gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setPlayers(intPlayers);
                         gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setTotalScore(intScore);
                         gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setAchievementLevel(achievedLevel);
+                    }
 
-                        finish();
-                    }
-                    else {
-                        Toast.makeText(SessionsActivity.this, "Fields cannot be empty.", Toast.LENGTH_SHORT).show();
-                    }
+                    finish();
                 }
-            });
-        }
+                else {
+                    Toast.makeText(SessionsActivity.this, "Fields cannot be empty.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
+    // TextWatcher for data fields
     private TextWatcher inputTextWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -189,5 +214,4 @@ public class SessionsActivity extends AppCompatActivity {
             // Not needed
         }
     };
-
 }
