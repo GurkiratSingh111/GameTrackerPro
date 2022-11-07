@@ -91,20 +91,25 @@ public class SessionsActivity extends AppCompatActivity {
             saveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    stringPlayers = totalPlayers.getText().toString();
-                    stringScore = totalScore.getText().toString();
-
                     if (!totalPlayers.getText().toString().equals("") && !totalScore.getText().toString().equals("")) {
+                        stringPlayers = totalPlayers.getText().toString();
+                        stringScore = totalScore.getText().toString();
+
+
                         intPlayers = Integer.parseInt(stringPlayers);
                         intScore = Integer.parseInt(stringScore);
+
+
+                        // Create new session and add to List
+                        session = new Session(intPlayers, intScore);
+                        session.setAchievementLevel(level.getAchievement(intScore, intPlayers).getName());
+                        gameConfiguration.getGame(configIndex).addSession(session);
+
+                        finish();
                     }
-
-                    // Create new session and add to List
-                    session = new Session(intPlayers, intScore);
-                    session.setAchievementLevel(level.getAchievement(intScore, intPlayers).getName());
-                    gameConfiguration.getGame(configIndex).addSession(session);
-
-                    finish();
+                    else {
+                        Toast.makeText(SessionsActivity.this, "Fields cannot be empty.", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }
@@ -128,22 +133,27 @@ public class SessionsActivity extends AppCompatActivity {
             saveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    stringPlayers = totalPlayers.getText().toString();
-                    stringScore = totalScore.getText().toString();
-
                     if (!totalPlayers.getText().toString().equals("") && !totalScore.getText().toString().equals("")) {
+                        stringPlayers = totalPlayers.getText().toString();
+                        stringScore = totalScore.getText().toString();
+
+
                         intPlayers = Integer.parseInt(stringPlayers);
                         intScore = Integer.parseInt(stringScore);
+
+
+                        String achievedLevel = level.getAchievement(intScore, intPlayers).getName();
+
+                        // Replace values in the session
+                        gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setPlayers(intPlayers);
+                        gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setTotalScore(intScore);
+                        gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setAchievementLevel(achievedLevel);
+
+                        finish();
                     }
-
-                    String achievedLevel = level.getAchievement(intScore, intPlayers).getName();
-
-                    // Replace values in the session
-                    gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setPlayers(intPlayers);
-                    gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setTotalScore(intScore);
-                    gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setAchievementLevel(achievedLevel);
-
-                    finish();
+                    else {
+                        Toast.makeText(SessionsActivity.this, "Fields cannot be empty.", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }
@@ -170,7 +180,7 @@ public class SessionsActivity extends AppCompatActivity {
                 }
             }
             catch (NumberFormatException e) {
-                Toast.makeText(SessionsActivity.this, "Fields must not be empty.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SessionsActivity.this, "Invalid input.", Toast.LENGTH_SHORT).show();
             }
         }
 
