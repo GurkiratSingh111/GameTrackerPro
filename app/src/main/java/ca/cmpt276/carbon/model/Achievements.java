@@ -46,7 +46,7 @@ public class Achievements {
         if (numOfPlayers <= 0) {
             throw new RuntimeException("Players must be a positive integer");
         }
-        double scorePerPlayer = score / numOfPlayers;
+        double scorePerPlayer = (double)score / numOfPlayers;
         if (scorePerPlayer > highScore) {
             return LVL_MAX;
         }
