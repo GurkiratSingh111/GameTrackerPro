@@ -326,10 +326,15 @@ public class GameConfigActivity extends AppCompatActivity {
             return;
         }
 
-        if(!gameName.getText().toString().equals("") && !lowScore.getText().toString().equals(""))
+        if(!highScore.getText().toString().equals("") && !lowScore.getText().toString().equals(""))
         {
             numLowScore = Integer.parseInt(score1);
             numHighScore = Integer.parseInt(score2);
+        }
+
+        if (numHighScore <= numLowScore ) {
+            Toast.makeText(this, "High score must be greater than Low score", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         // make a new game with given parameters
