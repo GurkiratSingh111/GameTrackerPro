@@ -12,6 +12,7 @@ public class Achievements {
     private AchievementLevel LVL_1;
     private AchievementLevel LVL_MIN;
 
+
     public static final double INF = -1;
     public static final double NEG_INF = -2;
     private int lowScore;
@@ -22,7 +23,7 @@ public class Achievements {
     public Achievements(int low, int high) {
         this.lowScore = low;
         this.highScore = high;
-        deltaScore = (high - low) / (NUM_OF_LVLS - 1);
+        deltaScore = ((double)high - low) / (NUM_OF_LVLS - 1);
         initializeAchievements();
     }
 
