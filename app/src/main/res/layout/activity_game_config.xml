@@ -240,7 +240,7 @@
         android:layout_width="371dp"
         android:layout_height="51dp"
         android:fontFamily="sans-serif-smallcaps"
-        android:text="Hmmm, there seems to be no sessions here!\nWhy don't you click this button to add a new game!"
+        android:text="Hmmm, there seems to be no sessions here!\nWhy don't you click this button to add a new session!"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/imageViewSessionsPeanut"
         app:layout_constraintStart_toStartOf="@+id/imageViewSessionsPeanut" />
