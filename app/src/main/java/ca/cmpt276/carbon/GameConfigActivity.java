@@ -495,6 +495,11 @@ public class GameConfigActivity extends AppCompatActivity {
             return;
         }
 
+        if (newHighScore <= newLowScore ) {
+            Toast.makeText(this, "High score must be greater than Low score", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         game.setGameName(newGameName);
         game.setHighScore(newHighScore);
         game.setLowScore(newLowScore);
