@@ -27,18 +27,6 @@
             app:titleTextColor="#EDC95D" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <Button
-        android:id="@+id/saveSessionBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SAVE"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/appBarSession"
-        app:layout_constraintVertical_bias="0.944" />
-
     <TextView
         android:id="@+id/totalPlayersTextView"
         android:layout_width="wrap_content"
@@ -109,9 +97,9 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/totalScoreTextView"
+        app:layout_constraintHorizontal_bias="0.051"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/totalScoreTextView"
-        app:layout_constraintVertical_bias="0.117" />
+        app:layout_constraintVertical_bias="0.132" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
