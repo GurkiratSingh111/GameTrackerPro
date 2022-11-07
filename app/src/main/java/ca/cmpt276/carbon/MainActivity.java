@@ -55,9 +55,6 @@ public class MainActivity extends AppCompatActivity {
         // Load the game config
         loadData();
 
-        // TODO REMOVE WHEN TESTING DONE
-        addTemporaryGamesForTesting();
-
         // fill in the items in list view
         populateListView();
         //setupPlusButton(); CAN BE REPLACED WITH COMPACT CODE
@@ -195,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
 
         //list.setVisibility(View.GONE);
         adapter.notifyDataSetChanged();
-
+        saveData();
     }
 
     /*private void clickGameList() {

@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
+
 import ca.cmpt276.carbon.model.AchievementLevel;
 import ca.cmpt276.carbon.model.Achievements;
 import ca.cmpt276.carbon.model.GameConfig;
@@ -28,6 +30,7 @@ public class AchievementsActivity extends AppCompatActivity {
     private int lowScore;
     private int highScore;
     Achievements achievementLvls;
+    private static DecimalFormat REAL_FORMATTER = new DecimalFormat("#.###");
 
     TextView[] textViewArray;
 
@@ -91,16 +94,16 @@ public class AchievementsActivity extends AppCompatActivity {
     private void populateTextView() {
 
         // Set the lowest level as low score
-        textViewArray[0].setText("" + num * achievementLvls.getLowScore() );
+        textViewArray[0].setText(REAL_FORMATTER.format(num * achievementLvls.getLowScore()));
 
         // set the middle 8 levels as required
         for (int i = 1; i < 9; i++) {
             String index = Integer.toString(i);
-            textViewArray[i].setText("" + num * achievementLvls.getLevel(index).getMin());
+            textViewArray[i].setText(REAL_FORMATTER.format(num * achievementLvls.getLevel(index).getMin()));
         }
 
         // set the highest level as high score
-        textViewArray[9].setText("" + num * achievementLvls.getHighScore() );
+        textViewArray[9].setText(REAL_FORMATTER.format(num * achievementLvls.getHighScore()));
     }
 
     private void makeTextViewArray() {
@@ -116,5 +119,4 @@ public class AchievementsActivity extends AppCompatActivity {
                 (TextView) findViewById(R.id.tvDisplayScoreLvl9),
                 (TextView) findViewById(R.id.tvDisplayScoreLvl10) };
     }
-
 }
