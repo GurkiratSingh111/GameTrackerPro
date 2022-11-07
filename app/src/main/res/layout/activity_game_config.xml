@@ -109,7 +109,7 @@
     <Button
         android:id="@+id/btnViewAchievements"
         android:layout_width="94dp"
-        android:layout_height="45dp"
+        android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:text="Levels"
         app:layout_constraintEnd_toEndOf="parent"
@@ -141,7 +141,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textviewhighscore"
-        tools:visibility="invisible">
+        tools:visibility="gone">
 
     </ListView>
 
@@ -164,9 +164,11 @@
         android:layout_height="325dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectGameIcon">
+        app:layout_constraintTop_toBottomOf="@+id/selectGameIcon"
+        tools:visibility="gone">
 
         <ImageView
             android:id="@+id/imageView1"
@@ -198,4 +200,34 @@
             android:onClick="imageView4Clicked"
             app:srcCompat="@drawable/p4" />
     </GridLayout>
+
+    <ImageView
+        android:id="@+id/imageViewSessionsPeanut"
+        android:layout_width="184dp"
+        android:layout_height="152dp"
+        android:layout_marginStart="32dp"
+        android:src="@mipmap/ic_launcher_foreground"
+        app:layout_constraintBottom_toTopOf="@+id/btnAddNewSession"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvSessionsEmptyState"
+        android:layout_width="371dp"
+        android:layout_height="51dp"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="Hmmm, there seems to be no sessions here!\nWhy don't you click this button to add a new game!"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewSessionsPeanut"
+        app:layout_constraintStart_toStartOf="@+id/imageViewSessionsPeanut" />
+
+    <ImageView
+        android:id="@+id/imageViewSessionsArrow"
+        android:layout_width="96dp"
+        android:layout_height="72dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="32dp"
+        android:rotation="17"
+        app:layout_constraintBottom_toBottomOf="@+id/btnAddNewSession"
+        app:layout_constraintEnd_toStartOf="@+id/btnAddNewSession"
+        app:srcCompat="@drawable/ic_baseline_arrow_right_alt_24" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

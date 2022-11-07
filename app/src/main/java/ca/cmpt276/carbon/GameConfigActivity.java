@@ -42,6 +42,7 @@ public class GameConfigActivity extends AppCompatActivity {
 
     private GameConfig gameConfiguration;
     private Game game= new Game();
+    private List<String> gameSessions;
 
     // index passed in by the editing game intent call
     private int index;
@@ -75,6 +76,10 @@ public class GameConfigActivity extends AppCompatActivity {
     private ListView sessionList;       // For printing sessions played
 
     GridLayout gridImageLayout;
+
+    TextView welcomeScreenMsg;
+    ImageView welcomeImage;
+    ImageView welcomePointer;
 
     // Build an intent int input is the index of the game clicked
     public static Intent makeLaunchIntent(Context c, int input) {
@@ -148,6 +153,9 @@ public class GameConfigActivity extends AppCompatActivity {
         // if index is -1, you're on add game screen
         if(index == -1) {
 
+            // hide the sessions welcome screen images
+            hideMascotOnAddConfig();
+
             // set the title of the activity
             getSupportActionBar().setTitle("Add Configuration");
 
@@ -159,7 +167,6 @@ public class GameConfigActivity extends AppCompatActivity {
             gridImageLayout.setVisibility(View.VISIBLE);
             // get user inputs
             setupGameConfigDataFields();
-
         }
         // else you're in viewing game mode -
         // in this mode, you can edit the HS, LS, add a session, remove session etc.
@@ -202,6 +209,41 @@ public class GameConfigActivity extends AppCompatActivity {
                     startActivity(i);
                 }
             });
+        }
+    }
+
+    private void hideMascotOnAddConfig() {
+
+        welcomeScreenMsg = findViewById(R.id.tvSessionsEmptyState);
+        welcomeImage = findViewById(R.id.imageViewSessionsPeanut);
+        welcomePointer = findViewById(R.id.imageViewSessionsArrow);
+
+        welcomeScreenMsg.setVisibility(View.GONE);
+        welcomeImage.setVisibility(View.GONE);
+        welcomePointer.setVisibility(View.GONE);
+
+    }
+
+    private void showEmptyState() {
+
+        // Assets for welcome image screen
+        welcomeScreenMsg = findViewById(R.id.tvSessionsEmptyState);
+        welcomeImage = findViewById(R.id.imageViewSessionsPeanut);
+        welcomePointer = findViewById(R.id.imageViewSessionsArrow);
+
+        // If listview is empty, show welcome image
+        if (gameSessions.isEmpty()) {
+            sessionList.setVisibility(View.GONE);
+            welcomeScreenMsg.setVisibility(View.VISIBLE);
+            welcomeImage.setVisibility(View.VISIBLE);
+            welcomePointer.setVisibility(View.VISIBLE);
+        }
+        // otherwise, show list
+        else {
+            sessionList.setVisibility(View.VISIBLE);
+            welcomeScreenMsg.setVisibility(View.GONE);
+            welcomeImage.setVisibility(View.GONE);
+            welcomePointer.setVisibility(View.GONE);
         }
     }
 
@@ -559,7 +601,7 @@ public class GameConfigActivity extends AppCompatActivity {
 
     private void populateGameSessions(int gameIndex) {
         // List of Sessions
-        List<String> gameSessions = new ArrayList<>();
+        gameSessions = new ArrayList<>();
 
         // Populate ListView
         for (int i = 0; i < gameConfiguration.getGame(gameIndex).getSize(); i++) {
@@ -584,6 +626,9 @@ public class GameConfigActivity extends AppCompatActivity {
 
         sessionList = findViewById(R.id.sessionsListView);
         sessionList.setAdapter(adapter);
+
+        // method to display empty state if no sessions
+        showEmptyState();
 
         adapter.notifyDataSetChanged();
     }
