@@ -73,10 +73,12 @@ public class GameConfigActivity extends AppCompatActivity {
     // Add new session button
     FloatingActionButton btnAddSession;
 
-    private ListView sessionList;       // For printing sessions played
+    // For printing sessions played
+    private ListView sessionList;
 
     GridLayout gridImageLayout;
 
+    // empty state images and text
     TextView welcomeScreenMsg;
     ImageView welcomeImage;
     ImageView welcomePointer;
@@ -87,40 +89,20 @@ public class GameConfigActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_GAME_INDEX, input);
         return intent;
     }
-    public void imageView1Clicked(View view)
-    {
-        ImageView img = (ImageView) view;
-        int tappedImage = R.drawable.p1;
-        game.setImageID(tappedImage);
-    }
-    public void imageView2Clicked(View view)
-    {
-        ImageView img = (ImageView) view;
-        int tappedImage = R.drawable.p2;
-        game.setImageID(tappedImage);
-    }
-    public void imageView3Clicked(View view)
-    {
-        ImageView img = (ImageView) view;
-        int tappedImage = R.drawable.p3;
-        game.setImageID(tappedImage);
-    }
-    public void imageView4Clicked(View view)
-    {
-        ImageView img = (ImageView) view;
-        int tappedImage = R.drawable.p4;
-        game.setImageID(tappedImage);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_config);
 
+        // setup toolbar
         Toolbar toolbar = findViewById(R.id.gameConfigToolbar);
         setSupportActionBar(toolbar);
-        gridImageLayout= findViewById(R.id.gridLayout);
-        selectIcon= findViewById(R.id.selectGameIcon);
+
+        // setup grid and images
+        gridImageLayout = findViewById(R.id.gridLayout);
+        selectIcon = findViewById(R.id.selectGameIcon);
+
         // View achievements
         viewAchievements = findViewById(R.id.btnViewAchievements);
         viewAchievements.setVisibility(View.INVISIBLE);
@@ -149,11 +131,10 @@ public class GameConfigActivity extends AppCompatActivity {
         // Initialize add session button
         btnAddSession = findViewById(R.id.btnAddNewSession);
 
-
         // if index is -1, you're on add game screen
         if(index == -1) {
 
-            // hide the sessions welcome screen images
+            // hide the session empty state images
             hideMascotOnAddConfig();
 
             // set the title of the activity
@@ -165,6 +146,7 @@ public class GameConfigActivity extends AppCompatActivity {
             // Make button invisible
             btnAddSession.setVisibility(View.INVISIBLE);
             gridImageLayout.setVisibility(View.VISIBLE);
+
             // get user inputs
             setupGameConfigDataFields();
         }
@@ -180,10 +162,7 @@ public class GameConfigActivity extends AppCompatActivity {
             viewAchievements.setVisibility(View.VISIBLE);
             btnAddSession.setVisibility(View.VISIBLE);
             gridImageLayout.setVisibility(View.GONE);
-            //Button btnSaveConfig = findViewById(R.id.btnSaveConfig);
-            //btnSaveConfig.setVisibility(View.GONE);
             selectIcon.setVisibility(View.GONE);
-
 
             // Change title to show editing game instead
             getSupportActionBar().setTitle("Game Sessions");
@@ -212,6 +191,7 @@ public class GameConfigActivity extends AppCompatActivity {
         }
     }
 
+    // method to hide the peanut and text on game config creation
     private void hideMascotOnAddConfig() {
 
         welcomeScreenMsg = findViewById(R.id.tvSessionsEmptyState);
@@ -224,6 +204,7 @@ public class GameConfigActivity extends AppCompatActivity {
 
     }
 
+    // method to show empty state message when no sessions populated
     private void showEmptyState() {
 
         // Assets for welcome image screen
@@ -247,8 +228,8 @@ public class GameConfigActivity extends AppCompatActivity {
         }
     }
 
+    // For adding a session inside game config
     private void registerClickCallback() {
-        ListView sessionsList = findViewById(R.id.sessionsListView);
 
         sessionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -273,13 +254,13 @@ public class GameConfigActivity extends AppCompatActivity {
         }
     }
 
-
-
     // disables the text fields because you're in viewing mode
     private void disableEditText(EditText editText) {
+
         editText.setEnabled(false);
         editText.setBackgroundColor(Color.BLACK);
         editText.setTextColor(Color.YELLOW);
+
         viewAchievements.setVisibility(View.VISIBLE);
         btnAddSession.setVisibility(View.VISIBLE);
         sessionList.setVisibility(View.VISIBLE);
@@ -288,12 +269,15 @@ public class GameConfigActivity extends AppCompatActivity {
 
     // enables text fields because you're editing game config
     private void enableEditText(EditText editText) {
+
         editText.setEnabled(true);
+        editText.setBackgroundColor(Color.LTGRAY);
+        editText.setTextColor(Color.BLUE);
+
         viewAchievements.setVisibility(View.INVISIBLE);
         btnAddSession.setVisibility(View.INVISIBLE);
         sessionList.setVisibility(View.INVISIBLE);
-        editText.setBackgroundColor(Color.LTGRAY);
-        editText.setTextColor(Color.BLUE);
+
     }
 
     // displays the game information when clicked in list view
@@ -339,29 +323,15 @@ public class GameConfigActivity extends AppCompatActivity {
         gameName = findViewById(R.id.etGameName);
         lowScore = findViewById(R.id.etLowScore);
         highScore = findViewById(R.id.etHighScore);
-
-        //saveButtonClick();
     }
 
-    // helper for setting up initial game config. Save button listener
-    /*private void saveButtonClick() {
-
-        Button btn = findViewById(R.id.btnSaveConfig);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addGameConfig();
-            }
-        });
-    }*/
 
     // adds the game configuration to the list of games
     private void addGameConfig() {
 
-        // TODO cleanup or move checking to Text Watcher below
         String name = gameName.getText().toString();
-        String score1= lowScore.getText().toString();
-        String score2= highScore.getText().toString();
+        String score1 = lowScore.getText().toString();
+        String score2 = highScore.getText().toString();
 
         if(name.isEmpty() || score1.isEmpty() || score2.isEmpty()) {
             Toast.makeText(this, "Fields must not be empty", Toast.LENGTH_SHORT).show();
@@ -453,8 +423,6 @@ public class GameConfigActivity extends AppCompatActivity {
                     addGameConfig();
 
                 } else {
-
-                    // TODO in case of editing, change the game config
                     // save the newly entered values
                     saveEditedValuesForGameConfig();
                 }
@@ -606,7 +574,6 @@ public class GameConfigActivity extends AppCompatActivity {
         // Populate ListView
         for (int i = 0; i < gameConfiguration.getGame(gameIndex).getSize(); i++) {
 
-            // TODO - add achievement to string
             // Time played, total players, combined score, achievement earned
             String time = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTimePlayed();
             int players = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getPlayers();
@@ -631,5 +598,23 @@ public class GameConfigActivity extends AppCompatActivity {
         showEmptyState();
 
         adapter.notifyDataSetChanged();
+    }
+
+    public void imageView1Clicked(View view) {
+        //ImageView img = (ImageView) view;
+        int tappedImage = R.drawable.p1;
+        game.setImageID(tappedImage);
+    }
+    public void imageView2Clicked(View view) {
+        int tappedImage = R.drawable.p2;
+        game.setImageID(tappedImage);
+    }
+    public void imageView3Clicked(View view) {
+        int tappedImage = R.drawable.p3;
+        game.setImageID(tappedImage);
+    }
+    public void imageView4Clicked(View view) {
+        int tappedImage = R.drawable.p4;
+        game.setImageID(tappedImage);
     }
 }
