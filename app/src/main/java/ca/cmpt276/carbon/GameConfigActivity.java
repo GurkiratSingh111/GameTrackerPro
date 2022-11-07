@@ -320,6 +320,12 @@ public class GameConfigActivity extends AppCompatActivity {
         String name = gameName.getText().toString();
         String score1= lowScore.getText().toString();
         String score2= highScore.getText().toString();
+
+        if(name.isEmpty() || score1.isEmpty() || score2.isEmpty()) {
+            Toast.makeText(this, "Fields must not be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if(!gameName.getText().toString().equals("") && !lowScore.getText().toString().equals(""))
         {
             numLowScore = Integer.parseInt(score1);
