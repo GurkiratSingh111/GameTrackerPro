@@ -103,6 +103,7 @@ public class GameConfigActivity extends AppCompatActivity {
         gridImageLayout = findViewById(R.id.gridLayout);
         selectIcon = findViewById(R.id.selectGameIcon);
 
+
         // View achievements
         viewAchievements = findViewById(R.id.btnViewAchievements);
         viewAchievements.setVisibility(View.INVISIBLE);
@@ -602,19 +603,29 @@ public class GameConfigActivity extends AppCompatActivity {
 
     public void imageView1Clicked(View view) {
         //ImageView img = (ImageView) view;
-        int tappedImage = R.drawable.p1;
+        int tappedImage = R.drawable.img1;
         game.setImageID(tappedImage);
     }
     public void imageView2Clicked(View view) {
-        int tappedImage = R.drawable.p2;
+        int tappedImage = R.drawable.img2;
         game.setImageID(tappedImage);
     }
     public void imageView3Clicked(View view) {
-        int tappedImage = R.drawable.p3;
+        int tappedImage = R.drawable.img3;
         game.setImageID(tappedImage);
     }
     public void imageView4Clicked(View view) {
-        int tappedImage = R.drawable.p4;
+        int tappedImage = R.drawable.img4;
+        game.setImageID(tappedImage);
+    }
+
+    public void imageView5Clicked(View view) {
+        int tappedImage = R.drawable.img5;
+        game.setImageID(tappedImage);
+    }
+
+    public void imageView6Clicked(View view) {
+        int tappedImage = R.drawable.img6;
         game.setImageID(tappedImage);
     }
 }
