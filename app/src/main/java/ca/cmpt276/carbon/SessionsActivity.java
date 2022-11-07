@@ -132,6 +132,9 @@ public class SessionsActivity extends AppCompatActivity {
             case R.id.menu_delete_session:
                 deleteSession();
                 return true;
+            case android.R.id.home:
+                finish();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
