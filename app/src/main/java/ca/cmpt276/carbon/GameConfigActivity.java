@@ -173,8 +173,8 @@ public class GameConfigActivity extends AppCompatActivity {
             viewAchievements.setVisibility(View.VISIBLE);
             btnAddSession.setVisibility(View.VISIBLE);
             gridImageLayout.setVisibility(View.GONE);
-            Button btnSaveConfig = findViewById(R.id.btnSaveConfig);
-            btnSaveConfig.setVisibility(View.GONE);
+            //Button btnSaveConfig = findViewById(R.id.btnSaveConfig);
+            //btnSaveConfig.setVisibility(View.GONE);
             selectIcon.setVisibility(View.GONE);
 
 
@@ -298,11 +298,11 @@ public class GameConfigActivity extends AppCompatActivity {
         lowScore = findViewById(R.id.etLowScore);
         highScore = findViewById(R.id.etHighScore);
 
-        saveButtonClick();
+        //saveButtonClick();
     }
 
     // helper for setting up initial game config. Save button listener
-    private void saveButtonClick() {
+    /*private void saveButtonClick() {
 
         Button btn = findViewById(R.id.btnSaveConfig);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -311,7 +311,7 @@ public class GameConfigActivity extends AppCompatActivity {
                 addGameConfig();
             }
         });
-    }
+    }*/
 
     // adds the game configuration to the list of games
     private void addGameConfig() {
@@ -326,10 +326,15 @@ public class GameConfigActivity extends AppCompatActivity {
             return;
         }
 
-        if(!gameName.getText().toString().equals("") && !lowScore.getText().toString().equals(""))
+        if(!highScore.getText().toString().equals("") && !lowScore.getText().toString().equals(""))
         {
             numLowScore = Integer.parseInt(score1);
             numHighScore = Integer.parseInt(score2);
+        }
+
+        if (numHighScore <= numLowScore ) {
+            Toast.makeText(this, "High score must be greater than Low score", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         // make a new game with given parameters
