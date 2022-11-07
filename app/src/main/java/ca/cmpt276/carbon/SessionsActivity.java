@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.Nullable;
@@ -90,8 +91,6 @@ public class SessionsActivity extends AppCompatActivity {
             // Watch for change to display correct achievement level
             totalScore.addTextChangedListener(inputTextWatcher);
             totalPlayers.addTextChangedListener(inputTextWatcher);
-
-            saveButton();
         }
         else {
             // Set title to Edit Session
@@ -108,9 +107,6 @@ public class SessionsActivity extends AppCompatActivity {
             // Watch for change to display correct achievement level
             totalScore.addTextChangedListener(inputTextWatcher);
             totalPlayers.addTextChangedListener(inputTextWatcher);
-
-            // Save new input
-            saveButton();
         }
     }
 
@@ -127,22 +123,76 @@ public class SessionsActivity extends AppCompatActivity {
     }
 
     @Override
+    // Toolbar widgets for save, edit, and delete session
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_save_session:
-
+                saveSession();
                 return true;
             case R.id.menu_edit_session:
-
+                editSession();
                 return true;
             case R.id.menu_delete_session:
-
+                deleteSession();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    // Toolbar widget helper methods
+    private void saveSession() {
+        Log.i("Session Index", Integer.toString(sessionIndex));
+        if (!totalPlayers.getText().toString().equals("") && !totalScore.getText().toString().equals("")) {
+            stringPlayers = totalPlayers.getText().toString();
+            stringScore = totalScore.getText().toString();
+
+            intPlayers = Integer.parseInt(stringPlayers);
+            intScore = Integer.parseInt(stringScore);
+
+            String achievedLevel = level.getAchievement(intScore, intPlayers).getName();
+            Log.i("Session Index", Integer.toString(sessionIndex));
+            // Creating new session
+            if (sessionIndex == -1) {
+                // Create new session and add to List
+                session = new Session(intPlayers, intScore);
+                session.setAchievementLevel(level.getAchievement(intScore, intPlayers).getName());
+                gameConfiguration.getGame(configIndex).addSession(session);
+            }
+            // Editing existing session
+            else {
+                // Replace values in the session
+                gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setPlayers(intPlayers);
+                gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setTotalScore(intScore);
+                gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setAchievementLevel(achievedLevel);
+            }
+
+            finish();
+        }
+        else {
+            Toast.makeText(SessionsActivity.this, "Fields cannot be empty.", Toast.LENGTH_SHORT).show();
+        }
+    }
+    private void editSession() {
+
+    }
+    private void deleteSession() {
+        new AlertDialog.Builder(SessionsActivity.this).setTitle("Delete Current Session?")
+                .setPositiveButton("Yes", (dialog, option) -> {
+
+                    // Find the game at index passed in and delete
+                    gameConfiguration.getGame(configIndex).deleteSession(sessionIndex);
+
+                    // Display message to show that game was deleted
+                    Toast.makeText(SessionsActivity.this, "Game Session Deleted", Toast.LENGTH_SHORT).show();
+                    finish();
+                })
+                .setNegativeButton("No", (dialog, option) -> {
+                    // Do nothing and stay on current screen
+                }).show();
+    }
+
+    // TODO - delete this later
     // Initializes session save button depending on if user is creating
     // new session or editing an existing session
     private void saveButton() {
