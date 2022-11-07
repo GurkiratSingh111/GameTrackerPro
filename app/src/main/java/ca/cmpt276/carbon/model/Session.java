@@ -9,13 +9,15 @@ public class Session {
     private String timePlayed;
     private int players;
     private int totalScore;
+    private String achievementLevel;
 
 
     // Default Constructor
     public Session() {
-        this.timePlayed = null;
+        this.timePlayed = "";
         this.players = -1;
         this.totalScore = -1;
+        this.achievementLevel = "";
     }
 
     // Constructor
@@ -38,6 +40,17 @@ public class Session {
     }
     public void setTotalScore(int totalScore) {
         this.totalScore = totalScore;
+    }
+
+    public String getAchievementLevel() {
+        return achievementLevel;
+    }
+    public void setAchievementLevel(String achievementLevel) {
+        this.achievementLevel = achievementLevel;
+    }
+
+    public String getTimePlayed() {
+        return timePlayed;
     }
 
     // Time format

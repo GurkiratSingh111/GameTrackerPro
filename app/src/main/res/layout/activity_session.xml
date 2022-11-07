@@ -90,7 +90,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="total score of players"
-        android:inputType="numberSigned"
+        android:inputType="number"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/totalPlayers"
@@ -108,10 +108,10 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/totalScoreTextView"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/totalScoreTextView"
         app:layout_constraintTop_toBottomOf="@+id/totalScoreTextView"
-        app:layout_constraintVertical_bias="0.113" />
+        app:layout_constraintVertical_bias="0.117" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

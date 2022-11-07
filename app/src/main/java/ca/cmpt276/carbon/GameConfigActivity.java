@@ -11,9 +11,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +28,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.cmpt276.carbon.model.Achievements;
 import ca.cmpt276.carbon.model.Game;
 import ca.cmpt276.carbon.model.GameConfig;
 
@@ -131,9 +134,11 @@ public class GameConfigActivity extends AppCompatActivity {
         // else you're in viewing game mode -
         // in this mode, you can edit the HS, LS, add a session, remove session etc.
         else if (index >= 0) {
-
             // Populate game sessions
             populateGameSessions(index);
+
+            // ListView for Sessions
+            registerClickCallback();
 
             viewAchievements.setVisibility(View.VISIBLE);
             btnAddSession.setVisibility(View.VISIBLE);
@@ -154,18 +159,35 @@ public class GameConfigActivity extends AppCompatActivity {
             // Display the game and it's sessions (if any)
             displayGame();
 
-            // TODO add a button on bottom corner to add a new session
-
+            // Button for add session
             btnAddSession.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(GameConfigActivity.this, SessionsActivity.class);
                     i.putExtra("SESSION_INDEX", -1);
-                    i.putExtra(EXTRA_GAME_INDEX, index);
+                    i.putExtra("GAME_INDEX", index);
+                    i.putExtra("LOW_SCORE", game.getLowScore());
+                    i.putExtra("HIGH_SCORE", game.getHighScore());
                     startActivity(i);
                 }
             });
         }
+    }
+
+    private void registerClickCallback() {
+        ListView sessionsList = findViewById(R.id.sessionsListView);
+
+        sessionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(GameConfigActivity.this, SessionsActivity.class);
+                i.putExtra("SESSION_INDEX", position);
+                i.putExtra("GAME_INDEX", index);
+                i.putExtra("LOW_SCORE", game.getLowScore());
+                i.putExtra("HIGH_SCORE", game.getHighScore());
+                startActivity(i);
+            }
+        });
     }
 
     @Override
@@ -498,11 +520,13 @@ public class GameConfigActivity extends AppCompatActivity {
 
             // TODO - add achievement to string
             // Time played, total players, combined score, achievement earned
-            String time = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).formatTime();
+            String time = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTimePlayed();
             int players = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getPlayers();
             int score = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTotalScore();
+            String level = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getAchievementLevel();
 
-            gameSessions.add("Time played: " + time + ", Total Players: " + players + ", Score: " + score);
+            gameSessions.add("Time played: " + time + ", Total Players: " + players +
+                           ", Score: " + score + ", Level: " + level);
         }
 
         // Array adapter for ListView
