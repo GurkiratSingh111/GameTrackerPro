@@ -2,6 +2,8 @@ package ca.cmpt276.carbon.model;
 
 import java.util.ArrayList;
 
+import ca.cmpt276.carbon.R;
+
 public class Game {
 
     // TODO CHECKLIST: Possibly pass some of these responsibilities to Session class
@@ -15,6 +17,15 @@ public class Game {
     private String gameName;
     private int highScore;
     private int lowScore;
+    private int imageID;
+
+    public int getImageID() {
+        return imageID;
+    }
+
+    public void setImageID(int imageID) {
+        this.imageID = imageID;
+    }
 
     // default constructor
     public Game() {
@@ -22,6 +33,7 @@ public class Game {
         highScore = 0;
         lowScore = 0;
         gameName = "";
+        imageID= R.drawable.p1;
     }
 
     // custom constructor with parameters

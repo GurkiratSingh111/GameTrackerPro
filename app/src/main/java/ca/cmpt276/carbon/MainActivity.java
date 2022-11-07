@@ -1,11 +1,14 @@
 package ca.cmpt276.carbon;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -31,7 +34,7 @@ import com.google.gson.Gson;
  * game config or edit the game config by clicking on it once its created
  */
 public class MainActivity extends AppCompatActivity {
-
+    List<String> gameList;
     // initialize the game config
     private GameConfig gameConfiguration;
 
@@ -167,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
     private void populateListView() {
 
         // make a list of games
-        List<String> gameList = new ArrayList<>();
+        gameList = new ArrayList<>();
 
         // for all the games in the manager, convert to string to display on screen
         for (int i = 0; i < gameConfiguration.size(); i++) {
@@ -180,11 +183,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // adapter to connect between listview and items
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                gameList
-        );
+        ArrayAdapter<String> adapter = new MyListAdapter();
 
         // Configure the list view
         list = findViewById(R.id.listViewGameList);
@@ -194,7 +193,29 @@ public class MainActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
         saveData();
     }
+    private class MyListAdapter extends ArrayAdapter<String> {
 
+        public MyListAdapter() {
+            super(MainActivity.this, R.layout.item_design, gameList);
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View itemView = convertView;
+            if (itemView == null) {
+                itemView = getLayoutInflater().inflate(R.layout.item_design, parent, false);
+            }
+            String str = gameList.get(position);
+            Game g=gameConfiguration.getGame(position);
+            ImageView imageView = (ImageView) itemView.findViewById(R.id.item_icon);
+            imageView.setImageResource(g.getImageID());
+
+            TextView makeText=(TextView)itemView.findViewById(R.id.textView);
+            makeText.setText(str);
+            return itemView;
+
+
+        }
+    }
     /*private void clickGameList() {
 
         ListView list = findViewById(R.id.listViewGameList);

@@ -19,7 +19,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
@@ -38,7 +41,7 @@ public class GameConfigActivity extends AppCompatActivity {
     private static final String EXTRA_GAME_INDEX = "gameIndex: ";
 
     private GameConfig gameConfiguration;
-    private Game game;
+    private Game game= new Game();
 
     // index passed in by the editing game intent call
     private int index;
@@ -65,17 +68,43 @@ public class GameConfigActivity extends AppCompatActivity {
 
     // view achievement level button
     private Button viewAchievements;
-
+    TextView selectIcon;
     // Add new session button
     FloatingActionButton btnAddSession;
 
     private ListView sessionList;       // For printing sessions played
+
+    GridLayout gridImageLayout;
 
     // Build an intent int input is the index of the game clicked
     public static Intent makeLaunchIntent(Context c, int input) {
         Intent intent = new Intent(c, GameConfigActivity.class);
         intent.putExtra(EXTRA_GAME_INDEX, input);
         return intent;
+    }
+    public void imageView1Clicked(View view)
+    {
+        ImageView img = (ImageView) view;
+        int tappedImage = R.drawable.p1;
+        game.setImageID(tappedImage);
+    }
+    public void imageView2Clicked(View view)
+    {
+        ImageView img = (ImageView) view;
+        int tappedImage = R.drawable.p2;
+        game.setImageID(tappedImage);
+    }
+    public void imageView3Clicked(View view)
+    {
+        ImageView img = (ImageView) view;
+        int tappedImage = R.drawable.p3;
+        game.setImageID(tappedImage);
+    }
+    public void imageView4Clicked(View view)
+    {
+        ImageView img = (ImageView) view;
+        int tappedImage = R.drawable.p4;
+        game.setImageID(tappedImage);
     }
 
     @Override
@@ -85,7 +114,8 @@ public class GameConfigActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.gameConfigToolbar);
         setSupportActionBar(toolbar);
-
+        gridImageLayout= findViewById(R.id.gridLayout);
+        selectIcon= findViewById(R.id.selectGameIcon);
         // View achievements
         viewAchievements = findViewById(R.id.btnViewAchievements);
         viewAchievements.setVisibility(View.INVISIBLE);
@@ -126,7 +156,7 @@ public class GameConfigActivity extends AppCompatActivity {
 
             // Make button invisible
             btnAddSession.setVisibility(View.INVISIBLE);
-
+            gridImageLayout.setVisibility(View.VISIBLE);
             // get user inputs
             setupGameConfigDataFields();
 
@@ -142,9 +172,10 @@ public class GameConfigActivity extends AppCompatActivity {
 
             viewAchievements.setVisibility(View.VISIBLE);
             btnAddSession.setVisibility(View.VISIBLE);
-
+            gridImageLayout.setVisibility(View.GONE);
             Button btnSaveConfig = findViewById(R.id.btnSaveConfig);
             btnSaveConfig.setVisibility(View.GONE);
+            selectIcon.setVisibility(View.GONE);
 
 
             // Change title to show editing game instead
@@ -296,7 +327,11 @@ public class GameConfigActivity extends AppCompatActivity {
         }
 
         // make a new game with given parameters
-        game = new Game(name, numLowScore, numHighScore);
+        //game = new Game(name, numLowScore, numHighScore);
+        game.setGameName(name);
+        game.setHighScore(numHighScore);
+        game.setLowScore(numLowScore);
+
 
         // add game to configs
         gameConfiguration.addGame(game);
@@ -526,7 +561,7 @@ public class GameConfigActivity extends AppCompatActivity {
             String level = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getAchievementLevel();
 
             gameSessions.add("Time played: " + time + ", Total Players: " + players +
-                           ", Score: " + score + ", Level: " + level);
+                    ", Score: " + score + ", Level: " + level);
         }
 
         // Array adapter for ListView
