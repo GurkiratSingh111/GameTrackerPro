@@ -6,9 +6,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,9 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Button;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ca.cmpt276.carbon.model.Achievements;
 import ca.cmpt276.carbon.model.GameConfig;
 import ca.cmpt276.carbon.model.Session;
@@ -29,7 +24,7 @@ import ca.cmpt276.carbon.model.Session;
 public class SessionsActivity extends AppCompatActivity {
 
     // Variables
-    private int index;                  // For add/edit sessions
+    private int sessionIndex;                  // For add/edit sessions
     private int configIndex;            // Game index of gameConfig
     private EditText totalPlayers;      // Total players of a single session
     private EditText totalScore;        // Total score of all players in a session
@@ -72,8 +67,8 @@ public class SessionsActivity extends AppCompatActivity {
 
         // Get Intent
         Intent i = getIntent();
-        index = i.getIntExtra("SESSION_INDEX", 0);
-        configIndex = i.getIntExtra("gameIndex: ", -1);
+        sessionIndex = i.getIntExtra("SESSION_INDEX", -1);
+        configIndex = i.getIntExtra("GAME_INDEX", -1);
         lowScore = i.getIntExtra("LOW_SCORE", -1);
         highScore = i.getIntExtra("HIGH_SCORE", -1);
 
@@ -81,7 +76,7 @@ public class SessionsActivity extends AppCompatActivity {
         level = new Achievements(lowScore, highScore);
 
         // If index is -1, go to add new session screen
-        if (index == -1) {
+        if (sessionIndex == -1) {
             // Set title to New Session
             getSupportActionBar().setTitle("New Session");
 
@@ -112,13 +107,18 @@ public class SessionsActivity extends AppCompatActivity {
                     finish();
                 }
             });
-
-
-
         }
         else {
             // Set title to Edit Session
             getSupportActionBar().setTitle("Edit Session");
+
+            // Populate fields
+            intPlayers = gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).getPlayers();
+            intScore = gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).getTotalScore();
+
+            totalPlayers.setText(Integer.toString(gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).getPlayers()));
+            totalScore.setText(Integer.toString(gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).getTotalScore()));
+            achievement.setText("ACHIEVEMENT: " + level.getAchievement(intScore, intPlayers).getName());
         }
 
     }

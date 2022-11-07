@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -133,7 +134,6 @@ public class GameConfigActivity extends AppCompatActivity {
         // else you're in viewing game mode -
         // in this mode, you can edit the HS, LS, add a session, remove session etc.
         else if (index >= 0) {
-
             // Populate game sessions
             populateGameSessions(index);
 
@@ -165,7 +165,7 @@ public class GameConfigActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent i = new Intent(GameConfigActivity.this, SessionsActivity.class);
                     i.putExtra("SESSION_INDEX", -1);
-                    i.putExtra(EXTRA_GAME_INDEX, index);
+                    i.putExtra("GAME_INDEX", index);
                     i.putExtra("LOW_SCORE", game.getLowScore());
                     i.putExtra("HIGH_SCORE", game.getHighScore());
                     startActivity(i);
@@ -182,6 +182,9 @@ public class GameConfigActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(GameConfigActivity.this, SessionsActivity.class);
                 i.putExtra("SESSION_INDEX", position);
+                i.putExtra("GAME_INDEX", index);
+                i.putExtra("LOW_SCORE", game.getLowScore());
+                i.putExtra("HIGH_SCORE", game.getHighScore());
                 startActivity(i);
             }
         });
