@@ -1,4 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item
+        android:id="@+id/menu_save_session"
+        android:icon="@drawable/ic_baseline_save_24"
+        android:title="Save Session"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_edit_session"
+        android:icon="@drawable/ic_baseline_edit_24"
+        android:title="Edit Session"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_delete_session"
+        android:icon="@drawable/ic_baseline_delete_forever_24"
+        android:title="Delete Session"
+        app:showAsAction="always" />
 </menu>
