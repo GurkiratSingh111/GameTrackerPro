@@ -82,19 +82,6 @@
         app:layout_constraintStart_toStartOf="@+id/highscoretextview"
         app:layout_constraintTop_toBottomOf="@+id/highscoretextview" />
 
-    <Button
-        android:id="@+id/btnSaveConfig"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="SAVE"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.902"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etHighScore"
-        tools:visibility="visible" />
-
     <EditText
         android:id="@+id/etLowScore"
         android:layout_width="wrap_content"
@@ -165,12 +152,10 @@
         android:layout_height="40dp"
         android:layout_marginStart="42dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="31dp"
         android:text="SELECT YOUR GAME ICON!"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/btnSaveConfig"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textviewhighscore" />
 
@@ -180,9 +165,7 @@
         android:layout_height="325dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnSaveConfig"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/selectGameIcon">
 

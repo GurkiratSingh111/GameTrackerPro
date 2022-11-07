@@ -173,8 +173,8 @@ public class GameConfigActivity extends AppCompatActivity {
             viewAchievements.setVisibility(View.VISIBLE);
             btnAddSession.setVisibility(View.VISIBLE);
             gridImageLayout.setVisibility(View.GONE);
-            Button btnSaveConfig = findViewById(R.id.btnSaveConfig);
-            btnSaveConfig.setVisibility(View.GONE);
+            //Button btnSaveConfig = findViewById(R.id.btnSaveConfig);
+            //btnSaveConfig.setVisibility(View.GONE);
             selectIcon.setVisibility(View.GONE);
 
 
@@ -298,11 +298,11 @@ public class GameConfigActivity extends AppCompatActivity {
         lowScore = findViewById(R.id.etLowScore);
         highScore = findViewById(R.id.etHighScore);
 
-        saveButtonClick();
+        //saveButtonClick();
     }
 
     // helper for setting up initial game config. Save button listener
-    private void saveButtonClick() {
+    /*private void saveButtonClick() {
 
         Button btn = findViewById(R.id.btnSaveConfig);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -311,7 +311,7 @@ public class GameConfigActivity extends AppCompatActivity {
                 addGameConfig();
             }
         });
-    }
+    }*/
 
     // adds the game configuration to the list of games
     private void addGameConfig() {
