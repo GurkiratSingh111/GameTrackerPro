@@ -205,6 +205,29 @@ public class GameConfigActivity extends AppCompatActivity {
         }
     }
 
+    private void showWelcomeScreen() {
+
+        // Assets for welcome image screen
+        TextView welcomeScreenMsg = findViewById(R.id.tvSessionsEmptyState);
+        ImageView welcomeImage = findViewById(R.id.imageViewSessionsPeanut);
+        ImageView welcomePointer = findViewById(R.id.imageViewSessionsArrow);
+
+        // If listview is empty, show welcome image
+        if (game.getSize() == 0) {
+            sessionList.setVisibility(View.GONE);
+            welcomeScreenMsg.setVisibility(View.VISIBLE);
+            welcomeImage.setVisibility(View.VISIBLE);
+            welcomePointer.setVisibility(View.VISIBLE);
+        }
+        // otherwise, show list
+        else {
+            sessionList.setVisibility(View.VISIBLE);
+            welcomeScreenMsg.setVisibility(View.GONE);
+            welcomeImage.setVisibility(View.GONE);
+            welcomePointer.setVisibility(View.GONE);
+        }
+    }
+
     private void registerClickCallback() {
         ListView sessionsList = findViewById(R.id.sessionsListView);
 
@@ -584,6 +607,26 @@ public class GameConfigActivity extends AppCompatActivity {
 
         sessionList = findViewById(R.id.sessionsListView);
         sessionList.setAdapter(adapter);
+
+        // Assets for welcome image screen
+        TextView welcomeScreenMsg = findViewById(R.id.tvSessionsEmptyState);
+        ImageView welcomeImage = findViewById(R.id.imageViewSessionsPeanut);
+        ImageView welcomePointer = findViewById(R.id.imageViewSessionsArrow);
+
+        // If listview is empty, show welcome image
+        if (gameSessions.isEmpty()) {
+            sessionList.setVisibility(View.GONE);
+            welcomeScreenMsg.setVisibility(View.VISIBLE);
+            welcomeImage.setVisibility(View.VISIBLE);
+            welcomePointer.setVisibility(View.VISIBLE);
+        }
+        // otherwise, show list
+        else {
+            sessionList.setVisibility(View.VISIBLE);
+            welcomeScreenMsg.setVisibility(View.GONE);
+            welcomeImage.setVisibility(View.GONE);
+            welcomePointer.setVisibility(View.GONE);
+        }
 
         adapter.notifyDataSetChanged();
     }

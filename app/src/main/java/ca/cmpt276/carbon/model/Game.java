@@ -68,9 +68,6 @@ public class Game {
     public void addSession(Session s) {
         sessionsList.add(s);
     }
-    public void replaceSession(int index, Session session) {
-        sessionsList.set(index, session);
-    }
     public void deleteSession(int index) {
         sessionsList.remove(index);
     }
