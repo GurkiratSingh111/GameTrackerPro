@@ -520,7 +520,7 @@ public class GameConfigActivity extends AppCompatActivity {
 
             // TODO - add achievement to string
             // Time played, total players, combined score, achievement earned
-            String time = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).formatTime();
+            String time = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTimePlayed();
             int players = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getPlayers();
             int score = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTotalScore();
             String level = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getAchievementLevel();

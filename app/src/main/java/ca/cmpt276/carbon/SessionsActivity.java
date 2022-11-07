@@ -64,6 +64,7 @@ public class SessionsActivity extends AppCompatActivity {
         totalPlayers = findViewById(R.id.totalPlayers);
         totalScore = findViewById(R.id.totalScore);
         achievement = findViewById(R.id.achievementTextView);
+        saveBtn = findViewById(R.id.saveSessionBtn);
 
         // Get Intent
         Intent i = getIntent();
@@ -87,7 +88,6 @@ public class SessionsActivity extends AppCompatActivity {
             totalScore.addTextChangedListener(inputTextWatcher);
             totalPlayers.addTextChangedListener(inputTextWatcher);
 
-            saveBtn = findViewById(R.id.saveSessionBtn);
             saveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -119,8 +119,34 @@ public class SessionsActivity extends AppCompatActivity {
             totalPlayers.setText(Integer.toString(gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).getPlayers()));
             totalScore.setText(Integer.toString(gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).getTotalScore()));
             achievement.setText("ACHIEVEMENT: " + level.getAchievement(intScore, intPlayers).getName());
-        }
 
+            // Watch for change to display correct achievement level
+            totalScore.addTextChangedListener(inputTextWatcher);
+            totalPlayers.addTextChangedListener(inputTextWatcher);
+
+            // Save new input
+            saveBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    stringPlayers = totalPlayers.getText().toString();
+                    stringScore = totalScore.getText().toString();
+
+                    if (!totalPlayers.getText().toString().equals("") && !totalScore.getText().toString().equals("")) {
+                        intPlayers = Integer.parseInt(stringPlayers);
+                        intScore = Integer.parseInt(stringScore);
+                    }
+
+                    String achievedLevel = level.getAchievement(intScore, intPlayers).getName();
+
+                    // Replace values in the session
+                    gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setPlayers(intPlayers);
+                    gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setTotalScore(intScore);
+                    gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setAchievementLevel(achievedLevel);
+
+                    finish();
+                }
+            });
+        }
     }
 
     private TextWatcher inputTextWatcher = new TextWatcher() {

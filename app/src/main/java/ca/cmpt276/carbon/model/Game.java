@@ -52,11 +52,14 @@ public class Game {
         this.gameName = gameName;
     }
 
-    // Add new session
+    // Add, replace, delete new session
     public void addSession(Session s) {
         sessionsList.add(s);
     }
-    public void removeSession(int index) {
+    public void replaceSession(int index, Session session) {
+        sessionsList.set(index, session);
+    }
+    public void deleteSession(int index) {
         sessionsList.remove(index);
     }
 

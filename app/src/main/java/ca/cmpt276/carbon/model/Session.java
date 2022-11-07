@@ -49,6 +49,10 @@ public class Session {
         this.achievementLevel = achievementLevel;
     }
 
+    public String getTimePlayed() {
+        return timePlayed;
+    }
+
     // Time format
     public String formatTime() {
         LocalDateTime currentTime = LocalDateTime.now();
