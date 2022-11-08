@@ -61,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="monospace"
-        android:text="Hi there! I'm Pistol Pete, the Peanut!\nTo add a game, follows the arrow\n and click the button!"
+        android:text="@string/hi_there_i_m_pistol_pete_the_peanut_nto_add_a_game_follows_the_arrow_n_and_click_the_button1"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/imageViewPeanut"
         app:layout_constraintEnd_toEndOf="parent"

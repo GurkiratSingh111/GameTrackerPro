@@ -33,4 +33,32 @@
     <string name="image_kids_game">image kids game</string>
     <string name="image_sports">image sports</string>
     <string name="add_sessions">add sessions</string>
+    <string name="enter_a_number_of_players_to_view_achievement_levels">Enter a number of players to view achievement levels</string>
+    <string name="number_of_players">Number of players</string>
+    <string name="master_macadamia"><![CDATA[Master Macadamia > :]]></string>
+    <string name="amazing_almond"><![CDATA[Amazing Almond >= :]]></string>
+    <string name="pretty_pecan"><![CDATA[Pretty Pecan >= :]]></string>
+    <string name="crazy_cornnut"><![CDATA[Crazy CornNut >= :]]></string>
+    <string name="wacky_walnut"><![CDATA[Wacky Walnut >= :]]></string>
+    <string name="savvy_soynut"><![CDATA[Savvy SoyNut >= :]]></string>
+    <string name="crafty_cashew"><![CDATA[Crafty Cashew > :]]></string>
+    <string name="happy_hazelnut"><![CDATA[Happy Hazelnut > :]]></string>
+    <string name="playful_pistachio"><![CDATA[Playful Pistachio > :]]></string>
+    <string name="level_10">level 10</string>
+    <string name="level_9">level 9</string>
+    <string name="level_8">level 8</string>
+    <string name="level_7">level 7</string>
+    <string name="level_6">level 6</string>
+    <string name="level_5">level 5</string>
+    <string name="level_4">level 4</string>
+    <string name="level_3">level 3</string>
+    <string name="level_2">level 2</string>
+    <string name="level_1">level 1</string>
+    <string name="hi_there_i_m_pistol_pete_the_peanut_nto_add_a_game_follows_the_arrow_n_and_click_the_button">Hi there! I\'m Pistol Pete, the Peanut!\nTo add a game, follows the arrow\n and click the button!</string>
+    <string name="total_players">TOTAL PLAYERS</string>
+    <string name="total_score">TOTAL SCORE:</string>
+    <string name="num_of_players">num of players</string>
+    <string name="total_score_of_players">total score of players</string>
+    <string name="achievement">ACHIEVEMENT:</string>
+    <string name="hi_there_i_m_pistol_pete_the_peanut_nto_add_a_game_follows_the_arrow_n_and_click_the_button1">Hi there! I\'m Pistol Pete, the Peanut!\nTo add a game, follows the arrow\n and click the button!</string>
 </resources>

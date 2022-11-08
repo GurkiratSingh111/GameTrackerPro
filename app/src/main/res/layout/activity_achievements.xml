@@ -11,7 +11,7 @@
         android:layout_width="256dp"
         android:layout_height="98dp"
         android:layout_marginTop="28dp"
-        android:text="Enter a number of players to view achievement levels"
+        android:text="@string/enter_a_number_of_players_to_view_achievement_levels"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -27,7 +27,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="128dp"
         android:ems="10"
-        android:hint="Number of players"
+        android:hint="@string/number_of_players"
         android:inputType="number"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Master Macadamia > :"
+        android:text="@string/master_macadamia"
         app:layout_constraintStart_toStartOf="@+id/etTempNumPlayers"
         app:layout_constraintTop_toBottomOf="@+id/etTempNumPlayers" />
 
@@ -49,7 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Amazing Almond > :"
+        android:text="@string/amazing_almond"
         app:layout_constraintEnd_toEndOf="@+id/tvLvl10"
         app:layout_constraintTop_toBottomOf="@+id/tvLvl10" />
 
@@ -58,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Pretty Pecan > :"
+        android:text="@string/pretty_pecan"
         app:layout_constraintEnd_toEndOf="@+id/tvLvl9"
         app:layout_constraintTop_toBottomOf="@+id/tvLvl9" />
 
@@ -67,7 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Crazy CornNut > :"
+        android:text="@string/crazy_cornnut"
         app:layout_constraintEnd_toEndOf="@+id/tvLvl8"
         app:layout_constraintTop_toBottomOf="@+id/tvLvl8" />
 
@@ -76,7 +76,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Wacky Walnut > :"
+        android:text="@string/wacky_walnut"
         app:layout_constraintEnd_toEndOf="@+id/tvLvl7"
         app:layout_constraintTop_toBottomOf="@+id/tvLvl7" />
 
@@ -85,7 +85,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Savvy SoyNut > :"
+        android:text="@string/savvy_soynut"
         app:layout_constraintEnd_toEndOf="@+id/tvLvl6"
         app:layout_constraintTop_toBottomOf="@+id/tvLvl6" />
 
@@ -94,7 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Crafty Cashew > :"
+        android:text="@string/crafty_cashew"
         app:layout_constraintEnd_toEndOf="@+id/tvLvl5"
         app:layout_constraintTop_toBottomOf="@+id/tvLvl5" />
 
@@ -103,7 +103,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Happy Hazelnut > :"
+        android:text="@string/happy_hazelnut"
         app:layout_constraintEnd_toEndOf="@+id/tvLvl4"
         app:layout_constraintTop_toBottomOf="@+id/tvLvl4" />
 
@@ -112,7 +112,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Playful Pistachio > :"
+        android:text="@string/playful_pistachio"
         app:layout_constraintEnd_toEndOf="@+id/tvLvl3"
         app:layout_constraintTop_toBottomOf="@+id/tvLvl3" />
 
@@ -131,7 +131,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:hint="level 10"
+        android:hint="@string/level_10"
         app:layout_constraintStart_toEndOf="@+id/tvLvl10"
         app:layout_constraintTop_toBottomOf="@+id/etTempNumPlayers" />
 
@@ -141,7 +141,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:hint="level 9"
+        android:hint="@string/level_9"
         app:layout_constraintStart_toEndOf="@+id/tvLvl9"
         app:layout_constraintTop_toBottomOf="@+id/tvDisplayScoreLvl10" />
 
@@ -151,7 +151,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:hint="level 8"
+        android:hint="@string/level_8"
         app:layout_constraintStart_toEndOf="@+id/tvLvl8"
         app:layout_constraintTop_toBottomOf="@+id/tvDisplayScoreLvl9" />
 
@@ -161,7 +161,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:hint="level 7"
+        android:hint="@string/level_7"
         app:layout_constraintStart_toEndOf="@+id/tvLvl7"
         app:layout_constraintTop_toBottomOf="@+id/tvDisplayScoreLvl8" />
 
@@ -171,7 +171,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:hint="level 6"
+        android:hint="@string/level_6"
         app:layout_constraintStart_toEndOf="@+id/tvLvl6"
         app:layout_constraintTop_toBottomOf="@+id/tvDisplayScoreLvl7" />
 
@@ -181,7 +181,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:hint="level 5"
+        android:hint="@string/level_5"
         app:layout_constraintStart_toEndOf="@+id/tvLvl5"
         app:layout_constraintTop_toBottomOf="@+id/tvDisplayScoreLvl6" />
 
@@ -191,7 +191,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:hint="level 4"
+        android:hint="@string/level_4"
         app:layout_constraintStart_toEndOf="@+id/tvLvl4"
         app:layout_constraintTop_toBottomOf="@+id/tvDisplayScoreLvl5" />
 
@@ -201,7 +201,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:hint="level 3"
+        android:hint="@string/level_3"
         app:layout_constraintStart_toEndOf="@+id/tvLvl3"
         app:layout_constraintTop_toBottomOf="@+id/tvDisplayScoreLvl4" />
 
@@ -211,7 +211,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:hint="level 2"
+        android:hint="@string/level_2"
         app:layout_constraintStart_toEndOf="@+id/tvLvl2"
         app:layout_constraintTop_toBottomOf="@+id/tvDisplayScoreLvl3" />
 
@@ -221,7 +221,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:hint="level 1"
+        android:hint="@string/level_1"
         app:layout_constraintStart_toEndOf="@+id/tvLvl1"
         app:layout_constraintTop_toBottomOf="@+id/tvDisplayScoreLvl2" />
 
