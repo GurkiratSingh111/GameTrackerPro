@@ -115,7 +115,7 @@ public class GameConfigActivity extends AppCompatActivity {
 
         // View achievements
         viewAchievements = findViewById(R.id.btnViewAchievements);
-        viewAchievements.setVisibility(View.INVISIBLE);
+        viewAchievements.setVisibility(View.GONE);
 
         viewAchievements.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +154,7 @@ public class GameConfigActivity extends AppCompatActivity {
             game = new Game();
 
             // Make button invisible
-            btnAddSession.setVisibility(View.INVISIBLE);
+            btnAddSession.setVisibility(View.VISIBLE);
             gridImageLayout.setVisibility(View.VISIBLE);
 
             // get user inputs
@@ -339,9 +339,9 @@ public class GameConfigActivity extends AppCompatActivity {
         editText.setBackgroundColor(Color.LTGRAY);
         editText.setTextColor(Color.BLUE);
 
-        viewAchievements.setVisibility(View.INVISIBLE);
-        btnAddSession.setVisibility(View.INVISIBLE);
-        sessionList.setVisibility(View.INVISIBLE);
+        viewAchievements.setVisibility(View.GONE);
+        btnAddSession.setVisibility(View.GONE);
+        sessionList.setVisibility(View.GONE);
         selectedImage.setVisibility(View.GONE);
 
     }

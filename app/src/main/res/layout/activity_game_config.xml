@@ -137,15 +137,14 @@
 
     <ListView
         android:id="@+id/sessionsListView"
-        android:layout_width="376dp"
-        android:layout_height="344dp"
+        android:layout_width="372dp"
+        android:layout_height="232dp"
+        android:layout_marginTop="52dp"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.542"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/appBarSession"
-        app:layout_constraintVertical_bias="0.768"
+        app:layout_constraintTop_toBottomOf="@+id/textviewhighscore"
         tools:visibility="visible">
 
     </ListView>
