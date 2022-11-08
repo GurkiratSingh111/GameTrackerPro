@@ -9,12 +9,6 @@ import ca.cmpt276.carbon.R;
  */
 public class Game {
 
-    // TODO CHECKLIST: Possibly pass some of these responsibilities to Session class
-    // 1) Save game session creation date: use LocalDateTime
-    // 2) Return string from session to display: sessionToString
-    // 3) Be able to edit session
-    // 4) ...
-
     ArrayList<Session> sessionsList;
 
     private String gameName;

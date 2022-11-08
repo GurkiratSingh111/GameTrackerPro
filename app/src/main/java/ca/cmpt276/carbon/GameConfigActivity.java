@@ -432,7 +432,6 @@ public class GameConfigActivity extends AppCompatActivity {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-            // TODO later - switch case for inputs to decrease repetitive code
             try {
                 if (!gameName.getText().toString().isEmpty()) {
                     indexedGameName = gameName.getText().toString();

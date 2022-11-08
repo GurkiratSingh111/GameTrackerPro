@@ -52,7 +52,6 @@ public class GameConfig implements Iterable<Game> {
         return gamesList.size();
     }
 
-    // TODO Not needed yet. Possibly remove in future if never used.
     // returns a string of games
     public List<String> gameStr() {
         List<String> gameNames= new ArrayList<>();
