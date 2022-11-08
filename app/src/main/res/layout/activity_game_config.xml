@@ -110,12 +110,11 @@
         android:id="@+id/btnViewAchievements"
         android:layout_width="94dp"
         android:layout_height="48dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="24dp"
         android:text="Levels"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.929"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etHighScore" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnAddNewSession"
@@ -147,11 +146,11 @@
 
     <TextView
         android:id="@+id/selectGameIcon"
-        android:layout_width="252dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
-        android:text="SELECT YOUR GAME ICON!"
+        android:layout_marginTop="16dp"
+        android:text="SELECT YOUR GAME ICON: "
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -163,7 +162,7 @@
         android:layout_width="319dp"
         android:layout_height="223dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/selectGameIcon"
@@ -256,5 +255,15 @@
         app:layout_constraintBottom_toBottomOf="@+id/btnAddNewSession"
         app:layout_constraintEnd_toStartOf="@+id/btnAddNewSession"
         app:srcCompat="@drawable/ic_baseline_arrow_right_alt_24" />
+
+    <ImageView
+        android:id="@+id/imageViewSelectedImage"
+        android:layout_width="63dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="32dp"
+        android:src="@drawable/p1"
+        app:layout_constraintBottom_toBottomOf="@+id/selectGameIcon"
+        app:layout_constraintStart_toEndOf="@+id/selectGameIcon"
+        app:layout_constraintTop_toTopOf="@+id/selectGameIcon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
