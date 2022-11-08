@@ -39,10 +39,10 @@ import java.util.List;
 import ca.cmpt276.carbon.model.Achievements;
 import ca.cmpt276.carbon.model.Game;
 import ca.cmpt276.carbon.model.GameConfig;
+
 /**
 *This activity allows the user to add game configurations, edit and delete game configurations too.
  */
-
 public class GameConfigActivity extends AppCompatActivity {
 
     // Intent extra Constant
