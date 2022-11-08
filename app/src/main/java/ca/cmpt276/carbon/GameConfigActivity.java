@@ -154,7 +154,7 @@ public class GameConfigActivity extends AppCompatActivity {
             game = new Game();
 
             // Make button invisible
-            btnAddSession.setVisibility(View.VISIBLE);
+            btnAddSession.setVisibility(View.GONE);
             gridImageLayout.setVisibility(View.VISIBLE);
 
             // get user inputs
