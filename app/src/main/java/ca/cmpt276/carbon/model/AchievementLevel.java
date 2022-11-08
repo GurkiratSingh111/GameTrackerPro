@@ -1,5 +1,11 @@
 package ca.cmpt276.carbon.model;
 
+/**
+ * AchievementLevel class consists of min (Minimum Score), max (Maximum Score)
+ * and name.It encapsulates getters and setters for all the three member
+ * variables and a constructor
+ */
+
 public class AchievementLevel {
     private double min;
     private double max;

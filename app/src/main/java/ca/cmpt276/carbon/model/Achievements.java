@@ -1,5 +1,13 @@
 package ca.cmpt276.carbon.model;
 
+
+/**
+ *Achievement class consists of private attributes AchievementLevel
+ * which defines each Achievement Level. It also has other attributes lowScore,
+ * highScore, deltaScore,intializeAchievements which intializes all the
+ * AchievementLevels and getAchievement function which returns the AchievementLevel
+
+ */
 public class Achievements {
     private AchievementLevel LVL_MAX;
     private AchievementLevel LVL_8;
