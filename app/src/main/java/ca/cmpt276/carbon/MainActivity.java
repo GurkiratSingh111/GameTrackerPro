@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
             int ls =  gameConfiguration.getGame(i).getLowScore();
             int hs = gameConfiguration.getGame(i).getHighScore();
 
-            gameList.add(" " + name + ",  " + ls + ", " + hs + " ");
+            gameList.add("" + name + "\nLow Score: " + ls + "\nHigh Score: " + hs);
         }
 
         // Adapter to connect between listview and items
