@@ -200,6 +200,17 @@ public class GameConfigActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        saveData();
+
+        // Re-Populate ListView of Sessions
+        if (index != -1) {
+            populateGameSessions(index);
+        }
+    }
+
     // Saves data for next launch
     private void saveData() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
@@ -247,6 +258,48 @@ public class GameConfigActivity extends AppCompatActivity {
         }
     }
 
+    // On the first play through, add the fields and respond to save button
+    private void setupGameConfigDataFields() {
+
+        gameName = findViewById(R.id.etGameName);
+        lowScore = findViewById(R.id.etLowScore);
+        highScore = findViewById(R.id.etHighScore);
+    }
+
+    private void populateGameSessions(int gameIndex) {
+        // List of Sessions
+        gameSessions = new ArrayList<>();
+        saveData();
+
+        // Populate ListView
+        for (int i = 0; i < gameConfiguration.getGame(gameIndex).getSize(); i++) {
+
+            // Time played, total players, combined score, achievement earned
+            String time = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTimePlayed();
+            int players = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getPlayers();
+            int score = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTotalScore();
+            String level = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getAchievementLevel();
+
+            gameSessions.add("Time played: " + time + "\nTotal Players: " + players +
+                    "\nScore: " + score + "\nLevel: " + level);
+        }
+
+        // Array adapter for ListView
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                gameSessions
+        );
+
+        sessionList = findViewById(R.id.sessionsListView);
+        sessionList.setAdapter(adapter);
+
+        // method to display empty state if no sessions
+        showEmptyState();
+
+        adapter.notifyDataSetChanged();
+    }
+
     // For adding a session inside game config
     private void registerClickCallback() {
 
@@ -261,17 +314,6 @@ public class GameConfigActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        saveData();
-
-        // Re-Populate ListView of Sessions
-        if (index != -1) {
-            populateGameSessions(index);
-        }
     }
 
     // disables the text fields because you're in viewing mode
@@ -335,17 +377,7 @@ public class GameConfigActivity extends AppCompatActivity {
             lowScore.addTextChangedListener(inputTextWatcher);
             highScore.addTextChangedListener(inputTextWatcher);
         }
-
     }
-
-    // On the first play through, add the fields and respond to save button
-    private void setupGameConfigDataFields() {
-
-        gameName = findViewById(R.id.etGameName);
-        lowScore = findViewById(R.id.etLowScore);
-        highScore = findViewById(R.id.etHighScore);
-    }
-
 
     // adds the game configuration to the list of games
     private void addGameConfig() {
@@ -422,8 +454,6 @@ public class GameConfigActivity extends AppCompatActivity {
         }
     };
 
-
-    // TODO : ALL TOOLBAR ACTIONS GO HERE ------------------------------------
     // Menu and action bar things
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -598,40 +628,6 @@ public class GameConfigActivity extends AppCompatActivity {
                         // Do nothing and stay on current screen
                     }
                 }).show();
-    }
-
-    private void populateGameSessions(int gameIndex) {
-        // List of Sessions
-        gameSessions = new ArrayList<>();
-        saveData();
-
-        // Populate ListView
-        for (int i = 0; i < gameConfiguration.getGame(gameIndex).getSize(); i++) {
-
-            // Time played, total players, combined score, achievement earned
-            String time = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTimePlayed();
-            int players = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getPlayers();
-            int score = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTotalScore();
-            String level = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getAchievementLevel();
-
-            gameSessions.add("Time played: " + time + "\nTotal Players: " + players +
-                    "\nScore: " + score + "\nLevel: " + level);
-        }
-
-        // Array adapter for ListView
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                gameSessions
-        );
-
-        sessionList = findViewById(R.id.sessionsListView);
-        sessionList.setAdapter(adapter);
-
-        // method to display empty state if no sessions
-        showEmptyState();
-
-        adapter.notifyDataSetChanged();
     }
 
     // Methods to change game icons
