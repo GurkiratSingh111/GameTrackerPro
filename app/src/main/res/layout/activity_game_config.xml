@@ -40,7 +40,8 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/Nametextview"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:autofillHints="" />
 
     <TextView
         android:id="@+id/Nametextview"
@@ -48,7 +49,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="80dp"
-        android:text="NAME:"
+        android:text="@string/name"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -61,7 +62,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="17dp"
-        android:text="LOW SCORE:"
+        android:text="@string/low_score"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -74,7 +75,7 @@
         android:layout_width="160dp"
         android:layout_height="50dp"
         android:layout_marginTop="24dp"
-        android:text="HIGH SCORE:"
+        android:text="@string/high_score"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textSize="24sp"
@@ -88,11 +89,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:ems="10"
-        android:hint="low score"
+        android:hint="@string/low_score_hint"
         android:inputType="number"
         android:minHeight="48dp"
+        android:textColorHint="#757575"
         app:layout_constraintStart_toStartOf="@+id/etGameName"
-        app:layout_constraintTop_toBottomOf="@+id/etGameName" />
+        app:layout_constraintTop_toBottomOf="@+id/etGameName"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/etHighScore"
@@ -100,11 +103,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:ems="10"
-        android:hint="high score"
+        android:hint="@string/high_score_hint"
         android:inputType="number"
         android:minHeight="48dp"
+        android:textColorHint="#757575"
         app:layout_constraintStart_toStartOf="@+id/etLowScore"
-        app:layout_constraintTop_toBottomOf="@+id/etLowScore" />
+        app:layout_constraintTop_toBottomOf="@+id/etLowScore"
+        android:autofillHints="" />
 
     <Button
         android:id="@+id/btnViewAchievements"
@@ -112,7 +117,7 @@
         android:layout_height="48dp"
         android:layout_marginStart="32dp"
         android:layout_marginBottom="24dp"
-        android:text="Levels"
+        android:text="@string/levels"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -121,6 +126,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:contentDescription="@string/add_sessions"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.878"
@@ -150,7 +156,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="SELECT YOUR GAME ICON: "
+        android:text="@string/select_your_game_icon"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -159,11 +165,11 @@
 
     <GridLayout
         android:id="@+id/gridLayout"
-        android:layout_width="319dp"
-        android:layout_height="223dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="325dp"
+        android:layout_height="224dp"
         android:layout_marginTop="24dp"
         android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/selectGameIcon"
         tools:visibility="visible">
@@ -174,6 +180,7 @@
             android:layout_height="112dp"
             android:layout_row="0"
             android:layout_column="0"
+            android:contentDescription="@string/image_controller"
             android:onClick="imageView1Clicked"
             app:srcCompat="@drawable/img1" />
 
@@ -183,6 +190,7 @@
             android:layout_height="107dp"
             android:layout_row="0"
             android:layout_column="1"
+            android:contentDescription="@string/image_device"
             android:onClick="imageView2Clicked"
             app:srcCompat="@drawable/img2" />
 
@@ -192,6 +200,7 @@
             android:layout_height="111dp"
             android:layout_row="0"
             android:layout_column="2"
+            android:contentDescription="@string/image_cards"
             android:onClick="imageView3Clicked"
             app:srcCompat="@drawable/img3" />
 
@@ -201,6 +210,7 @@
             android:layout_height="111dp"
             android:layout_row="1"
             android:layout_column="0"
+            android:contentDescription="@string/image_board_game"
             android:onClick="imageView4Clicked"
             app:srcCompat="@drawable/img4" />
 
@@ -210,6 +220,7 @@
             android:layout_height="111dp"
             android:layout_row="1"
             android:layout_column="1"
+            android:contentDescription="@string/image_kids_game"
             android:onClick="imageView5Clicked"
             app:srcCompat="@drawable/img5" />
 
@@ -219,6 +230,7 @@
             android:layout_height="111dp"
             android:layout_row="1"
             android:layout_column="2"
+            android:contentDescription="@string/image_sports"
             android:onClick="imageView6Clicked"
             app:srcCompat="@drawable/img6" />
 
@@ -229,6 +241,7 @@
         android:layout_width="184dp"
         android:layout_height="152dp"
         android:layout_marginStart="32dp"
+        android:contentDescription="@string/session_empty_state_peanut"
         android:src="@mipmap/ic_launcher_foreground"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/btnAddNewSession"
@@ -239,7 +252,7 @@
         android:layout_width="371dp"
         android:layout_height="51dp"
         android:fontFamily="sans-serif-smallcaps"
-        android:text="Hmmm, there seems to be no sessions here!\nWhy don't you click this button to add a new session!"
+        android:text="@string/hmmm_there_seems_to_be_no_sessions_here_nwhy_don_t_you_click_this_button_to_add_a_new_session"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/imageViewSessionsPeanut"
         app:layout_constraintStart_toStartOf="@+id/imageViewSessionsPeanut" />
@@ -250,6 +263,7 @@
         android:layout_height="72dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="32dp"
+        android:contentDescription="@string/arrow_in_session"
         android:rotation="17"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/btnAddNewSession"
@@ -261,6 +275,7 @@
         android:layout_width="63dp"
         android:layout_height="45dp"
         android:layout_marginStart="32dp"
+        android:contentDescription="@string/image_for_game_icon"
         android:src="@drawable/p1"
         app:layout_constraintBottom_toBottomOf="@+id/selectGameIcon"
         app:layout_constraintStart_toEndOf="@+id/selectGameIcon"
