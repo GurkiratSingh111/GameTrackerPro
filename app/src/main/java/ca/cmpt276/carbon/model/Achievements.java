@@ -11,8 +11,6 @@ public class Achievements {
     private AchievementLevel LVL_2;
     private AchievementLevel LVL_1;
     private AchievementLevel LVL_MIN;
-
-
     public static final double INF = -1;
     public static final double NEG_INF = -2;
     private int lowScore;
@@ -20,6 +18,7 @@ public class Achievements {
     private double deltaScore;
     public static final int NUM_OF_LVLS = 10;
 
+    // Constructor
     public Achievements(int low, int high) {
         this.lowScore = low;
         this.highScore = high;
@@ -137,6 +136,4 @@ public class Achievements {
     public void setHighScore(int highScore) {
         this.highScore = highScore;
     }
-
-
 }
