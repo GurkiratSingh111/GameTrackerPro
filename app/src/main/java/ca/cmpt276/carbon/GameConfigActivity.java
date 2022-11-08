@@ -579,8 +579,8 @@ public class GameConfigActivity extends AppCompatActivity {
 
         // display the text fields
         gameName.setText(indexedGameName);
-        lowScore.setText(" " + indexedLowScore);
-        highScore.setText(" " + indexedHighScore);
+        lowScore.setText(indexedLowScore + "");
+        highScore.setText(indexedHighScore + "");
 
         enableEditText(gameName);
         enableEditText(lowScore);
