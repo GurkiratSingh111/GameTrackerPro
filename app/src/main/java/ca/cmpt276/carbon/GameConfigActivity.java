@@ -1,5 +1,8 @@
 package ca.cmpt276.carbon;
 
+import static ca.cmpt276.carbon.MainActivity.NAME;
+import static ca.cmpt276.carbon.MainActivity.SHARED_PREFS;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -7,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -27,6 +31,7 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -193,6 +198,16 @@ public class GameConfigActivity extends AppCompatActivity {
         }
     }
 
+    // Saves data for next launch
+    private void saveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(gameConfiguration);
+        editor.putString(NAME, json);
+        editor.apply();
+    }
+
     // method to hide the peanut and text on game config creation
     private void hideMascotOnAddConfig() {
 
@@ -249,6 +264,7 @@ public class GameConfigActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        saveData();
 
         // Re-Populate ListView of Sessions
         if (index != -1) {
@@ -511,7 +527,6 @@ public class GameConfigActivity extends AppCompatActivity {
         game.setLowScore(newLowScore);
 
         finish();
-
     }
 
     // Enable editing of Game Config when edit button on toolbar pressed
@@ -535,7 +550,6 @@ public class GameConfigActivity extends AppCompatActivity {
         enableEditText(gameName);
         enableEditText(lowScore);
         enableEditText(highScore);
-
     }
 
     // method to delete the game configuration
@@ -561,6 +575,7 @@ public class GameConfigActivity extends AppCompatActivity {
         super.onBackPressed();
         displayCancelMessage();
         Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show();
+        saveData();
         finish();
     }
 
@@ -585,6 +600,7 @@ public class GameConfigActivity extends AppCompatActivity {
     private void populateGameSessions(int gameIndex) {
         // List of Sessions
         gameSessions = new ArrayList<>();
+        saveData();
 
         // Populate ListView
         for (int i = 0; i < gameConfiguration.getGame(gameIndex).getSize(); i++) {
