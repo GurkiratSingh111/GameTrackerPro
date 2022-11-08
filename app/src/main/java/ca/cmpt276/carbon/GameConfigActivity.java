@@ -335,6 +335,11 @@ public class GameConfigActivity extends AppCompatActivity {
         String score1 = lowScore.getText().toString();
         String score2 = highScore.getText().toString();
 
+        if ((score1.length() > 10) || (score2.length() > 10)) {
+            Toast.makeText(this, "Invalid Input", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if(name.isEmpty() || score1.isEmpty() || score2.isEmpty()) {
             Toast.makeText(this, "Fields must not be empty", Toast.LENGTH_SHORT).show();
             return;
@@ -487,7 +492,7 @@ public class GameConfigActivity extends AppCompatActivity {
             newLowScore = Integer.parseInt(lowScore.getText().toString().trim());
             newHighScore = Integer.parseInt(highScore.getText().toString().trim());
         } catch (NumberFormatException e) {
-            Toast.makeText(GameConfigActivity.this, "Score must not be empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(GameConfigActivity.this, "Invalid Input", Toast.LENGTH_SHORT).show();
             return;
         }
 
