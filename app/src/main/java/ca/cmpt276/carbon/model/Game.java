@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import ca.cmpt276.carbon.R;
 
+/**
+ * Game Class stores the game name, highScore, lowScore and the imageID.
+ */
 public class Game {
 
     // TODO CHECKLIST: Possibly pass some of these responsibilities to Session class
