@@ -21,6 +21,9 @@ import ca.cmpt276.carbon.model.AchievementLevel;
 import ca.cmpt276.carbon.model.Achievements;
 import ca.cmpt276.carbon.model.GameConfig;
 
+/**
+ *This activity stores the list of achievements
+ */
 public class AchievementsActivity extends AppCompatActivity {
     private EditText etNumPlayers;
     private ListView list;
