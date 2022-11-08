@@ -614,8 +614,8 @@ public class GameConfigActivity extends AppCompatActivity {
             int score = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTotalScore();
             String level = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getAchievementLevel();
 
-            gameSessions.add("Time played: " + time + ", Total Players: " + players +
-                    ", Score: " + score + ", Level: " + level);
+            gameSessions.add("Time played: " + time + "\nTotal Players: " + players +
+                    "\nScore: " + score + "\nLevel: " + level);
         }
 
         // Array adapter for ListView
