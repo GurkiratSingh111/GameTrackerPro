@@ -82,6 +82,7 @@ public class GameConfigActivity extends AppCompatActivity {
     private ListView sessionList;
 
     GridLayout gridImageLayout;
+    ImageView selectedImage;
 
     // empty state images and text
     TextView welcomeScreenMsg;
@@ -107,7 +108,7 @@ public class GameConfigActivity extends AppCompatActivity {
         // setup grid and images
         gridImageLayout = findViewById(R.id.gridLayout);
         selectIcon = findViewById(R.id.selectGameIcon);
-
+        selectedImage = findViewById(R.id.imageViewSelectedImage);
 
         // View achievements
         viewAchievements = findViewById(R.id.btnViewAchievements);
@@ -170,6 +171,7 @@ public class GameConfigActivity extends AppCompatActivity {
             btnAddSession.setVisibility(View.VISIBLE);
             gridImageLayout.setVisibility(View.GONE);
             selectIcon.setVisibility(View.GONE);
+            selectedImage.setVisibility(View.GONE);
 
             // Change title to show editing game instead
             getSupportActionBar().setTitle("Game Sessions");
@@ -295,6 +297,7 @@ public class GameConfigActivity extends AppCompatActivity {
         viewAchievements.setVisibility(View.INVISIBLE);
         btnAddSession.setVisibility(View.INVISIBLE);
         sessionList.setVisibility(View.INVISIBLE);
+        selectedImage.setVisibility(View.GONE);
 
     }
 
@@ -631,31 +634,38 @@ public class GameConfigActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
+    // Methods to change game icons
     public void imageView1Clicked(View view) {
-        //ImageView img = (ImageView) view;
         int tappedImage = R.drawable.img1;
         game.setImageID(tappedImage);
+        selectedImage.setImageResource(R.drawable.img1);
     }
     public void imageView2Clicked(View view) {
         int tappedImage = R.drawable.img2;
         game.setImageID(tappedImage);
+        selectedImage.setImageResource(R.drawable.img2);
     }
     public void imageView3Clicked(View view) {
         int tappedImage = R.drawable.img3;
         game.setImageID(tappedImage);
+        selectedImage.setImageResource(R.drawable.img3);
     }
     public void imageView4Clicked(View view) {
         int tappedImage = R.drawable.img4;
         game.setImageID(tappedImage);
+        selectedImage.setImageResource(R.drawable.img4);
     }
 
     public void imageView5Clicked(View view) {
         int tappedImage = R.drawable.img5;
         game.setImageID(tappedImage);
+        selectedImage.setImageResource(R.drawable.img5);
     }
 
     public void imageView6Clicked(View view) {
         int tappedImage = R.drawable.img6;
         game.setImageID(tappedImage);
+        selectedImage.setImageResource(R.drawable.img6);
     }
+
 }
