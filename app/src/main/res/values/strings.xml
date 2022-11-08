@@ -41,9 +41,9 @@
     <string name="crazy_cornnut"><![CDATA[Crazy CornNut >= :]]></string>
     <string name="wacky_walnut"><![CDATA[Wacky Walnut >= :]]></string>
     <string name="savvy_soynut"><![CDATA[Savvy SoyNut >= :]]></string>
-    <string name="crafty_cashew"><![CDATA[Crafty Cashew > :]]></string>
-    <string name="happy_hazelnut"><![CDATA[Happy Hazelnut > :]]></string>
-    <string name="playful_pistachio"><![CDATA[Playful Pistachio > :]]></string>
+    <string name="crafty_cashew"><![CDATA[Crafty Cashew >= :]]></string>
+    <string name="happy_hazelnut"><![CDATA[Happy Hazelnut >= :]]></string>
+    <string name="playful_pistachio"><![CDATA[Playful Pistachio >= :]]></string>
     <string name="level_10">level 10</string>
     <string name="level_9">level 9</string>
     <string name="level_8">level 8</string>
