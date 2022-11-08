@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ *This class stores the list of games configurations and also this class is made
+ * singleton.
+ */
 public class GameConfig implements Iterable<Game> {
     // Variables
     private List<Game> gamesList;

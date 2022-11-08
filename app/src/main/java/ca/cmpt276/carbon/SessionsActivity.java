@@ -26,6 +26,10 @@ import ca.cmpt276.carbon.model.Achievements;
 import ca.cmpt276.carbon.model.GameConfig;
 import ca.cmpt276.carbon.model.Session;
 
+/**
+ *This activity ask the user to enter number of players, total Score and displays
+ * achievement level
+ */
 public class SessionsActivity extends AppCompatActivity {
     // Variables
     private int sessionIndex;           // For add/edit sessions
