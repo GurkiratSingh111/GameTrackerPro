@@ -8,6 +8,10 @@ Limitations:
     This is to re-enforce the positivity of the cooperative gameplay.
     However this constraint can be removed if necessary.
 
+Constraints:
+
+    Player count set to 4 for the moment.
+
 
 Acknowledgements and Credits:
 
