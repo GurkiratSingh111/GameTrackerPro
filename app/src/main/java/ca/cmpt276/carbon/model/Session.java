@@ -3,6 +3,7 @@ package ca.cmpt276.carbon.model;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *This class stores the timePlayed, players and totalScore, achievementLevel
@@ -14,6 +15,7 @@ public class Session {
     private int totalScore;
     private String achievementLevel;
 
+    private List<Integer> playerScoreList;
 
     // Default Constructor
     public Session() {
@@ -21,13 +23,15 @@ public class Session {
         this.players = -1;
         this.totalScore = -1;
         this.achievementLevel = "";
+        this.playerScoreList = new ArrayList<>();
     }
 
     // Constructor
-    public Session(int players, int totalScore) {
+    public Session(int players, int totalScore, List<Integer> pList) {
         this.timePlayed = formatTime();
         this.players = players;
         this.totalScore = totalScore;
+        this.playerScoreList = pList;
     }
 
     // Getter/Setter methods
@@ -61,5 +65,13 @@ public class Session {
         LocalDateTime currentTime = LocalDateTime.now();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("MMM d @ hh:mm a");
         return currentTime.format(format);
+    }
+
+    public List<Integer> getPlayerScoreList() {
+        return this.playerScoreList;
+    }
+
+    public void setPlayerScoreList(List<Integer> playerScoreList) {
+        this.playerScoreList = playerScoreList;
     }
 }
