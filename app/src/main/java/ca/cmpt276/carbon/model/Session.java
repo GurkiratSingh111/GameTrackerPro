@@ -9,6 +9,7 @@ import java.util.List;
  *This class stores the timePlayed, players and totalScore, achievementLevel
  */
 public class Session {
+
     // Variables
     private String timePlayed;
     private int players;
