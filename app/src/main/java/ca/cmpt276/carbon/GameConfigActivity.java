@@ -275,18 +275,20 @@ public class GameConfigActivity extends AppCompatActivity {
         saveData();
 
         // Populate ListView
-        for (int i = 0; i < gameConfiguration.getGame(gameIndex).getSize(); i++) {
+        if (gameConfiguration != null) {
 
-            // Time played, total players, combined score, achievement earned
-            String time = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTimePlayed();
-            int players = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getPlayers();
-            int score = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTotalScore();
-            String level = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getAchievementLevel();
+            for (int i = 0; i < gameConfiguration.getGame(gameIndex).getSize(); i++) {
 
-            gameSessions.add("Time played: " + time + "\nTotal Players: " + players +
-                    "\nScore: " + score + "\nLevel: " + level);
+                // Time played, total players, combined score, achievement earned
+                String time = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTimePlayed();
+                int players = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getPlayers();
+                int score = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTotalScore();
+                String level = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getAchievementLevel();
+
+                gameSessions.add("Time played: " + time + "\nTotal Players: " + players +
+                        "\nScore: " + score + "\nLevel: " + level);
+            }
         }
-
         // Array adapter for ListView
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 this,
