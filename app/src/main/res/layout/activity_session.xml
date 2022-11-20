@@ -195,26 +195,26 @@
         android:layout_width="164dp"
         android:layout_height="48dp"
         android:layout_marginTop="108dp"
-        android:layout_marginEnd="44dp"
+        android:layout_marginEnd="32dp"
         android:contentDescription="@string/achievement"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/totalScore"
-        app:layout_constraintVertical_bias="0.013" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:layout_width="170dp"
-        android:layout_height="39dp"
+        android:layout_width="193dp"
+        android:layout_height="48dp"
         android:text="DIFFICULTY LEVEL"
         android:textAlignment="center"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/gameLevels"
-        app:layout_constraintHorizontal_bias="0.174"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/achievementTextView"
-        app:layout_constraintVertical_bias="0.478" />
+        app:layout_constraintVertical_bias="0.503" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
