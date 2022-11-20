@@ -8,7 +8,7 @@ import ca.cmpt276.carbon.R;
 /**
  *Achievement class consists of private attributes AchievementLevel
  * which defines each Achievement Level. It also has other attributes lowScore,
- * highScore, deltaScore,intializeAchievements which intializes all the
+ * highScore, deltaScore, intializeAchievements which intializes all the
  * AchievementLevels and getAchievement function which returns the AchievementLevel
 
  */
@@ -32,6 +32,7 @@ public class Achievements {
     public static final String NUT = "NUT";
     public static final String EMOJI = "EMOJI";
     public static final String NONE = "NONE";
+    public static final String MIDDLE_EARTH = "MIDDLE_EARTH";
     private String theme = NONE;
     double factor;
 
@@ -47,7 +48,6 @@ public class Achievements {
 
     public void setFactor(double factor) {
         this.factor = factor;
-
         LVL_MAX.setMin(factor*highScore);
         LVL_8.setMin(factor*(highScore - deltaScore));
         LVL_7.setMin(factor*(highScore - 2 * deltaScore));
@@ -65,7 +65,6 @@ public class Achievements {
         LVL_3.setMax(factor*(highScore - 5 * deltaScore));
         LVL_2.setMax(factor*(highScore - 6 * deltaScore));
         LVL_1.setMax(factor*(highScore - 7 * deltaScore));
-        Log.e("beep2", "max " + highScore);
         LVL_MIN.setMax(factor*lowScore);
     }
 
@@ -96,6 +95,34 @@ public class Achievements {
         LVL_1 = new AchievementLevel(factor*(lowScore), factor*(highScore - 7 * deltaScore), "Playful Pistachio", R.drawable.pistachio);
         LVL_MIN = new AchievementLevel(NEG_INF,factor*lowScore, "Pleasant Peanut", R.drawable.peanut);
     }
+
+    public void initializeEmojiAchievements(double factor) {
+        LVL_MAX = new AchievementLevel(factor*(highScore), INF, "Star Struck Stella", R.drawable.starstruck);
+        LVL_8 = new AchievementLevel(factor*(highScore - deltaScore),factor*highScore, "Cool Catherine", R.drawable.cool);
+        LVL_7 = new AchievementLevel(factor*(highScore - 2 * deltaScore),factor*(highScore - deltaScore), "Happy Hank", R.drawable.happy);
+        LVL_6 = new AchievementLevel(factor*(highScore - 3 * deltaScore),factor*(highScore - 2 * deltaScore), "Nerdy Ned", R.drawable.nerd);
+        LVL_5 = new AchievementLevel(factor*(highScore - 4 * deltaScore),factor*(highScore - 3 * deltaScore), "Sassy Sarah", R.drawable.sassy);
+        LVL_4 = new AchievementLevel(factor*(highScore - 5 * deltaScore),factor*(highScore - 4 * deltaScore), "Smiley Sally", R.drawable.slight_smile);
+        LVL_3 = new AchievementLevel(factor*(highScore - 6 * deltaScore),factor*(highScore - 5 * deltaScore), "Bored Bobby", R.drawable.bored);
+        LVL_2 = new AchievementLevel(factor*(highScore - 7 * deltaScore), factor*(highScore - 6 * deltaScore), "Worried Wart", R.drawable.worried);
+        LVL_1 = new AchievementLevel(factor*(lowScore), factor*(highScore - 7 * deltaScore), "Crying Crabby", R.drawable.crying);
+        LVL_MIN = new AchievementLevel(NEG_INF,factor*lowScore, "Swearing Sam", R.drawable.swear);
+    }
+
+    public void initializeMiddleEarthAchievements(double factor) {
+        LVL_MAX = new AchievementLevel(factor*(highScore), INF, "Wonderful Wizard", R.drawable.wizard);
+        LVL_8 = new AchievementLevel(factor*(highScore - deltaScore),factor*highScore, "Festive Fairy", R.drawable.fairy);
+        LVL_7 = new AchievementLevel(factor*(highScore - 2 * deltaScore),factor*(highScore - deltaScore), "Shy Sidekick", R.drawable.sidekick);
+        LVL_6 = new AchievementLevel(factor*(highScore - 3 * deltaScore),factor*(highScore - 2 * deltaScore), "Brave Bird", R.drawable.siren);
+        LVL_5 = new AchievementLevel(factor*(highScore - 4 * deltaScore),factor*(highScore - 3 * deltaScore), "Humble Human", R.drawable.human);
+        LVL_4 = new AchievementLevel(factor*(highScore - 5 * deltaScore),factor*(highScore - 4 * deltaScore), "Soulful Spirit", R.drawable.spirit);
+        LVL_3 = new AchievementLevel(factor*(highScore - 6 * deltaScore),factor*(highScore - 5 * deltaScore), "Viscous Viking", R.drawable.viking);
+        LVL_2 = new AchievementLevel(factor*(highScore - 7 * deltaScore), factor*(highScore - 6 * deltaScore), "Easy Elf", R.drawable.elf);
+        LVL_1 = new AchievementLevel(factor*(lowScore), factor*(highScore - 7 * deltaScore), "Greasy Gargoyle", R.drawable.gargoyle);
+        LVL_MIN = new AchievementLevel(NEG_INF,factor*lowScore, "Odourish Orc", R.drawable.orc);
+    }
+
+
 
     // Returns AchievementLevel object from score and number of players
     // PRE: players must be greater than 0
@@ -181,12 +208,17 @@ public class Achievements {
 
     public void setTheme(String theme) {
         this.theme = theme;
-        Log.e("beep", "" + factor);
-        if (theme.equals(NONE)) {
-            initializeNoneAchievements(factor);
-        }
-        else if (theme.equals(NUT)) {
+        if (theme.equals(NUT)) {
             initializeNutAchievements(factor);
+        }
+        else if (theme.equals(EMOJI)) {
+            initializeEmojiAchievements(factor);
+        }
+        else if (theme.equals(MIDDLE_EARTH)) {
+            initializeMiddleEarthAchievements(factor);
+        }
+        else {
+            initializeNoneAchievements(factor);
         }
     }
 

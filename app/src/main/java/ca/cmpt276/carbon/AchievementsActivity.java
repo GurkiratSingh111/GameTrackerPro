@@ -208,15 +208,20 @@ public class AchievementsActivity extends AppCompatActivity implements AdapterVi
         achievementLvls.setFactor(factor);
         updatePoints();
 
-        if (text.equals("None")) {
-            achievementLvls.setTheme(Achievements.NONE);
-        }
-        else if (text.equals("Nut")) {
+        if (text.equals("Nut")) {
             achievementLvls.setTheme(Achievements.NUT);
+        }
+        else if (text.equals("Emoji")) {
+            achievementLvls.setTheme(Achievements.EMOJI);
+        }
+        else if (text.equals("Middle Earth")) {
+            achievementLvls.setTheme(Achievements.MIDDLE_EARTH);
+        }
+        else {
+            achievementLvls.setTheme(Achievements.NONE);
         }
         setImageArray();
         setTitleArray();
-
         Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
     }
 
