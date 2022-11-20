@@ -1,6 +1,8 @@
 package ca.cmpt276.carbon.model;
 
 
+import android.util.Log;
+
 import ca.cmpt276.carbon.R;
 
 /**
@@ -30,16 +32,41 @@ public class Achievements {
     public static final String NUT = "NUT";
     public static final String EMOJI = "EMOJI";
     public static final String NONE = "NONE";
-    private String theme;
+    private String theme = NONE;
+    double factor;
 
 
     // Constructor
     public Achievements(int low, int high, double factor) {
         this.lowScore = low;
         this.highScore = high;
+        this.factor = factor;
         deltaScore = ((double)high - low) / (NUM_OF_LVLS - 1);
-        theme = NONE;
-        initializeNoneAchievements(factor);
+        setTheme(theme);
+    }
+
+    public void setFactor(double factor) {
+        this.factor = factor;
+
+        LVL_MAX.setMin(factor*highScore);
+        LVL_8.setMin(factor*(highScore - deltaScore));
+        LVL_7.setMin(factor*(highScore - 2 * deltaScore));
+        LVL_6.setMin(factor*(highScore - 3 * deltaScore));
+        LVL_5.setMin(factor*(highScore - 4 * deltaScore));
+        LVL_4.setMin(factor*(highScore - 5 * deltaScore));
+        LVL_3.setMin(factor*(highScore - 6 * deltaScore));
+        LVL_2.setMin(factor*(highScore - 7 * deltaScore));
+        LVL_1.setMin(factor*lowScore);
+        LVL_8.setMax(factor*highScore);
+        LVL_7.setMax(factor*(highScore - deltaScore));
+        LVL_6.setMax(factor*(highScore - 2 * deltaScore));
+        LVL_5.setMax(factor*(highScore - 3 * deltaScore));
+        LVL_4.setMax(factor*(highScore - 4 * deltaScore));
+        LVL_3.setMax(factor*(highScore - 5 * deltaScore));
+        LVL_2.setMax(factor*(highScore - 6 * deltaScore));
+        LVL_1.setMax(factor*(highScore - 7 * deltaScore));
+        Log.e("beep2", "max " + highScore);
+        LVL_MIN.setMax(factor*lowScore);
     }
 
     // No theme
@@ -145,6 +172,21 @@ public class Achievements {
         }
         else {
             throw new RuntimeException("not valid level");
+        }
+    }
+
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
+        Log.e("beep", "" + factor);
+        if (theme.equals(NONE)) {
+            initializeNoneAchievements(factor);
+        }
+        else if (theme.equals(NUT)) {
+            initializeNutAchievements(factor);
         }
     }
 

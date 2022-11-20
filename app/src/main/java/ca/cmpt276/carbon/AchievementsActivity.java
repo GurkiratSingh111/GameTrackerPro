@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -34,23 +35,34 @@ public class AchievementsActivity extends AppCompatActivity implements AdapterVi
     private int highScore;
     Achievements achievementLvls;
     private static DecimalFormat REAL_FORMATTER = new DecimalFormat("#.###");
-    private double factor=1;
+    private double factor = 1;
     TextView[] pointsArray;
     TextView[] titleArray;
     ImageView[] imageArray;
-    ImageView nut;
+    Spinner spDiff;
+    Spinner spThemes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_achievements);
 
-        //Spinner
-        Spinner spinner= findViewById(R.id.spDiff);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.levels, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
+        //Spinners
+        Spinner spDiff = findViewById(R.id.spDiff);
+        ArrayAdapter<CharSequence> adapterDiff = ArrayAdapter.createFromResource(this,R.array.levels, android.R.layout.simple_spinner_item);
+        adapterDiff.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spDiff.setAdapter(adapterDiff);
+        spDiff.setOnItemSelectedListener(this);
+
+        Spinner spThemes = findViewById(R.id.spTheme);
+        ArrayAdapter<CharSequence> adapterThemes = ArrayAdapter.createFromResource(this,R.array.themes, android.R.layout.simple_spinner_item);
+        adapterThemes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spThemes.setAdapter(adapterThemes);
+        spThemes.setOnItemSelectedListener(this);
+
+        Intent i = getIntent();
+        lowScore = i.getIntExtra(EXTRA_LOW_SCORE, 0);
+        highScore = i.getIntExtra(EXTRA_HIGH_SCORE, 0);
 
         etNumPlayers = findViewById(R.id.etTempNumPlayers);
         etNumPlayers.addTextChangedListener(playerNumWatcher);
@@ -62,12 +74,6 @@ public class AchievementsActivity extends AppCompatActivity implements AdapterVi
         makeImageArray();
         setTitleArray();
         setImageArray();
-
-        Intent i = getIntent();
-        lowScore = i.getIntExtra(EXTRA_LOW_SCORE, 0);
-        highScore = i.getIntExtra(EXTRA_HIGH_SCORE, 0);
-
-
     }
 
     public static Intent makeLaunchIntent(Context c, int lowScore, int highScore) {
@@ -95,6 +101,7 @@ public class AchievementsActivity extends AppCompatActivity implements AdapterVi
                     throw new IllegalArgumentException();
                 }
                 else {
+                    achievementLvls.setFactor(factor);
                     updatePoints();
                 }
             }
@@ -110,6 +117,7 @@ public class AchievementsActivity extends AppCompatActivity implements AdapterVi
     };
 
     private void updatePoints() {
+        Log.e("beep", "num: " + num);
         // Set the lowest level as low score
         pointsArray[0].setText(REAL_FORMATTER.format(num * achievementLvls.returnLowScore(factor)));
 
@@ -117,10 +125,12 @@ public class AchievementsActivity extends AppCompatActivity implements AdapterVi
         for (int i = 1; i < 9; i++) {
             String index = Integer.toString(i);
             pointsArray[i].setText(REAL_FORMATTER.format(num * achievementLvls.getLevel(index).getMin()));
+            // Log.e("beep", "hs: " + achievementLvls.getLevel(index).getMin());
         }
 
         // set the highest level as high score
         pointsArray[9].setText(REAL_FORMATTER.format(num * achievementLvls.returnHighScore(factor)));
+        Log.e("beep", "hs: " + achievementLvls.returnHighScore(factor));
     }
 
     // Sets the titles for no theme
@@ -186,22 +196,27 @@ public class AchievementsActivity extends AppCompatActivity implements AdapterVi
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String text = parent.getItemAtPosition(position).toString();
-        if(text.equals("Normal"))
-        {
+        if (text.equals("Normal")) {
             factor = 1;
-            achievementLvls = new Achievements(lowScore, highScore,factor);
         }
-        else if(text.equals("Easy"))
-        {
+        else if (text.equals("Easy")) {
             factor= 0.75;
-            achievementLvls = new Achievements(lowScore, highScore,factor);
         }
-        else if(text.equals("Hard"))
-        {
+        else if (text.equals("Hard")) {
             factor= 1.25;
-            achievementLvls = new Achievements(lowScore, highScore,factor);
         }
+        achievementLvls.setFactor(factor);
         updatePoints();
+
+        if (text.equals("None")) {
+            achievementLvls.setTheme(Achievements.NONE);
+        }
+        else if (text.equals("Nut")) {
+            achievementLvls.setTheme(Achievements.NUT);
+        }
+        setImageArray();
+        setTitleArray();
+
         Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
     }
 
