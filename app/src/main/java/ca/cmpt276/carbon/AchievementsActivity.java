@@ -32,6 +32,7 @@ public class AchievementsActivity extends AppCompatActivity {
     public static final String EXTRA_HIGH_SCORE = "high score";
     private int lowScore;
     private int highScore;
+    private int factor;
     Achievements achievementLvls;
     private static DecimalFormat REAL_FORMATTER = new DecimalFormat("#.###");
 
@@ -52,7 +53,7 @@ public class AchievementsActivity extends AppCompatActivity {
         lowScore = i.getIntExtra(EXTRA_LOW_SCORE, 0);
         highScore = i.getIntExtra(EXTRA_HIGH_SCORE, 0);
 
-        achievementLvls = new Achievements(lowScore, highScore);
+        achievementLvls = new Achievements(lowScore, highScore,factor);
     }
 
     public static Intent makeLaunchIntent(Context c, int lowScore, int highScore) {
