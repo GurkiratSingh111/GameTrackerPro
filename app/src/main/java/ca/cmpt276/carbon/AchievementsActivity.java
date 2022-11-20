@@ -47,23 +47,27 @@ public class AchievementsActivity extends AppCompatActivity implements AdapterVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_achievements);
 
-        //Spinners
-        Spinner spDiff = findViewById(R.id.spDiff);
-        ArrayAdapter<CharSequence> adapterDiff = ArrayAdapter.createFromResource(this,R.array.levels, android.R.layout.simple_spinner_item);
+        // Dropdown menus
+        spDiff = findViewById(R.id.spDiff);
+        ArrayAdapter<CharSequence> adapterDiff = ArrayAdapter.createFromResource(this,R.array.levels,
+                android.R.layout.simple_spinner_item);
         adapterDiff.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spDiff.setAdapter(adapterDiff);
         spDiff.setOnItemSelectedListener(this);
 
-        Spinner spThemes = findViewById(R.id.spTheme);
-        ArrayAdapter<CharSequence> adapterThemes = ArrayAdapter.createFromResource(this,R.array.themes, android.R.layout.simple_spinner_item);
+        spThemes = findViewById(R.id.spTheme);
+        ArrayAdapter<CharSequence> adapterThemes = ArrayAdapter.createFromResource(this,R.array.themes,
+                android.R.layout.simple_spinner_item);
         adapterThemes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spThemes.setAdapter(adapterThemes);
         spThemes.setOnItemSelectedListener(this);
 
+        // Intent
         Intent i = getIntent();
         lowScore = i.getIntExtra(EXTRA_LOW_SCORE, 0);
         highScore = i.getIntExtra(EXTRA_HIGH_SCORE, 0);
 
+        // Create achievement object
         etNumPlayers = findViewById(R.id.etTempNumPlayers);
         etNumPlayers.addTextChangedListener(playerNumWatcher);
         achievementLvls = new Achievements(lowScore, highScore, factor);
@@ -117,7 +121,6 @@ public class AchievementsActivity extends AppCompatActivity implements AdapterVi
     };
 
     private void updatePoints() {
-        Log.e("beep", "num: " + num);
         // Set the lowest level as low score
         pointsArray[0].setText(REAL_FORMATTER.format(num * achievementLvls.returnLowScore(factor)));
 
@@ -125,15 +128,13 @@ public class AchievementsActivity extends AppCompatActivity implements AdapterVi
         for (int i = 1; i < 9; i++) {
             String index = Integer.toString(i);
             pointsArray[i].setText(REAL_FORMATTER.format(num * achievementLvls.getLevel(index).getMin()));
-            // Log.e("beep", "hs: " + achievementLvls.getLevel(index).getMin());
         }
 
         // set the highest level as high score
         pointsArray[9].setText(REAL_FORMATTER.format(num * achievementLvls.returnHighScore(factor)));
-        Log.e("beep", "hs: " + achievementLvls.returnHighScore(factor));
     }
 
-    // Sets the titles for no theme
+    // Sets the titles
     private void setTitleArray() {
         titleArray[9].setText(achievementLvls.getLevel("MAX").getName() + ": > ");
         titleArray[0].setText(achievementLvls.getLevel("MIN").getName() + ": < ");
@@ -142,6 +143,7 @@ public class AchievementsActivity extends AppCompatActivity implements AdapterVi
         }
     }
 
+    // Initializes array with ids
     private void makeImageArray() {
         imageArray = new ImageView[] {
             (ImageView) findViewById(R.id.imgLvl1),
@@ -157,6 +159,7 @@ public class AchievementsActivity extends AppCompatActivity implements AdapterVi
         };
     }
 
+    // Sets the images
     private void setImageArray() {
         imageArray[0].setImageResource(achievementLvls.getLevel("MIN").getImage());
         imageArray[9].setImageResource(achievementLvls.getLevel("MAX").getImage());
@@ -165,6 +168,7 @@ public class AchievementsActivity extends AppCompatActivity implements AdapterVi
         }
     }
 
+    // Initializes array with ids
     private void makePointsArray() {
         pointsArray = new TextView[] {
                 (TextView) findViewById(R.id.tvDisplayScoreLvl1),
@@ -179,6 +183,7 @@ public class AchievementsActivity extends AppCompatActivity implements AdapterVi
                 (TextView) findViewById(R.id.tvDisplayScoreLvl10) };
     }
 
+    // Initializes array with ids
     private void makeTitleArray() {
         titleArray = new TextView[] {
                 (TextView) findViewById(R.id.tvLvl1),
@@ -193,9 +198,12 @@ public class AchievementsActivity extends AppCompatActivity implements AdapterVi
                 (TextView) findViewById(R.id.tvLvl10) };
     }
 
+    // DROPDOWN MENU
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String text = parent.getItemAtPosition(position).toString();
+
+        // Difficulty
         if (text.equals("Normal")) {
             factor = 1;
         }
@@ -208,6 +216,7 @@ public class AchievementsActivity extends AppCompatActivity implements AdapterVi
         achievementLvls.setFactor(factor);
         updatePoints();
 
+        // Theme
         if (text.equals("Nut")) {
             achievementLvls.setTheme(Achievements.NUT);
         }

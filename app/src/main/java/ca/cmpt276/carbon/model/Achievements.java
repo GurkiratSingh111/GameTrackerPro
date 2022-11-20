@@ -36,7 +36,6 @@ public class Achievements {
     private String theme = NONE;
     double factor;
 
-
     // Constructor
     public Achievements(int low, int high, double factor) {
         this.lowScore = low;
@@ -46,6 +45,7 @@ public class Achievements {
         setTheme(theme);
     }
 
+    // factor is according to the difficulty level - "1" for normal, "0.75" for easy and "1.25" for hard
     public void setFactor(double factor) {
         this.factor = factor;
         LVL_MAX.setMin(factor*highScore);
@@ -82,7 +82,6 @@ public class Achievements {
         LVL_MIN = new AchievementLevel(NEG_INF,factor*lowScore, "Level 1", R.drawable.empty);
     }
 
-    //factor is according to the difficulty level - "1" for normal, "0.75" for easy and "1.25" for hard
     public void initializeNutAchievements(double factor) {
         LVL_MAX = new AchievementLevel(factor*(highScore), INF, "Master Macadamia", R.drawable.macadamia);
         LVL_8 = new AchievementLevel(factor*(highScore - deltaScore),factor*highScore, "Amazing Almond", R.drawable.almond);
@@ -121,8 +120,6 @@ public class Achievements {
         LVL_1 = new AchievementLevel(factor*(lowScore), factor*(highScore - 7 * deltaScore), "Greasy Gargoyle", R.drawable.gargoyle);
         LVL_MIN = new AchievementLevel(NEG_INF,factor*lowScore, "Odourish Orc", R.drawable.orc);
     }
-
-
 
     // Returns AchievementLevel object from score and number of players
     // PRE: players must be greater than 0
