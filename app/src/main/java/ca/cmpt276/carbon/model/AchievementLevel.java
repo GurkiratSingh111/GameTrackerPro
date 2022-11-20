@@ -12,7 +12,6 @@ public class AchievementLevel {
     private double min;
     private double max;
     private String name;
-
     @DrawableRes
     private int image;
 
