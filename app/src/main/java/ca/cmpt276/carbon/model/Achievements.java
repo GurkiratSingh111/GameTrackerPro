@@ -1,6 +1,8 @@
 package ca.cmpt276.carbon.model;
 
 
+import ca.cmpt276.carbon.R;
+
 /**
  *Achievement class consists of private attributes AchievementLevel
  * which defines each Achievement Level. It also has other attributes lowScore,
@@ -25,26 +27,47 @@ public class Achievements {
     private int highScore;
     private double deltaScore;
     public static final int NUM_OF_LVLS = 10;
+    public static final String NUT = "NUT";
+    public static final String EMOJI = "EMOJI";
+    public static final String NONE = "NONE";
+    private String theme;
+
 
     // Constructor
     public Achievements(int low, int high, double factor) {
         this.lowScore = low;
         this.highScore = high;
         deltaScore = ((double)high - low) / (NUM_OF_LVLS - 1);
-        initializeAchievements(factor);
+        theme = NONE;
+        initializeNoneAchievements(factor);
     }
+
+    // No theme
+    public void initializeNoneAchievements(double factor) {
+        LVL_MAX = new AchievementLevel(factor*(highScore), INF, "Level 10", R.drawable.empty);
+        LVL_8 = new AchievementLevel(factor*(highScore - deltaScore),factor*highScore, "Level 9", R.drawable.empty);
+        LVL_7 = new AchievementLevel(factor*(highScore - 2 * deltaScore),factor*(highScore - deltaScore), "Level 8", R.drawable.empty);
+        LVL_6 = new AchievementLevel(factor*(highScore - 3 * deltaScore),factor*(highScore - 2 * deltaScore), "Level 7", R.drawable.empty);
+        LVL_5 = new AchievementLevel(factor*(highScore - 4 * deltaScore),factor*(highScore - 3 * deltaScore), "Level 6", R.drawable.empty);
+        LVL_4 = new AchievementLevel(factor*(highScore - 5 * deltaScore),factor*(highScore - 4 * deltaScore), "Level 5", R.drawable.empty);
+        LVL_3 = new AchievementLevel(factor*(highScore - 6 * deltaScore),factor*(highScore - 5 * deltaScore), "Level 4", R.drawable.empty);
+        LVL_2 = new AchievementLevel(factor*(highScore - 7 * deltaScore), factor*(highScore - 6 * deltaScore), "Level 3", R.drawable.empty);
+        LVL_1 = new AchievementLevel(factor*(lowScore), factor*(highScore - 7 * deltaScore), "Level 2", R.drawable.empty);
+        LVL_MIN = new AchievementLevel(NEG_INF,factor*lowScore, "Level 1", R.drawable.empty);
+    }
+
     //factor is according to the difficulty level - "1" for normal, "0.75" for easy and "1.25" for hard
-    void initializeAchievements(double factor) {
-        LVL_MAX = new AchievementLevel(factor*(highScore), INF, "Master Macadamia");
-        LVL_8 = new AchievementLevel(factor*(highScore - deltaScore),factor* highScore, "Amazing Almond");
-        LVL_7 = new AchievementLevel(factor*(highScore - 2 * deltaScore),factor* (highScore - deltaScore), "Pretty Pecan");
-        LVL_6 = new AchievementLevel(factor*(highScore - 3 * deltaScore),factor*(highScore - 2 * deltaScore), "Crazy CornNut");
-        LVL_5 = new AchievementLevel(factor*(highScore - 4 * deltaScore),factor*(highScore - 3 * deltaScore), "Wacky Walnut");
-        LVL_4 = new AchievementLevel(factor*(highScore - 5 * deltaScore),factor*(highScore - 4 * deltaScore), "Savvy SoyNut");
-        LVL_3 = new AchievementLevel(factor*(highScore - 6 * deltaScore),factor*(highScore - 5 * deltaScore), "Crafty Cashew");
-        LVL_2 = new AchievementLevel(factor*(highScore - 7 * deltaScore), factor*(highScore - 6 * deltaScore), "Happy Hazelnut");
-        LVL_1 = new AchievementLevel(factor*(lowScore), factor*(highScore - 7 * deltaScore), "Playful Pistachio");
-        LVL_MIN = new AchievementLevel(NEG_INF,factor*lowScore, "Pleasant Peanut");
+    public void initializeNutAchievements(double factor) {
+        LVL_MAX = new AchievementLevel(factor*(highScore), INF, "Master Macadamia", R.drawable.macadamia);
+        LVL_8 = new AchievementLevel(factor*(highScore - deltaScore),factor*highScore, "Amazing Almond", R.drawable.almond);
+        LVL_7 = new AchievementLevel(factor*(highScore - 2 * deltaScore),factor*(highScore - deltaScore), "Pretty Pecan", R.drawable.pecan);
+        LVL_6 = new AchievementLevel(factor*(highScore - 3 * deltaScore),factor*(highScore - 2 * deltaScore), "Crazy CornNut", R.drawable.cornnut);
+        LVL_5 = new AchievementLevel(factor*(highScore - 4 * deltaScore),factor*(highScore - 3 * deltaScore), "Wacky Walnut", R.drawable.walnut);
+        LVL_4 = new AchievementLevel(factor*(highScore - 5 * deltaScore),factor*(highScore - 4 * deltaScore), "Savvy SoyNut", R.drawable.soynut);
+        LVL_3 = new AchievementLevel(factor*(highScore - 6 * deltaScore),factor*(highScore - 5 * deltaScore), "Crafty Cashew", R.drawable.cashew);
+        LVL_2 = new AchievementLevel(factor*(highScore - 7 * deltaScore), factor*(highScore - 6 * deltaScore), "Happy Hazelnut", R.drawable.hazelnut);
+        LVL_1 = new AchievementLevel(factor*(lowScore), factor*(highScore - 7 * deltaScore), "Playful Pistachio", R.drawable.pistachio);
+        LVL_MIN = new AchievementLevel(NEG_INF,factor*lowScore, "Pleasant Peanut", R.drawable.peanut);
     }
 
     // Returns AchievementLevel object from score and number of players
