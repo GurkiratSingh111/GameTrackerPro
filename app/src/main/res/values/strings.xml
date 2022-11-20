@@ -33,7 +33,7 @@
     <string name="image_kids_game">image kids game</string>
     <string name="image_sports">image sports</string>
     <string name="add_sessions">add sessions</string>
-    <string name="enter_a_number_of_players_to_view_achievement_levels">Enter a number of players to view achievement levels</string>
+    <string name="enter_a_number_of_players_to_view_achievement_levels">Pick theme and difficulty, and enter a number of players to view achievement levels</string>
     <string name="number_of_players">Number of players</string>
     <string name="master_macadamia"><![CDATA[Master Macadamia > :]]></string>
     <string name="amazing_almond"><![CDATA[Amazing Almond >= :]]></string>
