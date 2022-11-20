@@ -61,4 +61,9 @@
     <string name="total_score_of_players">total score of players</string>
     <string name="achievement">ACHIEVEMENT:</string>
     <string name="hi_there_i_m_pistol_pete_the_peanut_nto_add_a_game_follows_the_arrow_n_and_click_the_button1">Hi there! I\'m Pistol Pete, the Peanut!\nTo add a game, follows the arrow\n and click the button!</string>
+    <string-array name= "levels">
+        <item>Normal </item>
+        <item>Easy </item>
+        <item>Hard </item>
+    </string-array>
 </resources>
