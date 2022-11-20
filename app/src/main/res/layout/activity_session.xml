@@ -186,4 +186,30 @@
         app:layout_constraintStart_toEndOf="@+id/tvPlayer4"
         app:layout_constraintTop_toBottomOf="@+id/etPlayer3Score" />
 
+    <Spinner
+        android:id="@+id/gameLevels"
+        android:layout_width="164dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="108dp"
+        android:layout_marginEnd="44dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/totalScore"
+        app:layout_constraintVertical_bias="0.013" />
+
+    <TextView
+        android:layout_width="170dp"
+        android:layout_height="39dp"
+        android:text="DIFFICULTY LEVEL"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/gameLevels"
+        app:layout_constraintHorizontal_bias="0.174"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/achievementTextView"
+        app:layout_constraintVertical_bias="0.478" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
