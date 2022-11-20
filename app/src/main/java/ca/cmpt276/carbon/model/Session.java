@@ -15,6 +15,7 @@ public class Session {
     private int players;
     private int totalScore;
     private String achievementLevel;
+    private String gameLevel; //Easy,Normal or Hard
 
     private List<Integer> playerScoreList;
 
@@ -25,6 +26,7 @@ public class Session {
         this.totalScore = -1;
         this.achievementLevel = "";
         this.playerScoreList = new ArrayList<>();
+        this.gameLevel= "Normal";
     }
 
     // Constructor
@@ -36,6 +38,15 @@ public class Session {
     }
 
     // Getter/Setter methods
+
+    public String getGameLevel() {
+        return gameLevel;
+    }
+
+    public void setGameLevel(String gameLevel) {
+        this.gameLevel = gameLevel;
+    }
+
     public int getPlayers() {
         return players;
     }

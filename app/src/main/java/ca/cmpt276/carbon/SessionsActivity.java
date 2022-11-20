@@ -8,7 +8,11 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +35,8 @@ import ca.cmpt276.carbon.model.Session;
  *This activity ask the user to enter number of players, total Score and displays
  * achievement level
  */
-public class SessionsActivity extends AppCompatActivity {
+public class SessionsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+
     // Variables
     private int sessionIndex;           // For add/edit sessions
     private int configIndex;            // Game index of gameConfig
@@ -43,7 +48,7 @@ public class SessionsActivity extends AppCompatActivity {
     private int highScore;              // High score of game
     private int intPlayers;             // Integer of total players
     private int intScore;               // Integer of total score
-
+    private double factor;
     private String stringPlayers;       // String of total players
     private String stringScore;         // String of total score
 
@@ -58,6 +63,8 @@ public class SessionsActivity extends AppCompatActivity {
 
     private int p1Score, p2Score, p3Score, p4Score;
     private int combinedScore;
+    // score change according to the levels
+    private double newCombinedScore;
 
     private EditText etP1Score, etP2Score, etP3Score, etP4Score;
     private List<EditText> etPlayerScoreList;
@@ -69,9 +76,15 @@ public class SessionsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session);
-
+        session =new Session();
         Toolbar toolbar = findViewById(R.id.sessionsToolbar);
         setSupportActionBar(toolbar);
+        //Spinner
+        Spinner spinner= findViewById(R.id.gameLevels);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.levels, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
 
         // Enable toolbar
         ActionBar ab = getSupportActionBar();
@@ -208,7 +221,7 @@ public class SessionsActivity extends AppCompatActivity {
         highScore = i.getIntExtra("HIGH_SCORE", -1);
 
         // Initialize achievement levels
-        level = new Achievements(lowScore, highScore);
+        level = new Achievements(lowScore, highScore,factor);
     }
 
     @Override
@@ -265,7 +278,7 @@ public class SessionsActivity extends AppCompatActivity {
                         break;
                     case 2:
                         if( etP1Score.getText().toString().isEmpty() ||
-                            etP2Score.getText().toString().isEmpty()) {
+                                etP2Score.getText().toString().isEmpty()) {
                             Toast.makeText(SessionsActivity.this, "Scores cannot be empty.", Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -274,8 +287,8 @@ public class SessionsActivity extends AppCompatActivity {
                         break;
                     case 3:
                         if( etP1Score.getText().toString().isEmpty() ||
-                            etP2Score.getText().toString().isEmpty() ||
-                            etP3Score.getText().toString().isEmpty()) {
+                                etP2Score.getText().toString().isEmpty() ||
+                                etP3Score.getText().toString().isEmpty()) {
                             Toast.makeText(SessionsActivity.this, "Scores cannot be empty.", Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -285,9 +298,9 @@ public class SessionsActivity extends AppCompatActivity {
                         break;
                     case 4:
                         if( etP1Score.getText().toString().isEmpty()||
-                            etP2Score.getText().toString().isEmpty() ||
-                            etP3Score.getText().toString().isEmpty() ||
-                            etP4Score.getText().toString().isEmpty()) {
+                                etP2Score.getText().toString().isEmpty() ||
+                                etP3Score.getText().toString().isEmpty() ||
+                                etP4Score.getText().toString().isEmpty()) {
                             Toast.makeText(SessionsActivity.this, "Scores cannot be empty.", Toast.LENGTH_SHORT).show();
                             return;
                         }
@@ -314,7 +327,10 @@ public class SessionsActivity extends AppCompatActivity {
                 // Creating new session
                 if (sessionIndex == -1) {
                     // Create new session and add to List
-                    session = new Session(intPlayers, intScore, playerScoreList);
+                    //session = new Session(intPlayers, intScore, playerScoreList);
+                    session.setPlayers(intPlayers);
+                    session.setTotalScore(intScore);
+                    session.setPlayerScoreList(playerScoreList);
 
                     session.setAchievementLevel(level.getAchievement(intScore, intPlayers).getName());
 
@@ -505,37 +521,37 @@ public class SessionsActivity extends AppCompatActivity {
 
     private void enablePlayerScoreTextFieldsBasedOnNumPlayers() {
 
-            switch (intPlayers) {
-                case 1:
-                    etP1Score.setEnabled(true);
-                    etP2Score.setEnabled(false);
-                    etP3Score.setEnabled(false);
-                    etP4Score.setEnabled(false);
-                    break;
-                case 2:
-                    etP1Score.setEnabled(true);
-                    etP2Score.setEnabled(true);
-                    etP3Score.setEnabled(false);
-                    etP4Score.setEnabled(false);
-                    break;
-                case 3:
-                    etP1Score.setEnabled(true);
-                    etP2Score.setEnabled(true);
-                    etP3Score.setEnabled(true);
-                    etP4Score.setEnabled(false);
-                    break;
-                case 4:
-                    etP1Score.setEnabled(true);
-                    etP2Score.setEnabled(true);
-                    etP3Score.setEnabled(true);
-                    etP4Score.setEnabled(true);
-                    break;
-                default:
-                    etP1Score.setEnabled(false);
-                    etP2Score.setEnabled(false);
-                    etP3Score.setEnabled(false);
-                    etP4Score.setEnabled(false);
-            }
+        switch (intPlayers) {
+            case 1:
+                etP1Score.setEnabled(true);
+                etP2Score.setEnabled(false);
+                etP3Score.setEnabled(false);
+                etP4Score.setEnabled(false);
+                break;
+            case 2:
+                etP1Score.setEnabled(true);
+                etP2Score.setEnabled(true);
+                etP3Score.setEnabled(false);
+                etP4Score.setEnabled(false);
+                break;
+            case 3:
+                etP1Score.setEnabled(true);
+                etP2Score.setEnabled(true);
+                etP3Score.setEnabled(true);
+                etP4Score.setEnabled(false);
+                break;
+            case 4:
+                etP1Score.setEnabled(true);
+                etP2Score.setEnabled(true);
+                etP3Score.setEnabled(true);
+                etP4Score.setEnabled(true);
+                break;
+            default:
+                etP1Score.setEnabled(false);
+                etP2Score.setEnabled(false);
+                etP3Score.setEnabled(false);
+                etP4Score.setEnabled(false);
+        }
 
     }
 
@@ -547,34 +563,34 @@ public class SessionsActivity extends AppCompatActivity {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                try {
-                    if (!etP1Score.getText().toString().isEmpty()) {
-                        p1Score = Integer.parseInt(etP1Score.getText().toString().trim());
-                    }
-                    if (!etP2Score.getText().toString().isEmpty()) {
-                        p2Score = Integer.parseInt(etP2Score.getText().toString().trim());
-                    }
-                    if (!etP3Score.getText().toString().isEmpty()) {
-                        p3Score = Integer.parseInt(etP3Score.getText().toString().trim());
-                    }
-                    if (!etP4Score.getText().toString().isEmpty()) {
-                        p4Score = Integer.parseInt(etP4Score.getText().toString().trim());
-                    }
+            try {
+                if (!etP1Score.getText().toString().isEmpty()) {
+                    p1Score = Integer.parseInt(etP1Score.getText().toString().trim());
                 }
-                catch (NumberFormatException e) {
-                    // Do nothing
+                if (!etP2Score.getText().toString().isEmpty()) {
+                    p2Score = Integer.parseInt(etP2Score.getText().toString().trim());
                 }
+                if (!etP3Score.getText().toString().isEmpty()) {
+                    p3Score = Integer.parseInt(etP3Score.getText().toString().trim());
+                }
+                if (!etP4Score.getText().toString().isEmpty()) {
+                    p4Score = Integer.parseInt(etP4Score.getText().toString().trim());
+                }
+            }
+            catch (NumberFormatException e) {
+                // Do nothing
+            }
 
-                combinedScore = p1Score + p2Score + p3Score + p4Score;
-
-                if (combinedScore > -1) {
-                    totalScore.setText("" + combinedScore);
-                    achievement.setText("ACHIEVEMENT: " + level.getAchievement(combinedScore, intPlayers).getName());
-                }
-                else {
-                    //totalScore.setText("--");
-                    achievement.setText("ACHIEVEMENT: ");
-                }
+            combinedScore = p1Score + p2Score + p3Score + p4Score;
+            // 1- easy , 2- normal, 3-hard
+            if (combinedScore> -1) {
+                totalScore.setText("" + combinedScore);
+                achievement.setText("ACHIEVEMENT: " + level.getAchievement(combinedScore, intPlayers).getName());
+            }
+            else {
+                //totalScore.setText("--");
+                achievement.setText("ACHIEVEMENT: ");
+            }
 
         }
 
@@ -583,4 +599,61 @@ public class SessionsActivity extends AppCompatActivity {
             // DO not implement
         }
     };
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String text = parent.getItemAtPosition(position).toString();
+        if(text.equals("Easy")){
+            factor = 0.75;
+            session.setGameLevel("Easy");
+            level= new Achievements(lowScore,highScore,factor);
+        }
+        else if(text.equals("Normal")){
+            factor= 1.0;
+            session.setGameLevel("Normal");
+            level= new Achievements(lowScore,highScore,factor);
+        }
+        else if(text.equals("Hard")){
+            factor= 1.25;
+            session.setGameLevel("Hard");
+            level= new Achievements(lowScore,highScore,factor);
+
+        }
+        Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
+        try {
+            if (!etP1Score.getText().toString().isEmpty()) {
+                p1Score = Integer.parseInt(etP1Score.getText().toString().trim());
+            }
+            if (!etP2Score.getText().toString().isEmpty()) {
+                p2Score = Integer.parseInt(etP2Score.getText().toString().trim());
+            }
+            if (!etP3Score.getText().toString().isEmpty()) {
+                p3Score = Integer.parseInt(etP3Score.getText().toString().trim());
+            }
+            if (!etP4Score.getText().toString().isEmpty()) {
+                p4Score = Integer.parseInt(etP4Score.getText().toString().trim());
+            }
+        }
+        catch (NumberFormatException e) {
+            // Do nothing
+        }
+
+        combinedScore = p1Score + p2Score + p3Score + p4Score;
+        // 1- easy , 2- normal, 3-hard
+
+        if ( combinedScore> -1 && intPlayers > 0 ) {
+            totalScore.setText("" + combinedScore);
+            achievement.setText("ACHIEVEMENT: " + level.getAchievement(combinedScore, intPlayers).getName());
+        }
+        else {
+            //totalScore.setText("--");
+            achievement.setText("ACHIEVEMENT: ");
+        }
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        //Nothing here
+    }
 }

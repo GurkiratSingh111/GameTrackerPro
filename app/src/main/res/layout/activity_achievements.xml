@@ -225,4 +225,25 @@
         app:layout_constraintStart_toEndOf="@+id/tvLvl1"
         app:layout_constraintTop_toBottomOf="@+id/tvDisplayScoreLvl2" />
 
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="234dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="44dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDisplayScoreLvl1"
+        app:layout_constraintVertical_bias="0.041" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="143dp"
+        android:layout_height="37dp"
+        android:text="DIFFICULTY LEVEL "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/spinner"
+        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvLvl1" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
