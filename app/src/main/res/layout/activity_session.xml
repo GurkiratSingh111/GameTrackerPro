@@ -147,6 +147,7 @@
         android:ems="10"
         android:hint="player 1 score"
         android:inputType="number"
+        android:minHeight="48dp"
         app:layout_constraintStart_toEndOf="@+id/tvPlayer1"
         app:layout_constraintTop_toBottomOf="@+id/totalPlayers" />
 
@@ -159,6 +160,7 @@
         android:ems="10"
         android:hint="player 2 score"
         android:inputType="number"
+        android:minHeight="48dp"
         app:layout_constraintStart_toEndOf="@+id/tvPlayer2"
         app:layout_constraintTop_toBottomOf="@+id/etPlayer1Score" />
 
@@ -171,6 +173,7 @@
         android:ems="10"
         android:hint="player 3 score"
         android:inputType="number"
+        android:minHeight="48dp"
         app:layout_constraintStart_toEndOf="@+id/tvPlayer3"
         app:layout_constraintTop_toBottomOf="@+id/etPlayer2Score" />
 
@@ -183,15 +186,17 @@
         android:ems="10"
         android:hint="player 4 score"
         android:inputType="number"
+        android:minHeight="48dp"
         app:layout_constraintStart_toEndOf="@+id/tvPlayer4"
         app:layout_constraintTop_toBottomOf="@+id/etPlayer3Score" />
 
     <Spinner
         android:id="@+id/gameLevels"
         android:layout_width="164dp"
-        android:layout_height="42dp"
+        android:layout_height="48dp"
         android:layout_marginTop="108dp"
         android:layout_marginEnd="44dp"
+        android:contentDescription="@string/achievement"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/totalScore"
