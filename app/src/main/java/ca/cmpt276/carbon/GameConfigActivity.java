@@ -287,7 +287,7 @@ public class GameConfigActivity extends AppCompatActivity {
                 String difficultyLevel= gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getGameLevel();
 
                 gameSessions.add("Time played: " + time + "\nTotal Players: " + players +
-                        "\nScore: " + score + "\nLevel: " + level + "\nDifficulty Level: "+difficultyLevel );
+                        "\nScore: " + score + "\nLevel: " + level + "\nDifficulty Level: "+ difficultyLevel);
             }
         }
         // Array adapter for ListView
@@ -656,13 +656,11 @@ public class GameConfigActivity extends AppCompatActivity {
         game.setImageID(tappedImage);
         selectedImage.setImageResource(R.drawable.img4);
     }
-
     public void imageView5Clicked(View view) {
         int tappedImage = R.drawable.img5;
         game.setImageID(tappedImage);
         selectedImage.setImageResource(R.drawable.img5);
     }
-
     public void imageView6Clicked(View view) {
         int tappedImage = R.drawable.img6;
         game.setImageID(tappedImage);
