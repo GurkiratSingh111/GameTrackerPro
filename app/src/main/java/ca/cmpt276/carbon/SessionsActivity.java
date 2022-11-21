@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -32,6 +33,9 @@ import java.util.List;
 import ca.cmpt276.carbon.model.Achievements;
 import ca.cmpt276.carbon.model.GameConfig;
 import ca.cmpt276.carbon.model.Session;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 
 /**
  *This activity ask the user to enter number of players, total Score and displays
@@ -75,7 +79,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
 
     private AlertDialog.Builder congratsMsg;
     private ImageView congratsImg;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -348,7 +351,9 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
                     session.setAchievementLevel(level.getAchievement(intScore, intPlayers).getName());
 
                     gameConfiguration.getGame(configIndex).addSession(session);
-                    congratsMsg();
+
+                    // TODO ADD ACHIEVEMENT IMGS AND LEVEL TO PLACEHOLDER CONGRATS MSG
+                    congratsAnimation(congratsImg);
                 }
                 // Editing existing session
                 else {
@@ -670,13 +675,36 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         //Nothing here
     }
 
+    private void fadeAnimation(ImageView img) {
+        YoYo.with(Techniques.FadeIn)
+                .duration(2000)
+                .playOn(img);
+    }
 
+    private void bounceAnimation(ImageView img) {
+        YoYo.with(Techniques.Bounce)
+                .duration(700)
+                .repeat(5)
+                .playOn(img);
+    }
+
+    private void congratsAnimation(ImageView img) {
+        img.setVisibility(View.VISIBLE);
+        fadeAnimation(img);
+        bounceAnimation(img);
+
+        // Delay pop up for animation
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                congratsMsg();
+            }
+        }, 2000);
+    }
 
     private void congratsMsg() {
         // Allow user to exit by clicking outside of alert box
         congratsMsg.setCancelable(true);
-
-        congratsImg.setVisibility(View.VISIBLE);
 
         // Alert display
         congratsMsg.setTitle("Congratulations")
