@@ -33,7 +33,7 @@
     <string name="image_kids_game">image kids game</string>
     <string name="image_sports">image sports</string>
     <string name="add_sessions">add sessions</string>
-    <string name="enter_a_number_of_players_to_view_achievement_levels">Enter a number of players to view achievement levels</string>
+    <string name="enter_a_number_of_players_to_view_achievement_levels">Pick theme and difficulty, and enter a number of players to view achievement levels</string>
     <string name="number_of_players">Number of players</string>
     <string name="master_macadamia"><![CDATA[Master Macadamia > :]]></string>
     <string name="amazing_almond"><![CDATA[Amazing Almond >= :]]></string>
@@ -62,8 +62,14 @@
     <string name="achievement">ACHIEVEMENT:</string>
     <string name="hi_there_i_m_pistol_pete_the_peanut_nto_add_a_game_follows_the_arrow_n_and_click_the_button1">Hi there! I\'m Pistol Pete, the Peanut!\nTo add a game, follows the arrow\n and click the button!</string>
     <string-array name= "levels">
-        <item>Normal </item>
-        <item>Easy </item>
-        <item>Hard </item>
+        <item>Normal</item>
+        <item>Easy</item>
+        <item>Hard</item>
+    </string-array>
+    <string-array name="themes">
+        <item>None</item>
+        <item>Nut</item>
+        <item>Emoji</item>
+        <item>Middle Earth</item>
     </string-array>
 </resources>
