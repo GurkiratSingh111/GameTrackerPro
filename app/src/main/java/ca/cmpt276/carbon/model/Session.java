@@ -21,7 +21,7 @@ public class Session {
 
     // Default Constructor
     public Session() {
-        this.timePlayed = "";
+        this.timePlayed = formatTime();
         this.players = -1;
         this.totalScore = -1;
         this.achievementLevel = "";
@@ -38,11 +38,9 @@ public class Session {
     }
 
     // Getter/Setter methods
-
     public String getGameLevel() {
         return gameLevel;
     }
-
     public void setGameLevel(String gameLevel) {
         this.gameLevel = gameLevel;
     }

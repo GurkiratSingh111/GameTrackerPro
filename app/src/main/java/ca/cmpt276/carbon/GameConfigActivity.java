@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -39,6 +40,7 @@ import java.util.List;
 import ca.cmpt276.carbon.model.Achievements;
 import ca.cmpt276.carbon.model.Game;
 import ca.cmpt276.carbon.model.GameConfig;
+import ca.cmpt276.carbon.model.Session;
 
 /**
  *This activity allows the user to add game configurations, edit and delete game configurations too.
@@ -291,11 +293,7 @@ public class GameConfigActivity extends AppCompatActivity {
             }
         }
         // Array adapter for ListView
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                gameSessions
-        );
+        ArrayAdapter<String> adapter = new SessionsListAdapter();
 
         sessionList = findViewById(R.id.sessionsListView);
         sessionList.setAdapter(adapter);
@@ -304,6 +302,33 @@ public class GameConfigActivity extends AppCompatActivity {
         showEmptyState();
 
         adapter.notifyDataSetChanged();
+    }
+
+    // UI Design of Sessions ListView
+    private class SessionsListAdapter extends ArrayAdapter<String> {
+        // Constructor
+        public SessionsListAdapter() {
+            super(GameConfigActivity.this, R.layout.session_design, gameSessions);
+        }
+
+        // Get data for display
+        public View getView(int position, View view, ViewGroup parent) {
+            View sessionsView = view;
+            if (sessionsView == null) {
+                sessionsView = getLayoutInflater().inflate(R.layout.session_design, parent, false);
+            }
+
+            String str = gameSessions.get(position);
+            Session session = game.getSessionAtIndex(position);
+            ImageView imageView = sessionsView.findViewById(R.id.sessions_icon);
+
+            TextView displayText = sessionsView.findViewById(R.id.sessionsText);
+            displayText.setText(str);
+
+            return sessionsView;
+        }
+
+
     }
 
     // For adding a session inside game config
