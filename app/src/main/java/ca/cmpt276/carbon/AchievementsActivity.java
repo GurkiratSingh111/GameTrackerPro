@@ -34,7 +34,7 @@ public class AchievementsActivity extends AppCompatActivity implements AdapterVi
     private int lowScore;
     private int highScore;
     Achievements achievementLvls;
-    private static DecimalFormat REAL_FORMATTER = new DecimalFormat("#.###");
+    private static DecimalFormat REAL_FORMATTER = new DecimalFormat("#.##");
     private double factor = 1;
     TextView[] pointsArray;
     TextView[] titleArray;

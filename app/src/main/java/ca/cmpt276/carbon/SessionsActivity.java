@@ -1,5 +1,6 @@
 package ca.cmpt276.carbon;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -71,6 +73,9 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
 
     private List<Integer> playerScoreList;
 
+    private AlertDialog.Builder congratsMsg;
+    private ImageView congratsImg;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,6 +98,14 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
 
         // Initialization/intents
         initializeSession();
+
+        // Initialize Congratulations pop-up
+        congratsMsg = new AlertDialog.Builder(this);
+        congratsImg = findViewById(R.id.imgCongrats);
+        congratsImg.setVisibility(View.GONE);
+
+        // If user clicks out of alert, finish activity
+        congratsMsg.setOnDismissListener(dialog -> finish());
 
         // Make an array list of playerScores
         playerScoreList = new ArrayList<>();
@@ -335,6 +348,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
                     session.setAchievementLevel(level.getAchievement(intScore, intPlayers).getName());
 
                     gameConfiguration.getGame(configIndex).addSession(session);
+                    congratsMsg();
                 }
                 // Editing existing session
                 else {
@@ -343,11 +357,12 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
                     gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setTotalScore(intScore);
                     gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setPlayerScoreList(playerScoreList);
                     gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setAchievementLevel(achievedLevel);
+                    finish();
                 }
 
                 Toast.makeText(SessionsActivity.this, "" + combinedScore, Toast.LENGTH_SHORT).show();
 
-                finish();
+
             } else {
                 Toast.makeText(SessionsActivity.this, "Fields cannot be empty.", Toast.LENGTH_SHORT).show();
             }
@@ -617,7 +632,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             factor= 1.25;
             session.setGameLevel("Hard");
             level= new Achievements(lowScore,highScore,factor);
-
         }
         Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
         try {
@@ -649,11 +663,30 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             //totalScore.setText("--");
             achievement.setText("ACHIEVEMENT: ");
         }
-
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         //Nothing here
+    }
+
+
+
+    private void congratsMsg() {
+        // Allow user to exit by clicking outside of alert box
+        congratsMsg.setCancelable(true);
+
+        congratsImg.setVisibility(View.VISIBLE);
+
+        // Alert display
+        congratsMsg.setTitle("Congratulations")
+                .setMessage("You've added a new session!")
+                .setIcon(R.drawable.empty)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                }).show();
     }
 }
