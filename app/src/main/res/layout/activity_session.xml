@@ -32,11 +32,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/total_players"
-        android:textAlignment="center"
+        android:layout_marginTop="16dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:text="@string/total_players"
+        android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +71,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/totalPlayersTextView"
         app:layout_constraintStart_toEndOf="@+id/totalPlayersTextView"
         app:layout_constraintTop_toTopOf="@+id/totalPlayersTextView"
-        app:layout_constraintVertical_bias="0.545" />
+        app:layout_constraintVertical_bias="0.545"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <EditText
         android:id="@+id/totalScore"
@@ -90,7 +91,7 @@
         android:id="@+id/achievementTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="@string/achievement"
         android:textAlignment="center"
         android:textSize="16sp"
@@ -104,36 +105,38 @@
         android:id="@+id/lvPlayerScores"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="54dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:animationCache="false"
+        android:minWidth="100dp"
+        android:minHeight="100dp"
         android:scrollingCache="false"
         android:smoothScrollbar="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/totalScore"
+        app:layout_constraintTop_toBottomOf="@+id/gameLevels"
+        app:layout_constraintVertical_bias="0.463"
         tools:visibility="visible" />
 
     <Button
         android:id="@+id/btnSetNumPlayers"
-        android:layout_width="73dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="82dp"
+        android:layout_height="45dp"
         android:text="set"
         app:layout_constraintBottom_toBottomOf="@+id/totalPlayers"
         app:layout_constraintStart_toEndOf="@+id/totalPlayers"
-        app:layout_constraintTop_toTopOf="@+id/totalPlayers" />
+        app:layout_constraintTop_toTopOf="@+id/totalPlayers"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <Button
         android:id="@+id/btnUpdateScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginBottom="4dp"
         android:text="Calculate"
         app:layout_constraintBottom_toBottomOf="@+id/totalScore"
         app:layout_constraintStart_toEndOf="@+id/totalScore"
@@ -142,29 +145,28 @@
 
     <Spinner
         android:id="@+id/gameLevels"
-        android:layout_width="164dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="108dp"
-        android:layout_marginEnd="32dp"
+        android:layout_width="153dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="16dp"
         android:contentDescription="@string/achievement"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/totalScore"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintBottom_toBottomOf="@+id/textView2"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/totalScoreTextView"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <TextView
-        android:layout_width="193dp"
-        android:layout_height="48dp"
+        android:id="@+id/textView2"
+        android:layout_width="160dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:text="DIFFICULTY LEVEL"
         android:textAlignment="center"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/gameLevels"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/achievementTextView"
-        app:layout_constraintVertical_bias="0.503" />
+        app:layout_constraintTop_toBottomOf="@+id/totalScoreTextView" />
 
     <ImageView
         android:id="@+id/imgCongrats"
@@ -175,7 +177,8 @@
         app:layout_constraintHorizontal_bias="0.266"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/congrats" />
+        app:srcCompat="@drawable/congrats"
+        tools:visibility="visible" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

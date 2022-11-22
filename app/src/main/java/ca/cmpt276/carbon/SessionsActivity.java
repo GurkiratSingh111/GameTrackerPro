@@ -88,20 +88,23 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session);
+
         session = new Session();
+
         Toolbar toolbar = findViewById(R.id.sessionsToolbar);
         setSupportActionBar(toolbar);
+
+        // Enable toolbar
+        ActionBar ab = getSupportActionBar();
+        assert ab != null;
+        ab.setDisplayHomeAsUpEnabled(true);
+
         //Spinner
         Spinner spinner = findViewById(R.id.gameLevels);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.levels, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
-
-        // Enable toolbar
-        ActionBar ab = getSupportActionBar();
-        assert ab != null;
-        ab.setDisplayHomeAsUpEnabled(true);
 
         // Initialization/intents
         initializeSession();
@@ -266,11 +269,19 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
                 // Creating new session
                 if (sessionIndex == -1) {
                     // Create new session and add to List
-                    session = new Session(intPlayers, intScore, scoreList);
+                    //session = new Session(intPlayers, intScore, playerScoreList);
+                    session.setPlayers(intPlayers);
+                    session.setTotalScore(intScore);
+                    session.setPlayerScoreList(scoreList);
+
 
                     session.setAchievementLevel(level.getAchievement(intScore, intPlayers).getName());
 
                     gameConfiguration.getGame(configIndex).addSession(session);
+
+                    // TODO ADD ACHIEVEMENT IMGS AND LEVEL TO PLACEHOLDER CONGRATS MSG
+                    congratsAnimation(congratsImg);
+
                 }
                 // Editing existing session
                 else {
@@ -365,6 +376,98 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             // Not needed
         }
     };
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String text = parent.getItemAtPosition(position).toString();
+        if (text.equals("Easy")) {
+            factor = 0.75;
+            session.setGameLevel("Easy");
+            level = new Achievements(lowScore, highScore, factor);
+        } else if (text.equals("Normal")) {
+            factor = 1.0;
+            session.setGameLevel("Normal");
+            level = new Achievements(lowScore, highScore, factor);
+        } else if (text.equals("Hard")) {
+            factor = 1.25;
+            session.setGameLevel("Hard");
+            level = new Achievements(lowScore, highScore, factor);
+        }
+        Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
+
+        if (adapter != null) {
+            achievement.setText("ACHIEVEMENT is: " + level.getAchievement(adapter.getUpdatedCombinedScore(), intPlayers).getName());
+        }
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        //Nothing here
+    }
+
+    private void fadeAnimation(ImageView img) {
+        YoYo.with(Techniques.FadeIn)
+                .duration(2000)
+                .playOn(img);
+    }
+
+    private void bounceAnimation(ImageView img) {
+        YoYo.with(Techniques.Bounce)
+                .duration(700)
+                .repeat(3)
+                .playOn(img);
+    }
+
+    private void congratsAnimation(ImageView img) {
+        img.setVisibility(View.VISIBLE);
+        fadeAnimation(img);
+        bounceAnimation(img);
+        playSound();
+
+        // Delay pop up for animation
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                congratsMsg();
+            }
+        }, 2700);
+    }
+
+    private void congratsMsg() {
+        // Allow user to exit by clicking outside of alert box
+        congratsMsg.setCancelable(true);
+
+        // Alert display
+        congratsMsg.setTitle("Congratulations")
+                .setMessage("You've added a new session!")
+                .setIcon(R.drawable.empty)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                }).show();
+    }
+
+    // Play sound method
+    private void playSound() {
+        congratsSound = MediaPlayer.create(this, R.raw.win);
+
+        congratsSound.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                congratsSound.start();
+            }
+        });
+        congratsSound.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                congratsSound.release();
+            }
+        });
+    }
+
 
 
 }
