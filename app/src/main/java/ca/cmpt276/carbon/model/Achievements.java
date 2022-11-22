@@ -4,6 +4,7 @@ package ca.cmpt276.carbon.model;
 import android.util.Log;
 
 import ca.cmpt276.carbon.R;
+;
 
 /**
  *Achievement class consists of private attributes AchievementLevel
@@ -125,7 +126,7 @@ public class Achievements {
     // PRE: players must be greater than 0
     public AchievementLevel getAchievement(double score, int numOfPlayers) {
         if (numOfPlayers <= 0) {
-            throw new RuntimeException("Players must be a positive integer");
+            throw new IllegalArgumentException("Players must be a positive integer");
         }
         double scorePerPlayer = (double)score / numOfPlayers;
         if (scorePerPlayer > LVL_8.getMax()) {
@@ -155,11 +156,8 @@ public class Achievements {
         else if (scorePerPlayer >=  LVL_1.getMin() && scorePerPlayer < LVL_2.getMin()) {
             return LVL_1;
         }
-        else if (scorePerPlayer < LVL_1.getMin()) {
+        else  {
             return LVL_MIN;
-        }
-        else {
-            throw new RuntimeException("Invalid level");
         }
     }
 
@@ -195,8 +193,52 @@ public class Achievements {
             return LVL_MIN;
         }
         else {
-            throw new RuntimeException("not valid level");
+            throw new IllegalArgumentException("not valid level");
         }
+    }
+
+    public AchievementLevel getLVL_MAX() {
+        return LVL_MAX;
+    }
+
+    public AchievementLevel getLVL_8() {
+        return LVL_8;
+    }
+
+    public AchievementLevel getLVL_7() {
+        return LVL_7;
+    }
+
+    public AchievementLevel getLVL_6() {
+        return LVL_6;
+    }
+
+    public AchievementLevel getLVL_5() {
+        return LVL_5;
+    }
+
+    public AchievementLevel getLVL_4() {
+        return LVL_4;
+    }
+
+    public AchievementLevel getLVL_3() {
+        return LVL_3;
+    }
+
+    public AchievementLevel getLVL_2() {
+        return LVL_2;
+    }
+
+    public AchievementLevel getLVL_1() {
+        return LVL_1;
+    }
+
+    public AchievementLevel getLVL_MIN() {
+        return LVL_MIN;
+    }
+
+    public double getFactor() {
+        return factor;
     }
 
     public String getTheme() {
@@ -230,21 +272,19 @@ public class Achievements {
     public double getDeltaScore() {
         return deltaScore;
     }
-
     public double returnLowScore(double factor) {
-
-        return factor*lowScore;
+            return factor*lowScore;
     }
 
     public void setLowScore(int lowScore) {
-        this.lowScore = lowScore;
+            this.lowScore = lowScore;
     }
 
     public double returnHighScore(double factor) {
-        return factor*highScore;
+            return factor*highScore;
     }
 
     public void setHighScore(int highScore) {
-        this.highScore = highScore;
+            this.highScore = highScore;
     }
 }
