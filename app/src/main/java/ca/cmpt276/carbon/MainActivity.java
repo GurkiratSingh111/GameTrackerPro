@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
             String str = gameList.get(position);
             Game g = gameConfiguration.getGame(position);
             ImageView imageView = itemView.findViewById(R.id.item_icon);
-            // imageView.setImageResource(g.getImageID());
+            imageView.setImageResource(g.getImageID());
 
             TextView makeText = itemView.findViewById(R.id.textView);
             makeText.setText(str);
