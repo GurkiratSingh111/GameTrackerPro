@@ -123,16 +123,6 @@
         tools:visibility="visible" />
 
     <Button
-        android:id="@+id/btnSetNumPlayers"
-        android:layout_width="82dp"
-        android:layout_height="45dp"
-        android:text="set"
-        app:layout_constraintBottom_toBottomOf="@+id/totalPlayers"
-        app:layout_constraintStart_toEndOf="@+id/totalPlayers"
-        app:layout_constraintTop_toTopOf="@+id/totalPlayers"
-        tools:ignore="TouchTargetSizeCheck" />
-
-    <Button
         android:id="@+id/btnUpdateScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -172,13 +162,23 @@
         android:id="@+id/imgCongrats"
         android:layout_width="396dp"
         android:layout_height="196dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="192dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.266"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/congrats"
         tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/btnSetNumPlayers"
+        android:layout_width="82dp"
+        android:layout_height="45dp"
+        android:text="set"
+        app:layout_constraintBottom_toBottomOf="@+id/totalPlayers"
+        app:layout_constraintStart_toEndOf="@+id/totalPlayers"
+        app:layout_constraintTop_toTopOf="@+id/totalPlayers"
+        tools:ignore="TouchTargetSizeCheck" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
