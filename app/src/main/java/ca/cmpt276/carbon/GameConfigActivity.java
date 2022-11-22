@@ -318,9 +318,14 @@ public class GameConfigActivity extends AppCompatActivity {
                 sessionsView = getLayoutInflater().inflate(R.layout.session_design, parent, false);
             }
 
+            // TODO - this is hardcoded image, remove later
+            Achievements level = new Achievements(game.getLowScore(), game.getHighScore(), 1.0);
+            level.setTheme("MIDDLE_EARTH");
+
             String str = gameSessions.get(position);
             Session session = game.getSessionAtIndex(position);
             ImageView imageView = sessionsView.findViewById(R.id.sessions_icon);
+            imageView.setImageResource(level.getLevel("2").getImage());
 
             TextView displayText = sessionsView.findViewById(R.id.sessionsText);
             displayText.setText(str);
