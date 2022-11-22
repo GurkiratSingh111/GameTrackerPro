@@ -4,27 +4,28 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
 
-import ca.cmpt276.carbon.model.AchievementLevel;
 import ca.cmpt276.carbon.model.Achievements;
-import ca.cmpt276.carbon.model.GameConfig;
 
 /**
  *This activity stores the list of achievements
  */
-public class AchievementsActivity extends AppCompatActivity {
+public class AchievementsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     private EditText etNumPlayers;
     private ListView list;
     private int num;
@@ -33,26 +34,50 @@ public class AchievementsActivity extends AppCompatActivity {
     private int lowScore;
     private int highScore;
     Achievements achievementLvls;
-    private static DecimalFormat REAL_FORMATTER = new DecimalFormat("#.###");
-
-    TextView[] textViewArray;
+    private static DecimalFormat REAL_FORMATTER = new DecimalFormat("#.##");
+    private double factor = 1;
+    TextView[] pointsArray;
+    TextView[] titleArray;
+    ImageView[] imageArray;
+    Spinner spDiff;
+    Spinner spThemes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_achievements);
 
-        etNumPlayers = findViewById(R.id.etTempNumPlayers);
-        etNumPlayers.addTextChangedListener(playerNumWatcher);
+        // Dropdown menus
+        spDiff = findViewById(R.id.spDiff);
+        ArrayAdapter<CharSequence> adapterDiff = ArrayAdapter.createFromResource(this,R.array.levels,
+                android.R.layout.simple_spinner_item);
+        adapterDiff.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spDiff.setAdapter(adapterDiff);
+        spDiff.setOnItemSelectedListener(this);
 
-        // make an array of text views for the levels
-        makeTextViewArray();
+        spThemes = findViewById(R.id.spTheme);
+        ArrayAdapter<CharSequence> adapterThemes = ArrayAdapter.createFromResource(this,R.array.themes,
+                android.R.layout.simple_spinner_item);
+        adapterThemes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spThemes.setAdapter(adapterThemes);
+        spThemes.setOnItemSelectedListener(this);
 
+        // Intent
         Intent i = getIntent();
         lowScore = i.getIntExtra(EXTRA_LOW_SCORE, 0);
         highScore = i.getIntExtra(EXTRA_HIGH_SCORE, 0);
 
-        achievementLvls = new Achievements(lowScore, highScore);
+        // Create achievement object
+        etNumPlayers = findViewById(R.id.etTempNumPlayers);
+        etNumPlayers.addTextChangedListener(playerNumWatcher);
+        achievementLvls = new Achievements(lowScore, highScore, factor);
+
+        // make an array of text views for the levels
+        makePointsArray();
+        makeTitleArray();
+        makeImageArray();
+        setTitleArray();
+        setImageArray();
     }
 
     public static Intent makeLaunchIntent(Context c, int lowScore, int highScore) {
@@ -80,7 +105,8 @@ public class AchievementsActivity extends AppCompatActivity {
                     throw new IllegalArgumentException();
                 }
                 else {
-                    populateTextView();
+                    achievementLvls.setFactor(factor);
+                    updatePoints();
                 }
             }
             catch (Exception ex) {
@@ -94,23 +120,57 @@ public class AchievementsActivity extends AppCompatActivity {
         }
     };
 
-    private void populateTextView() {
-
+    private void updatePoints() {
         // Set the lowest level as low score
-        textViewArray[0].setText(REAL_FORMATTER.format(num * achievementLvls.getLowScore()));
+        pointsArray[0].setText(REAL_FORMATTER.format(num * achievementLvls.returnLowScore(factor)));
 
         // set the middle 8 levels as required
         for (int i = 1; i < 9; i++) {
             String index = Integer.toString(i);
-            textViewArray[i].setText(REAL_FORMATTER.format(num * achievementLvls.getLevel(index).getMin()));
+            pointsArray[i].setText(REAL_FORMATTER.format(num * achievementLvls.getLevel(index).getMin()));
         }
 
         // set the highest level as high score
-        textViewArray[9].setText(REAL_FORMATTER.format(num * achievementLvls.getHighScore()));
+        pointsArray[9].setText(REAL_FORMATTER.format(num * achievementLvls.returnHighScore(factor)));
     }
 
-    private void makeTextViewArray() {
-        textViewArray = new TextView[] {
+    // Sets the titles
+    private void setTitleArray() {
+        titleArray[9].setText(achievementLvls.getLevel("MAX").getName() + ": > ");
+        titleArray[0].setText(achievementLvls.getLevel("MIN").getName() + ": < ");
+        for (int i = 1; i <= 8; i++) {
+            titleArray[i].setText(achievementLvls.getLevel("" + i).getName() + ": >= ");
+        }
+    }
+
+    // Initializes array with ids
+    private void makeImageArray() {
+        imageArray = new ImageView[] {
+            (ImageView) findViewById(R.id.imgLvl1),
+            (ImageView) findViewById(R.id.imgLvl2),
+            (ImageView) findViewById(R.id.imgLvl3),
+            (ImageView) findViewById(R.id.imgLvl4),
+            (ImageView) findViewById(R.id.imgLvl5),
+            (ImageView) findViewById(R.id.imgLvl6),
+            (ImageView) findViewById(R.id.imgLvl7),
+            (ImageView) findViewById(R.id.imgLvl8),
+            (ImageView) findViewById(R.id.imgLvl9),
+            (ImageView) findViewById(R.id.imgLvl10)
+        };
+    }
+
+    // Sets the images
+    private void setImageArray() {
+        imageArray[0].setImageResource(achievementLvls.getLevel("MIN").getImage());
+        imageArray[9].setImageResource(achievementLvls.getLevel("MAX").getImage());
+        for (int i = 1; i <= 8; i++) {
+            imageArray[i].setImageResource(achievementLvls.getLevel("" + i).getImage());
+        }
+    }
+
+    // Initializes array with ids
+    private void makePointsArray() {
+        pointsArray = new TextView[] {
                 (TextView) findViewById(R.id.tvDisplayScoreLvl1),
                 (TextView) findViewById(R.id.tvDisplayScoreLvl2),
                 (TextView) findViewById(R.id.tvDisplayScoreLvl3),
@@ -121,5 +181,61 @@ public class AchievementsActivity extends AppCompatActivity {
                 (TextView) findViewById(R.id.tvDisplayScoreLvl8),
                 (TextView) findViewById(R.id.tvDisplayScoreLvl9),
                 (TextView) findViewById(R.id.tvDisplayScoreLvl10) };
+    }
+
+    // Initializes array with ids
+    private void makeTitleArray() {
+        titleArray = new TextView[] {
+                (TextView) findViewById(R.id.tvLvl1),
+                (TextView) findViewById(R.id.tvLvl2),
+                (TextView) findViewById(R.id.tvLvl3),
+                (TextView) findViewById(R.id.tvLvl4),
+                (TextView) findViewById(R.id.tvLvl5),
+                (TextView) findViewById(R.id.tvLvl6),
+                (TextView) findViewById(R.id.tvLvl7),
+                (TextView) findViewById(R.id.tvLvl8),
+                (TextView) findViewById(R.id.tvLvl9),
+                (TextView) findViewById(R.id.tvLvl10) };
+    }
+
+    // DROPDOWN MENU
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String text = parent.getItemAtPosition(position).toString();
+
+        // Difficulty
+        if (text.equals("Normal")) {
+            factor = 1;
+        }
+        else if (text.equals("Easy")) {
+            factor= 0.75;
+        }
+        else if (text.equals("Hard")) {
+            factor= 1.25;
+        }
+        achievementLvls.setFactor(factor);
+        updatePoints();
+
+        // Theme
+        if (text.equals("Nut")) {
+            achievementLvls.setTheme(Achievements.NUT);
+        }
+        else if (text.equals("Emoji")) {
+            achievementLvls.setTheme(Achievements.EMOJI);
+        }
+        else if (text.equals("Middle Earth")) {
+            achievementLvls.setTheme(Achievements.MIDDLE_EARTH);
+        }
+        else {
+            achievementLvls.setTheme(Achievements.NONE);
+        }
+        setImageArray();
+        setTitleArray();
+        Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        //Nothing here
     }
 }

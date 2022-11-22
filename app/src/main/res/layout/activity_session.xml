@@ -140,4 +140,42 @@
         app:layout_constraintTop_toBottomOf="@+id/totalPlayers"
         app:layout_constraintVertical_bias="1.0" />
 
+    <Spinner
+        android:id="@+id/gameLevels"
+        android:layout_width="164dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="108dp"
+        android:layout_marginEnd="32dp"
+        android:contentDescription="@string/achievement"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/totalScore"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:layout_width="193dp"
+        android:layout_height="48dp"
+        android:text="DIFFICULTY LEVEL"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/gameLevels"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/achievementTextView"
+        app:layout_constraintVertical_bias="0.503" />
+
+    <ImageView
+        android:id="@+id/imgCongrats"
+        android:layout_width="396dp"
+        android:layout_height="196dp"
+        android:layout_marginTop="72dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.266"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/congrats" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

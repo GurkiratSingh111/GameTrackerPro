@@ -41,7 +41,7 @@ import ca.cmpt276.carbon.model.Game;
 import ca.cmpt276.carbon.model.GameConfig;
 
 /**
-*This activity allows the user to add game configurations, edit and delete game configurations too.
+ *This activity allows the user to add game configurations, edit and delete game configurations too.
  */
 public class GameConfigActivity extends AppCompatActivity {
 
@@ -284,9 +284,10 @@ public class GameConfigActivity extends AppCompatActivity {
                 int players = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getPlayers();
                 int score = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTotalScore();
                 String level = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getAchievementLevel();
+                String difficultyLevel= gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getGameLevel();
 
                 gameSessions.add("Time played: " + time + "\nTotal Players: " + players +
-                        "\nScore: " + score + "\nLevel: " + level);
+                        "\nScore: " + score + "\nLevel: " + level + "\nDifficulty Level: "+difficultyLevel );
             }
         }
         // Array adapter for ListView

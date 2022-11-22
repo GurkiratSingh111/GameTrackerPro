@@ -1,8 +1,10 @@
 package ca.cmpt276.carbon;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -10,7 +12,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,11 +37,17 @@ import ca.cmpt276.carbon.model.Achievements;
 import ca.cmpt276.carbon.model.GameConfig;
 import ca.cmpt276.carbon.model.Session;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+
+import android.media.MediaPlayer;
+
 /**
- *This activity ask the user to enter number of players, total Score and displays
+ * This activity ask the user to enter number of players, total Score and displays
  * achievement level
  */
-public class SessionsActivity extends AppCompatActivity {
+public class SessionsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+
     // Variables
     private int sessionIndex;           // For add/edit sessions
     private int configIndex;            // Game index of gameConfig
@@ -46,7 +59,7 @@ public class SessionsActivity extends AppCompatActivity {
     private int highScore;              // High score of game
     private int intPlayers;             // Integer of total players
     private int intScore;               // Integer of total score
-
+    private double factor;
     private String stringPlayers;       // String of total players
     private String stringScore;         // String of total score
 
@@ -67,14 +80,23 @@ public class SessionsActivity extends AppCompatActivity {
     private ListView listView;
     private ListviewAdapter adapter;
 
+    private AlertDialog.Builder congratsMsg;
+    private ImageView congratsImg;
+    private MediaPlayer congratsSound;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session);
-
+        session = new Session();
         Toolbar toolbar = findViewById(R.id.sessionsToolbar);
         setSupportActionBar(toolbar);
+        //Spinner
+        Spinner spinner = findViewById(R.id.gameLevels);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.levels, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
 
         // Enable toolbar
         ActionBar ab = getSupportActionBar();
@@ -83,6 +105,15 @@ public class SessionsActivity extends AppCompatActivity {
 
         // Initialization/intents
         initializeSession();
+
+        // Initialize Congratulations pop-up
+        congratsMsg = new AlertDialog.Builder(this);
+        congratsImg = findViewById(R.id.imgCongrats);
+        congratsImg.setVisibility(View.GONE);
+
+        // If user clicks out of alert, finish activity
+        congratsMsg.setOnDismissListener(dialog -> finish());
+
 
         // If index is -1, go to add new session screen
         if (sessionIndex == -1) {
@@ -154,7 +185,7 @@ public class SessionsActivity extends AppCompatActivity {
         highScore = i.getIntExtra("HIGH_SCORE", -1);
 
         // Initialize achievement levels
-        level = new Achievements(lowScore, highScore);
+        level = new Achievements(lowScore, highScore, factor);
     }
 
     private void initializePlayerScores() {
@@ -182,8 +213,7 @@ public class SessionsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         if (sessionIndex == -1) {
             getMenuInflater().inflate(R.menu.menu_add_session, menu);
-        }
-        else {
+        } else {
             getMenuInflater().inflate(R.menu.menu_view_session, menu);
         }
         return true;
@@ -289,6 +319,7 @@ public class SessionsActivity extends AppCompatActivity {
         totalPlayers.addTextChangedListener(playerNumTextWatcher);
 
     }
+
     private void disableTextFields(EditText editText) {
         editText.setEnabled(false);
         editText.setBackgroundColor(Color.BLACK);
@@ -304,6 +335,7 @@ public class SessionsActivity extends AppCompatActivity {
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             // Not needed
         }
+
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
 
@@ -327,6 +359,7 @@ public class SessionsActivity extends AppCompatActivity {
             }
 
         }
+
         @Override
         public void afterTextChanged(Editable s) {
             // Not needed
