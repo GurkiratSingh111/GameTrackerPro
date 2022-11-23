@@ -11,38 +11,28 @@ import java.util.List;
 public class Session {
 
     // Variables
-    private String timePlayed;
+    private final String timePlayed;
     private int players;
     private int totalScore;
     private Achievements achievementLevel;
-    private String gameLevel; //Easy,Normal or Hard
-
-
+    private String gameDifficulty;               // Easy, Normal, Hard
     private List<Integer> playerScoreList;
 
-    // Default Constructor
+    // Constructor
     public Session() {
         this.timePlayed = formatTime();
         this.players = -1;
         this.totalScore = -1;
         this.playerScoreList = new ArrayList<>();
-        this.gameLevel= "Normal";
-    }
-
-    // Constructor
-    public Session(int players, int totalScore, List<Integer> pList) {
-        this.timePlayed = formatTime();
-        this.players = players;
-        this.totalScore = totalScore;
-        this.playerScoreList = pList;
+        this.gameDifficulty = "Normal";
     }
 
     // Getter/Setter methods
-    public String getGameLevel() {
-        return gameLevel;
+    public String getGameDifficulty() {
+        return gameDifficulty;
     }
-    public void setGameLevel(String gameLevel) {
-        this.gameLevel = gameLevel;
+    public void setGameDifficulty(String gameDifficulty) {
+        this.gameDifficulty = gameDifficulty;
     }
 
     public int getPlayers() {
@@ -70,6 +60,13 @@ public class Session {
         return timePlayed;
     }
 
+    public List<Integer> getPlayerScoreList() {
+        return this.playerScoreList;
+    }
+    public void setPlayerScoreList(List<Integer> playerScoreList) {
+        this.playerScoreList = playerScoreList;
+    }
+
     // Time format
     public String formatTime() {
         LocalDateTime currentTime = LocalDateTime.now();
@@ -77,11 +74,5 @@ public class Session {
         return currentTime.format(format);
     }
 
-    public List<Integer> getPlayerScoreList() {
-        return this.playerScoreList;
-    }
 
-    public void setPlayerScoreList(List<Integer> playerScoreList) {
-        this.playerScoreList = playerScoreList;
-    }
 }
