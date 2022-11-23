@@ -137,7 +137,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             totalScore.setText(Integer.toString(gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).getTotalScore()));
             achievement.setText("ACHIEVEMENT: " + session.getAchievementLevel().getAchievement(intScore, intPlayers).getName());
 
-
             totalPlayers.addTextChangedListener(playerNumTextWatcher);
             isAdapterOn = true;
 
@@ -178,16 +177,17 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
 
     // Spinner initialization methods for edit session
     private void populateDropdownDifficulty(Spinner difficultySpinner) {
-        String difficulty = session.getGameDifficulty();
+        String difficulty = session.getSessionDifficulty();
         difficultySpinner.setSelection(getIndexOfSpinner(difficultySpinner, difficulty));
 
     }
     private void populateDropdownTheme(Spinner themeSpinner) {
-        String theme = session.getAchievementLevel().getTheme();
+        String theme = session.getSessionTheme();
+
         themeSpinner.setSelection(getIndexOfSpinner(themeSpinner, theme));
     }
 
-    // Get position of specified value in Spinner
+    // Get position of a specified value in Spinner
     private int getIndexOfSpinner(Spinner spinner, String name) {
         for (int i = 0; i < spinner.getCount(); i++) {
             if (spinner.getItemAtPosition(i).toString().equals(name)) {
@@ -196,8 +196,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         }
         return -1;
     }
-
-
 
     private void updateAchievementAndScore() {
         totalScore.setText("" + adapter.getUpdatedCombinedScore());
@@ -298,19 +296,16 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
 
                 intScore = combinedScore;
 
-                Log.i("Session Index", Integer.toString(sessionIndex));
-
                 // Creating new session
                 if (sessionIndex == -1) {
                     // Create new session and add to List
-                    //session = new Session(intPlayers, intScore, playerScoreList);
                     session.setPlayers(intPlayers);
                     session.setTotalScore(intScore);
                     session.setPlayerScoreList(scoreList);
 
                     gameConfiguration.getGame(configIndex).addSession(session);
 
-                    // TODO ADD ACHIEVEMENT IMGS AND LEVEL TO PLACEHOLDER CONGRATS MSG
+                    // Play congratulations message
                     congratsAnimation(congratsImg);
 
                 }
@@ -323,7 +318,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
 
                     finish();
                 }
-
 
             } else {
                 Toast.makeText(SessionsActivity.this, "Fields cannot be empty.", Toast.LENGTH_SHORT).show();
@@ -390,34 +384,42 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String text = parent.getItemAtPosition(position).toString();
+        String currentTheme = session.getAchievementLevel().getTheme();
 
         // Difficulty
         if (text.equals("Easy")) {
             factor = 0.75;
-            session.setGameDifficulty("Easy");
+            session.setSessionDifficulty("Easy");
             session.setAchievementLevel(new Achievements(lowScore, highScore, factor));
+            session.getAchievementLevel().setTheme(currentTheme);
         } else if (text.equals("Normal")) {
             factor = 1.0;
-            session.setGameDifficulty("Normal");
+            session.setSessionDifficulty("Normal");
             session.setAchievementLevel(new Achievements(lowScore, highScore, factor));
+            session.getAchievementLevel().setTheme(currentTheme);
         } else if (text.equals("Hard")) {
             factor = 1.25;
-            session.setGameDifficulty("Hard");
+            session.setSessionDifficulty("Hard");
             session.setAchievementLevel(new Achievements(lowScore, highScore, factor));
+            session.getAchievementLevel().setTheme(currentTheme);
         }
 
         // Theme
         if (text.equals("Nut")) {
             session.getAchievementLevel().setTheme(Achievements.NUT);
+            session.setSessionTheme("Nut");
         }
         else if (text.equals("Emoji")) {
             session.getAchievementLevel().setTheme(Achievements.EMOJI);
+            session.setSessionTheme("Emoji");
         }
         else if (text.equals("Middle Earth")) {
             session.getAchievementLevel().setTheme(Achievements.MIDDLE_EARTH);
+            session.setSessionTheme("Middle Earth");
         }
         else if (text.equals("None")) {
             session.getAchievementLevel().setTheme(Achievements.NONE);
+            session.setSessionTheme("None");
         }
 
         if (adapter != null) {
@@ -491,7 +493,4 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             }
         });
     }
-
-
-
 }

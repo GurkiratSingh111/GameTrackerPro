@@ -15,7 +15,8 @@ public class Session {
     private int players;
     private int totalScore;
     private Achievements achievementLevel;
-    private String gameDifficulty;               // Easy, Normal, Hard
+    private String sessionDifficulty;           // Easy, Normal, Hard
+    private String sessionTheme;                // None, Nut, Emoji, Middle Earth
     private List<Integer> playerScoreList;
 
     // Constructor
@@ -24,17 +25,10 @@ public class Session {
         this.players = -1;
         this.totalScore = -1;
         this.playerScoreList = new ArrayList<>();
-        this.gameDifficulty = "Normal";
+        this.sessionDifficulty = "Normal";
     }
 
     // Getter/Setter methods
-    public String getGameDifficulty() {
-        return gameDifficulty;
-    }
-    public void setGameDifficulty(String gameDifficulty) {
-        this.gameDifficulty = gameDifficulty;
-    }
-
     public int getPlayers() {
         return players;
     }
@@ -54,6 +48,20 @@ public class Session {
     }
     public void setAchievementLevel(Achievements achievementLevel) {
         this.achievementLevel = achievementLevel;
+    }
+
+    public String getSessionDifficulty() {
+        return sessionDifficulty;
+    }
+    public void setSessionDifficulty(String sessionDifficulty) {
+        this.sessionDifficulty = sessionDifficulty;
+    }
+
+    public String getSessionTheme() {
+        return sessionTheme;
+    }
+    public void setSessionTheme(String sessionTheme) {
+        this.sessionTheme = sessionTheme;
     }
 
     public String getTimePlayed() {

@@ -283,7 +283,7 @@ public class GameConfigActivity extends AppCompatActivity {
                 int players = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getPlayers();
                 int score = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTotalScore();
                 String level = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getAchievementLevel().getAchievement(score, players).getName();
-                String difficultyLevel= gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getGameDifficulty();
+                String difficultyLevel= gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getSessionDifficulty();
 
                 gameSessions.add("Time played: " + time + "\nTotal Players: " + players +
                         "\nScore: " + score + "\nLevel: " + level + "\nDifficulty Level: "+ difficultyLevel);
