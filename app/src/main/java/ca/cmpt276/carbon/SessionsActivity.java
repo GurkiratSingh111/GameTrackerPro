@@ -68,23 +68,21 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
     // Singleton
     private GameConfig gameConfiguration;
 
-    // TODO : NEW STUFF HERE ------------
-
-    private int combinedScore;
+    private int combinedScore;          // Combined score of all playerse
     private int prevNumPlayers;
-    private boolean isAdapterOn;
 
-    private List<Integer> scoreList;
-    private ListView listView;
-    private ListviewAdapter adapter;
+    private List<Integer> scoreList;    // List of score of players
+    private ListView listView;          // ListView of score of players
+    private ListviewAdapter adapter;    // Adapter for listView
 
+    // Congratulations message
     private AlertDialog.Builder congratsMsg;
     private ImageView congratsImg;
     private MediaPlayer congratsSound;
 
     // Spinners
-    private Spinner difficultySpinner;
-    private Spinner themeSpinner;
+    private Spinner difficultySpinner;  // Difficulty dropdown
+    private Spinner themeSpinner;       // Theme dropdown
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,15 +102,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         // Initialization/intents
         initializeSession();
         initializeSpinner();
-
-        // Initialize Congratulations pop-up
-        congratsMsg = new AlertDialog.Builder(this);
-        congratsImg = findViewById(R.id.imgCongrats);
-        congratsImg.setVisibility(View.GONE);
-
-        // If user clicks out of alert, finish activity
-        congratsMsg.setOnDismissListener(dialog -> finish());
-
+        initializeCongratsMessage();
 
         // If index is -1, go to add new session screen
         if (sessionIndex == -1) {
@@ -123,9 +113,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             totalScore.addTextChangedListener(playerNumTextWatcher);
             totalPlayers.addTextChangedListener(playerNumTextWatcher);
             scoreList = new ArrayList<>();
-
-            isAdapterOn = false;
-
         }
         else {
             // Set title to Edit Session
@@ -142,7 +129,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             achievement.setText("ACHIEVEMENT: " + session.getAchievementLevel().getAchievement(intScore, intPlayers).getName());
 
             totalPlayers.addTextChangedListener(playerNumTextWatcher);
-            isAdapterOn = true;
 
             initializePlayerScores();
 
@@ -164,8 +150,49 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         });
 
     }
+    // Initialization methods
+    private void initializeSession() {
 
-    // Initialize dropdown menus
+        // Get the game session
+        gameConfiguration = GameConfig.getInstance();
+
+        totalPlayers = findViewById(R.id.totalPlayers);
+
+        // Disable total score now that player score is being used
+        totalScore = findViewById(R.id.totalScore);
+        totalScore.setEnabled(false);
+
+        achievement = findViewById(R.id.achievementTextView);
+
+        // Get Intent
+        Intent i = getIntent();
+        sessionIndex = i.getIntExtra("SESSION_INDEX", -1);
+        configIndex = i.getIntExtra("GAME_INDEX", -1);
+        lowScore = i.getIntExtra("LOW_SCORE", -1);
+        highScore = i.getIntExtra("HIGH_SCORE", -1);
+
+        // Initialize achievement levels
+        session.setAchievementLevel(new Achievements(lowScore, highScore, factor));
+    }
+    private void initializePlayerScores() {
+
+        listView = findViewById(R.id.lvPlayerScores);
+        listView.setItemsCanFocus(true);
+
+        while (scoreList.size() < intPlayers) {
+            scoreList.add(0);
+        }
+        while (scoreList.size() > intPlayers) {
+            scoreList.remove(scoreList.size()-1);
+        }
+
+        adapter = new ListviewAdapter( SessionsActivity.this, scoreList, totalScore, achievement, combinedScore, session.getAchievementLevel(), prevNumPlayers, totalPlayers);
+        listView.setAdapter(adapter);
+
+        totalScore.setText("" + adapter.getUpdatedCombinedScore());
+        achievement.setText("ACHIEVEMENT is: " + session.getAchievementLevel().getAchievement(adapter.getUpdatedCombinedScore(), intPlayers).getName());
+
+    }
     private void initializeSpinner() {
         // Difficulty spinner
         difficultySpinner = findViewById(R.id.gameLevels);
@@ -180,6 +207,15 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         themeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         themeSpinner.setAdapter(themeAdapter);
         themeSpinner.setOnItemSelectedListener(this);
+    }
+    private void initializeCongratsMessage() {
+        // Initialize Congratulations pop-up
+        congratsMsg = new AlertDialog.Builder(this);
+        congratsImg = findViewById(R.id.imgCongrats);
+        congratsImg.setVisibility(View.GONE);
+
+        // If user clicks out of alert, finish activity
+        congratsMsg.setOnDismissListener(dialog -> finish());
     }
 
     // Spinner initialization methods for edit session
@@ -207,50 +243,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
     private void updateAchievementAndScore() {
         totalScore.setText("" + adapter.getUpdatedCombinedScore());
         achievement.setText("ACHIEVEMENT is: " + session.getAchievementLevel().getAchievement(adapter.getUpdatedCombinedScore(), intPlayers).getName());
-    }
-
-    private void initializeSession() {
-
-        // Get the game session
-        gameConfiguration = GameConfig.getInstance();
-
-        totalPlayers = findViewById(R.id.totalPlayers);
-
-        // Disable total score now that player score is being used
-        totalScore = findViewById(R.id.totalScore);
-        totalScore.setEnabled(false);
-
-        achievement = findViewById(R.id.achievementTextView);
-
-        // Get Intent
-        Intent i = getIntent();
-        sessionIndex = i.getIntExtra("SESSION_INDEX", -1);
-        configIndex = i.getIntExtra("GAME_INDEX", -1);
-        lowScore = i.getIntExtra("LOW_SCORE", -1);
-        highScore = i.getIntExtra("HIGH_SCORE", -1);
-
-        // Initialize achievement levels
-        session.setAchievementLevel(new Achievements(lowScore, highScore, factor));
-    }
-
-    private void initializePlayerScores() {
-
-        listView = findViewById(R.id.lvPlayerScores);
-        listView.setItemsCanFocus(true);
-
-        while (scoreList.size() < intPlayers) {
-            scoreList.add(0);
-        }
-        while (scoreList.size() > intPlayers) {
-            scoreList.remove(scoreList.size()-1);
-        }
-
-        adapter = new ListviewAdapter( SessionsActivity.this, scoreList, totalScore, achievement, combinedScore, session.getAchievementLevel(), prevNumPlayers, totalPlayers);
-        listView.setAdapter(adapter);
-
-        totalScore.setText("" + adapter.getUpdatedCombinedScore());
-        achievement.setText("ACHIEVEMENT is: " + session.getAchievementLevel().getAchievement(adapter.getUpdatedCombinedScore(), intPlayers).getName());
-
     }
 
     @Override
@@ -322,7 +314,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
                     gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setPlayers(intPlayers);
                     gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setTotalScore(intScore);
                     gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setPlayerScoreList(scoreList);
-
                     gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setAchievementLevel(new Achievements(lowScore, highScore, factor));
                     gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setSessionTheme(theme);
                     gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setSessionDifficulty(difficulty);
@@ -395,21 +386,23 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String text = parent.getItemAtPosition(position).toString();
-        String currentTheme = session.getAchievementLevel().getTheme();
+
 
         // Difficulty
         if (text.equals("Easy")) {
             factor = 0.75;
             difficulty = "Easy";
-            theme = currentTheme;
-        } else if (text.equals("Normal")) {
+            theme = achievementTheme;
+        }
+        else if (text.equals("Normal")) {
             factor = 1.0;
             difficulty = "Normal";
-            theme = currentTheme;
-        } else if (text.equals("Hard")) {
+            theme = achievementTheme;
+        }
+        else if (text.equals("Hard")) {
             factor = 1.25;
             difficulty = "Hard";
-            theme = currentTheme;
+            theme = achievementTheme;
         }
 
         // Theme

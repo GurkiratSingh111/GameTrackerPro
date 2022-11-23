@@ -26,6 +26,7 @@ public class Session {
         this.totalScore = -1;
         this.playerScoreList = new ArrayList<>();
         this.sessionDifficulty = "Normal";
+        this.sessionTheme = "None";
     }
 
     // Getter/Setter methods
