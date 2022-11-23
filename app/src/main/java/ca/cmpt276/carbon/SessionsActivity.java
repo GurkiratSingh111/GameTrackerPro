@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,6 +56,11 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
     private double factor;
     private String stringPlayers;       // String of total players
     private String stringScore;         // String of total score
+
+    // Dropdown variables
+    private String achievementTheme;    // Theme for Achievement in Session
+    private String theme;               // Theme for Session
+    private String difficulty;          // Difficulty for Session
 
     // Objects
     private Session session;            // Session for add session
@@ -146,6 +150,9 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             populateDropdownDifficulty(difficultySpinner);
             populateDropdownTheme(themeSpinner);
 
+            difficulty = session.getSessionDifficulty();
+            theme = session.getSessionTheme();
+            achievementTheme = session.getAchievementLevel().getTheme();
         }
 
         findViewById(R.id.btnSetNumPlayers).setOnClickListener( v -> {
@@ -316,6 +323,10 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
                     gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setTotalScore(intScore);
                     gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setPlayerScoreList(scoreList);
 
+                    gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setAchievementLevel(new Achievements(lowScore, highScore, factor));
+                    gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setSessionTheme(theme);
+                    gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setSessionDifficulty(difficulty);
+                    gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).getAchievementLevel().setTheme(achievementTheme);
                     finish();
                 }
 
@@ -389,41 +400,42 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         // Difficulty
         if (text.equals("Easy")) {
             factor = 0.75;
-            session.setSessionDifficulty("Easy");
-            session.setAchievementLevel(new Achievements(lowScore, highScore, factor));
-            session.getAchievementLevel().setTheme(currentTheme);
+            difficulty = "Easy";
+            theme = currentTheme;
         } else if (text.equals("Normal")) {
             factor = 1.0;
-            session.setSessionDifficulty("Normal");
-            session.setAchievementLevel(new Achievements(lowScore, highScore, factor));
-            session.getAchievementLevel().setTheme(currentTheme);
+            difficulty = "Normal";
+            theme = currentTheme;
         } else if (text.equals("Hard")) {
             factor = 1.25;
-            session.setSessionDifficulty("Hard");
-            session.setAchievementLevel(new Achievements(lowScore, highScore, factor));
-            session.getAchievementLevel().setTheme(currentTheme);
+            difficulty = "Hard";
+            theme = currentTheme;
         }
 
         // Theme
         if (text.equals("Nut")) {
-            session.getAchievementLevel().setTheme(Achievements.NUT);
-            session.setSessionTheme("Nut");
+            theme = "Nut";
+            achievementTheme = Achievements.NUT;
         }
         else if (text.equals("Emoji")) {
-            session.getAchievementLevel().setTheme(Achievements.EMOJI);
-            session.setSessionTheme("Emoji");
+            theme = "Emoji";
+            achievementTheme = Achievements.EMOJI;
         }
         else if (text.equals("Middle Earth")) {
-            session.getAchievementLevel().setTheme(Achievements.MIDDLE_EARTH);
-            session.setSessionTheme("Middle Earth");
+            theme = "Middle Earth";
+            achievementTheme = Achievements.MIDDLE_EARTH;
         }
         else if (text.equals("None")) {
-            session.getAchievementLevel().setTheme(Achievements.NONE);
-            session.setSessionTheme("None");
+            theme = "None";
+            achievementTheme = Achievements.NONE;
         }
 
+        // Current achievement
+        Achievements currentAchievement = new Achievements(lowScore, highScore, session.getAchievementLevel().getFactor());
+        currentAchievement.setTheme(achievementTheme);
+
         if (adapter != null) {
-            achievement.setText("ACHIEVEMENT is: " + session.getAchievementLevel().getAchievement(adapter.getUpdatedCombinedScore(), intPlayers).getName());
+            achievement.setText("ACHIEVEMENT is: " + currentAchievement.getAchievement(intScore, intPlayers).getName());
         }
     }
 
