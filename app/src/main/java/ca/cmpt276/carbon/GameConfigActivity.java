@@ -285,7 +285,7 @@ public class GameConfigActivity extends AppCompatActivity {
                 String time = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTimePlayed();
                 int players = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getPlayers();
                 int score = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTotalScore();
-                String level = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getAchievementLevel();
+                String level = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getAchievementLevel().getAchievement(score, players).getName();
                 String difficultyLevel= gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getGameLevel();
 
                 gameSessions.add("Time played: " + time + "\nTotal Players: " + players +
@@ -317,13 +317,11 @@ public class GameConfigActivity extends AppCompatActivity {
             if (sessionsView == null) {
                 sessionsView = getLayoutInflater().inflate(R.layout.session_design, parent, false);
             }
-            Achievements level = new Achievements(game.getLowScore(), game.getHighScore(), 1.0);
-            level.setTheme("MIDDLE_EARTH");
 
             String str = gameSessions.get(position);
             Session session = game.getSessionAtIndex(position);
             ImageView imageView = sessionsView.findViewById(R.id.sessions_icon);
-            imageView.setImageResource(level.getLevel("8").getImage());
+            imageView.setImageResource(session.getAchievementLevel().getAchievement(session.getTotalScore(), session.getPlayers()).getImage());
 
             TextView displayText = sessionsView.findViewById(R.id.sessionsText);
             displayText.setText(str);

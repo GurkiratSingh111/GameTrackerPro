@@ -63,7 +63,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
 
     // Objects
     private Session session;            // Session for add session
-    private Achievements level;         // Achievement for display
 
     // Singleton
     private GameConfig gameConfiguration;
@@ -140,7 +139,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
 
             totalPlayers.setText(Integer.toString(gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).getPlayers()));
             totalScore.setText(Integer.toString(gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).getTotalScore()));
-            achievement.setText("ACHIEVEMENT: " + level.getAchievement(intScore, intPlayers).getName());
+            achievement.setText("ACHIEVEMENT: " + session.getAchievementLevel().getAchievement(intScore, intPlayers).getName());
 
             totalPlayers.addTextChangedListener(playerNumTextWatcher);
             isAdapterOn = true;
@@ -160,9 +159,8 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
     }
 
     private void updateAchievementAndScore() {
-
         totalScore.setText("" + adapter.getUpdatedCombinedScore());
-        achievement.setText("ACHIEVEMENT is: " + level.getAchievement(adapter.getUpdatedCombinedScore(), intPlayers).getName());
+        achievement.setText("ACHIEVEMENT is: " + session.getAchievementLevel().getAchievement(adapter.getUpdatedCombinedScore(), intPlayers).getName());
     }
 
     private void initializeSession() {
@@ -186,7 +184,8 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         highScore = i.getIntExtra("HIGH_SCORE", -1);
 
         // Initialize achievement levels
-        level = new Achievements(lowScore, highScore, factor);
+        Achievements newLevel = new Achievements(lowScore, highScore, factor);
+        session.setAchievementLevel(newLevel);
     }
 
     private void initializePlayerScores() {
@@ -201,11 +200,11 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             scoreList.remove(scoreList.size()-1);
         }
 
-        adapter = new ListviewAdapter( SessionsActivity.this, scoreList, totalScore, achievement, combinedScore, level, prevNumPlayers, totalPlayers);
+        adapter = new ListviewAdapter( SessionsActivity.this, scoreList, totalScore, achievement, combinedScore, session.getAchievementLevel(), prevNumPlayers, totalPlayers);
         listView.setAdapter(adapter);
 
         totalScore.setText("" + adapter.getUpdatedCombinedScore());
-        achievement.setText("ACHIEVEMENT is: " + level.getAchievement(adapter.getUpdatedCombinedScore(), intPlayers).getName());
+        achievement.setText("ACHIEVEMENT is: " + session.getAchievementLevel().getAchievement(adapter.getUpdatedCombinedScore(), intPlayers).getName());
 
     }
 
@@ -260,8 +259,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
 
                 intScore = combinedScore;
 
-                String achievedLevel = level.getAchievement(intScore, intPlayers).getName();
-
                 Log.i("Session Index", Integer.toString(sessionIndex));
 
                 // Creating new session
@@ -272,10 +269,10 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
                     session.setTotalScore(intScore);
                     session.setPlayerScoreList(scoreList);
 
-
-                    session.setAchievementLevel(level.getAchievement(intScore, intPlayers).getName());
-
                     gameConfiguration.getGame(configIndex).addSession(session);
+
+                    // TODO - drop down for setting theme
+                    session.getAchievementLevel().setTheme("MIDDLE_EARTH");
 
                     // TODO ADD ACHIEVEMENT IMGS AND LEVEL TO PLACEHOLDER CONGRATS MSG
                     congratsAnimation(congratsImg);
@@ -287,7 +284,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
                     gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setPlayers(intPlayers);
                     gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setTotalScore(intScore);
                     gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setPlayerScoreList(scoreList);
-                    gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setAchievementLevel(achievedLevel);
                     finish();
                 }
 
@@ -381,20 +377,20 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         if (text.equals("Easy")) {
             factor = 0.75;
             session.setGameLevel("Easy");
-            level = new Achievements(lowScore, highScore, factor);
+            session.setAchievementLevel(new Achievements(lowScore, highScore, factor));
         } else if (text.equals("Normal")) {
             factor = 1.0;
             session.setGameLevel("Normal");
-            level = new Achievements(lowScore, highScore, factor);
+            session.setAchievementLevel(new Achievements(lowScore, highScore, factor));
         } else if (text.equals("Hard")) {
             factor = 1.25;
             session.setGameLevel("Hard");
-            level = new Achievements(lowScore, highScore, factor);
+            session.setAchievementLevel(new Achievements(lowScore, highScore, factor));
         }
         Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
 
         if (adapter != null) {
-            achievement.setText("ACHIEVEMENT is: " + level.getAchievement(adapter.getUpdatedCombinedScore(), intPlayers).getName());
+            achievement.setText("ACHIEVEMENT is: " + session.getAchievementLevel().getAchievement(adapter.getUpdatedCombinedScore(), intPlayers).getName());
         }
 
     }
