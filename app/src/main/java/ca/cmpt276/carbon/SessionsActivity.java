@@ -401,7 +401,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         else if (text.equals("Middle Earth")) {
             session.getAchievementLevel().setTheme(Achievements.MIDDLE_EARTH);
         }
-        else {
+        else if (text.equals("None")) {
             session.getAchievementLevel().setTheme(Achievements.NONE);
         }
 

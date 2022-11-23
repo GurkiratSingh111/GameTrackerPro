@@ -226,7 +226,7 @@ public class AchievementsActivity extends AppCompatActivity implements AdapterVi
         else if (text.equals("Middle Earth")) {
             achievementLvls.setTheme(Achievements.MIDDLE_EARTH);
         }
-        else {
+        else if (text.equals("None")) {
             achievementLvls.setTheme(Achievements.NONE);
         }
         setImageArray();
