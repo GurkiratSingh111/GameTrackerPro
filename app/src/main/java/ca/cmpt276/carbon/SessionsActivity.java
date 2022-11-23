@@ -2,17 +2,13 @@ package ca.cmpt276.carbon;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -33,7 +29,6 @@ import androidx.appcompat.widget.Toolbar;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,25 +57,32 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
     private String stringPlayers;       // String of total players
     private String stringScore;         // String of total score
 
+    // Dropdown variables
+    private String achievementTheme;    // Theme for Achievement in Session
+    private String theme;               // Theme for Session
+    private String difficulty;          // Difficulty for Session
+
     // Objects
     private Session session;            // Session for add session
 
     // Singleton
     private GameConfig gameConfiguration;
 
-    // TODO : NEW STUFF HERE ------------
-
-    private int combinedScore;
+    private int combinedScore;          // Combined score of all playerse
     private int prevNumPlayers;
-    private boolean isAdapterOn;
 
-    private List<Integer> scoreList;
-    private ListView listView;
-    private ListviewAdapter adapter;
+    private List<Integer> scoreList;    // List of score of players
+    private ListView listView;          // ListView of score of players
+    private ListviewAdapter adapter;    // Adapter for listView
 
+    // Congratulations message
     private AlertDialog.Builder congratsMsg;
     private ImageView congratsImg;
     private MediaPlayer congratsSound;
+
+    // Spinners
+    private Spinner difficultySpinner;  // Difficulty dropdown
+    private Spinner themeSpinner;       // Theme dropdown
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,30 +99,10 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
-        //Spinner
-        Spinner gameLevelSpinner = findViewById(R.id.gameLevels);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.levels, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        gameLevelSpinner.setAdapter(adapter);
-        gameLevelSpinner.setOnItemSelectedListener(this);
-
-        Spinner themeSpinner = findViewById(R.id.themeVariants);
-        ArrayAdapter<CharSequence> themeAdapter = ArrayAdapter.createFromResource(this, R.array.themes, android.R.layout.simple_spinner_item);
-        themeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        themeSpinner.setAdapter(themeAdapter);
-        themeSpinner.setOnItemSelectedListener(this);
-
         // Initialization/intents
         initializeSession();
-
-        // Initialize Congratulations pop-up
-        congratsMsg = new AlertDialog.Builder(this);
-        congratsImg = findViewById(R.id.imgCongrats);
-        congratsImg.setVisibility(View.GONE);
-
-        // If user clicks out of alert, finish activity
-        congratsMsg.setOnDismissListener(dialog -> finish());
-
+        initializeSpinner();
+        initializeCongratsMessage();
 
         // If index is -1, go to add new session screen
         if (sessionIndex == -1) {
@@ -131,13 +113,11 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             totalScore.addTextChangedListener(playerNumTextWatcher);
             totalPlayers.addTextChangedListener(playerNumTextWatcher);
             scoreList = new ArrayList<>();
-
-            isAdapterOn = false;
-
         }
         else {
-            // Set title to View Session
-            getSupportActionBar().setTitle("View Session");
+            // Set title to Edit Session
+            getSupportActionBar().setTitle("Edit Session");
+            session = gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex);
 
             // Populate fields
             intPlayers = gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).getPlayers();
@@ -149,10 +129,16 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             achievement.setText("ACHIEVEMENT: " + session.getAchievementLevel().getAchievement(intScore, intPlayers).getName());
 
             totalPlayers.addTextChangedListener(playerNumTextWatcher);
-            isAdapterOn = true;
 
             initializePlayerScores();
 
+            // Set dropdown fields
+            populateDropdownDifficulty(difficultySpinner);
+            populateDropdownTheme(themeSpinner);
+
+            difficulty = session.getSessionDifficulty();
+            theme = session.getSessionTheme();
+            achievementTheme = session.getAchievementLevel().getTheme();
         }
 
         findViewById(R.id.btnSetNumPlayers).setOnClickListener( v -> {
@@ -164,12 +150,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         });
 
     }
-
-    private void updateAchievementAndScore() {
-        totalScore.setText("" + adapter.getUpdatedCombinedScore());
-        achievement.setText("ACHIEVEMENT is: " + session.getAchievementLevel().getAchievement(adapter.getUpdatedCombinedScore(), intPlayers).getName());
-    }
-
+    // Initialization methods
     private void initializeSession() {
 
         // Get the game session
@@ -193,7 +174,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         // Initialize achievement levels
         session.setAchievementLevel(new Achievements(lowScore, highScore, factor));
     }
-
     private void initializePlayerScores() {
 
         listView = findViewById(R.id.lvPlayerScores);
@@ -213,6 +193,57 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         achievement.setText("ACHIEVEMENT is: " + session.getAchievementLevel().getAchievement(adapter.getUpdatedCombinedScore(), intPlayers).getName());
 
     }
+    private void initializeSpinner() {
+        // Difficulty spinner
+        difficultySpinner = findViewById(R.id.gameLevels);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.levels, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        difficultySpinner.setAdapter(adapter);
+        difficultySpinner.setOnItemSelectedListener(this);
+
+        // Theme spinner
+        themeSpinner = findViewById(R.id.themeVariants);
+        ArrayAdapter<CharSequence> themeAdapter = ArrayAdapter.createFromResource(this, R.array.themes, android.R.layout.simple_spinner_item);
+        themeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        themeSpinner.setAdapter(themeAdapter);
+        themeSpinner.setOnItemSelectedListener(this);
+    }
+    private void initializeCongratsMessage() {
+        // Initialize Congratulations pop-up
+        congratsMsg = new AlertDialog.Builder(this);
+        congratsImg = findViewById(R.id.imgCongrats);
+        congratsImg.setVisibility(View.GONE);
+
+        // If user clicks out of alert, finish activity
+        congratsMsg.setOnDismissListener(dialog -> finish());
+    }
+
+    // Spinner initialization methods for edit session
+    private void populateDropdownDifficulty(Spinner difficultySpinner) {
+        String difficulty = session.getSessionDifficulty();
+        difficultySpinner.setSelection(getIndexOfSpinner(difficultySpinner, difficulty));
+
+    }
+    private void populateDropdownTheme(Spinner themeSpinner) {
+        String theme = session.getSessionTheme();
+
+        themeSpinner.setSelection(getIndexOfSpinner(themeSpinner, theme));
+    }
+
+    // Get position of a specified value in Spinner
+    private int getIndexOfSpinner(Spinner spinner, String name) {
+        for (int i = 0; i < spinner.getCount(); i++) {
+            if (spinner.getItemAtPosition(i).toString().equals(name)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private void updateAchievementAndScore() {
+        totalScore.setText("" + adapter.getUpdatedCombinedScore());
+        achievement.setText("ACHIEVEMENT is: " + session.getAchievementLevel().getAchievement(adapter.getUpdatedCombinedScore(), intPlayers).getName());
+    }
 
     @Override
     // Add/View session menus
@@ -226,7 +257,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
     }
 
     @Override
-    // Toolbar widgets for save, edit, and delete session
+    // Toolbar widgets for save and delete session
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_save_session:
@@ -245,7 +276,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
 
     // Toolbar widget helper methods
     private void saveSession() {
-
         try {
             if (!totalPlayers.getText().toString().isEmpty()) {
 
@@ -265,19 +295,16 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
 
                 intScore = combinedScore;
 
-                Log.i("Session Index", Integer.toString(sessionIndex));
-
                 // Creating new session
                 if (sessionIndex == -1) {
                     // Create new session and add to List
-                    //session = new Session(intPlayers, intScore, playerScoreList);
                     session.setPlayers(intPlayers);
                     session.setTotalScore(intScore);
                     session.setPlayerScoreList(scoreList);
 
                     gameConfiguration.getGame(configIndex).addSession(session);
 
-                    // TODO ADD ACHIEVEMENT IMGS AND LEVEL TO PLACEHOLDER CONGRATS MSG
+                    // Play congratulations message
                     congratsAnimation(congratsImg);
 
                 }
@@ -287,10 +314,12 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
                     gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setPlayers(intPlayers);
                     gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setTotalScore(intScore);
                     gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setPlayerScoreList(scoreList);
+                    gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setAchievementLevel(new Achievements(lowScore, highScore, factor));
+                    gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setSessionTheme(theme);
+                    gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setSessionDifficulty(difficulty);
+                    gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).getAchievementLevel().setTheme(achievementTheme);
                     finish();
                 }
-
-                Toast.makeText(SessionsActivity.this, "" + combinedScore, Toast.LENGTH_SHORT).show();
 
             } else {
                 Toast.makeText(SessionsActivity.this, "Fields cannot be empty.", Toast.LENGTH_SHORT).show();
@@ -315,23 +344,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
                 .setNegativeButton("No", (dialog, option) -> {
                     // Do nothing and stay on current screen
                 }).show();
-    }
-
-    // Enable/disable text fields for edit session
-    private void enableTextFields(EditText editText) {
-        editText.setEnabled(true);
-        editText.setBackgroundColor(Color.LTGRAY);
-        editText.setTextColor(Color.BLUE);
-
-        // Watch for change to display correct achievement level
-        totalPlayers.addTextChangedListener(playerNumTextWatcher);
-
-    }
-
-    private void disableTextFields(EditText editText) {
-        editText.setEnabled(false);
-        editText.setBackgroundColor(Color.BLACK);
-        editText.setTextColor(Color.YELLOW);
     }
 
     // TextWatcher for data fields
@@ -375,40 +387,49 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String text = parent.getItemAtPosition(position).toString();
 
+
         // Difficulty
         if (text.equals("Easy")) {
             factor = 0.75;
-            session.setGameLevel("Easy");
-            session.setAchievementLevel(new Achievements(lowScore, highScore, factor));
-        } else if (text.equals("Normal")) {
-            factor = 1.0;
-            session.setGameLevel("Normal");
-            session.setAchievementLevel(new Achievements(lowScore, highScore, factor));
-        } else if (text.equals("Hard")) {
-            factor = 1.25;
-            session.setGameLevel("Hard");
-            session.setAchievementLevel(new Achievements(lowScore, highScore, factor));
+            difficulty = "Easy";
+            theme = achievementTheme;
         }
-        Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
+        else if (text.equals("Normal")) {
+            factor = 1.0;
+            difficulty = "Normal";
+            theme = achievementTheme;
+        }
+        else if (text.equals("Hard")) {
+            factor = 1.25;
+            difficulty = "Hard";
+            theme = achievementTheme;
+        }
 
         // Theme
         if (text.equals("Nut")) {
-            session.getAchievementLevel().setTheme(Achievements.NUT);
+            theme = "Nut";
+            achievementTheme = Achievements.NUT;
         }
         else if (text.equals("Emoji")) {
-            session.getAchievementLevel().setTheme(Achievements.EMOJI);
+            theme = "Emoji";
+            achievementTheme = Achievements.EMOJI;
         }
         else if (text.equals("Middle Earth")) {
-            session.getAchievementLevel().setTheme(Achievements.MIDDLE_EARTH);
+            theme = "Middle Earth";
+            achievementTheme = Achievements.MIDDLE_EARTH;
         }
         else if (text.equals("None")) {
-            session.getAchievementLevel().setTheme(Achievements.NONE);
+            theme = "None";
+            achievementTheme = Achievements.NONE;
         }
+
+        // Current achievement
+        Achievements currentAchievement = new Achievements(lowScore, highScore, session.getAchievementLevel().getFactor());
+        currentAchievement.setTheme(achievementTheme);
 
         if (adapter != null) {
-            achievement.setText("ACHIEVEMENT is: " + session.getAchievementLevel().getAchievement(adapter.getUpdatedCombinedScore(), intPlayers).getName());
+            achievement.setText("ACHIEVEMENT is: " + currentAchievement.getAchievement(intScore, intPlayers).getName());
         }
-
     }
 
     @Override
@@ -451,7 +472,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         // Alert display
         congratsMsg.setTitle("Congratulations")
                 .setMessage("You've added a new session!")
-                .setIcon(R.drawable.empty)
+                .setIcon(session.getAchievementLevel().getAchievement(intScore, intPlayers).getImage())
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -477,7 +498,4 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             }
         });
     }
-
-
-
 }

@@ -15,7 +15,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,7 +36,6 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.cmpt276.carbon.model.Achievements;
 import ca.cmpt276.carbon.model.Game;
 import ca.cmpt276.carbon.model.GameConfig;
 import ca.cmpt276.carbon.model.Session;
@@ -187,7 +185,7 @@ public class GameConfigActivity extends AppCompatActivity {
             // are you editing?
             isEditGameConfig = false;
 
-            // Display the game and it's sessions (if any)
+            // Display the game and its sessions (if any)
             displayGame();
 
             // Button for add session
@@ -265,7 +263,6 @@ public class GameConfigActivity extends AppCompatActivity {
 
     // On the first play through, add the fields and respond to save button
     private void setupGameConfigDataFields() {
-
         gameName = findViewById(R.id.etGameName);
         lowScore = findViewById(R.id.etLowScore);
         highScore = findViewById(R.id.etHighScore);
@@ -286,7 +283,7 @@ public class GameConfigActivity extends AppCompatActivity {
                 int players = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getPlayers();
                 int score = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTotalScore();
                 String level = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getAchievementLevel().getAchievement(score, players).getName();
-                String difficultyLevel= gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getGameLevel();
+                String difficultyLevel= gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getSessionDifficulty();
 
                 gameSessions.add("Time played: " + time + "\nTotal Players: " + players +
                         "\nScore: " + score + "\nLevel: " + level + "\nDifficulty Level: "+ difficultyLevel);
