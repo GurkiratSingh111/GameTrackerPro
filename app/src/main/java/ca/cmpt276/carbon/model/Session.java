@@ -14,17 +14,17 @@ public class Session {
     private String timePlayed;
     private int players;
     private int totalScore;
-    private String achievementLevel;
+    private Achievements achievementLevel;
     private String gameLevel; //Easy,Normal or Hard
+
 
     private List<Integer> playerScoreList;
 
     // Default Constructor
     public Session() {
-        this.timePlayed = "";
+        this.timePlayed = formatTime();
         this.players = -1;
         this.totalScore = -1;
-        this.achievementLevel = "";
         this.playerScoreList = new ArrayList<>();
         this.gameLevel= "Normal";
     }
@@ -38,11 +38,9 @@ public class Session {
     }
 
     // Getter/Setter methods
-
     public String getGameLevel() {
         return gameLevel;
     }
-
     public void setGameLevel(String gameLevel) {
         this.gameLevel = gameLevel;
     }
@@ -61,10 +59,10 @@ public class Session {
         this.totalScore = totalScore;
     }
 
-    public String getAchievementLevel() {
+    public Achievements getAchievementLevel() {
         return achievementLevel;
     }
-    public void setAchievementLevel(String achievementLevel) {
+    public void setAchievementLevel(Achievements achievementLevel) {
         this.achievementLevel = achievementLevel;
     }
 

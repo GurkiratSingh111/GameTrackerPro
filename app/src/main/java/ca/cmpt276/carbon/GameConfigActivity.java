@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -39,6 +40,7 @@ import java.util.List;
 import ca.cmpt276.carbon.model.Achievements;
 import ca.cmpt276.carbon.model.Game;
 import ca.cmpt276.carbon.model.GameConfig;
+import ca.cmpt276.carbon.model.Session;
 
 /**
  *This activity allows the user to add game configurations, edit and delete game configurations too.
@@ -283,19 +285,15 @@ public class GameConfigActivity extends AppCompatActivity {
                 String time = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTimePlayed();
                 int players = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getPlayers();
                 int score = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTotalScore();
-                String level = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getAchievementLevel();
+                String level = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getAchievementLevel().getAchievement(score, players).getName();
                 String difficultyLevel= gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getGameLevel();
 
                 gameSessions.add("Time played: " + time + "\nTotal Players: " + players +
-                        "\nScore: " + score + "\nLevel: " + level + "\nDifficulty Level: "+difficultyLevel );
+                        "\nScore: " + score + "\nLevel: " + level + "\nDifficulty Level: "+ difficultyLevel);
             }
         }
         // Array adapter for ListView
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                gameSessions
-        );
+        ArrayAdapter<String> adapter = new SessionsListAdapter();
 
         sessionList = findViewById(R.id.sessionsListView);
         sessionList.setAdapter(adapter);
@@ -304,6 +302,34 @@ public class GameConfigActivity extends AppCompatActivity {
         showEmptyState();
 
         adapter.notifyDataSetChanged();
+    }
+
+    // UI Design of Sessions ListView
+    private class SessionsListAdapter extends ArrayAdapter<String> {
+        // Constructor
+        public SessionsListAdapter() {
+            super(GameConfigActivity.this, R.layout.session_design, gameSessions);
+        }
+
+        // Get data for display
+        public View getView(int position, View view, ViewGroup parent) {
+            View sessionsView = view;
+            if (sessionsView == null) {
+                sessionsView = getLayoutInflater().inflate(R.layout.session_design, parent, false);
+            }
+
+            String str = gameSessions.get(position);
+            Session session = game.getSessionAtIndex(position);
+            ImageView imageView = sessionsView.findViewById(R.id.sessions_icon);
+            imageView.setImageResource(session.getAchievementLevel().getAchievement(session.getTotalScore(), session.getPlayers()).getImage());
+
+            TextView displayText = sessionsView.findViewById(R.id.sessionsText);
+            displayText.setText(str);
+
+            return sessionsView;
+        }
+
+
     }
 
     // For adding a session inside game config
@@ -656,13 +682,11 @@ public class GameConfigActivity extends AppCompatActivity {
         game.setImageID(tappedImage);
         selectedImage.setImageResource(R.drawable.img4);
     }
-
     public void imageView5Clicked(View view) {
         int tappedImage = R.drawable.img5;
         game.setImageID(tappedImage);
         selectedImage.setImageResource(R.drawable.img5);
     }
-
     public void imageView6Clicked(View view) {
         int tappedImage = R.drawable.img6;
         game.setImageID(tappedImage);
