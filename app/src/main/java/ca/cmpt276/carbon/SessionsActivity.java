@@ -33,6 +33,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,11 +98,17 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         ab.setDisplayHomeAsUpEnabled(true);
 
         //Spinner
-        Spinner spinner = findViewById(R.id.gameLevels);
+        Spinner gameLevelSpinner = findViewById(R.id.gameLevels);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.levels, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
+        gameLevelSpinner.setAdapter(adapter);
+        gameLevelSpinner.setOnItemSelectedListener(this);
+
+        Spinner themeSpinner = findViewById(R.id.themeVariants);
+        ArrayAdapter<CharSequence> themeAdapter = ArrayAdapter.createFromResource(this, R.array.themes, android.R.layout.simple_spinner_item);
+        themeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        themeSpinner.setAdapter(themeAdapter);
+        themeSpinner.setOnItemSelectedListener(this);
 
         // Initialization/intents
         initializeSession();
@@ -184,8 +191,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         highScore = i.getIntExtra("HIGH_SCORE", -1);
 
         // Initialize achievement levels
-        Achievements newLevel = new Achievements(lowScore, highScore, factor);
-        session.setAchievementLevel(newLevel);
+        session.setAchievementLevel(new Achievements(lowScore, highScore, factor));
     }
 
     private void initializePlayerScores() {
@@ -271,9 +277,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
 
                     gameConfiguration.getGame(configIndex).addSession(session);
 
-                    // TODO - drop down for setting theme
-                    session.getAchievementLevel().setTheme("MIDDLE_EARTH");
-
                     // TODO ADD ACHIEVEMENT IMGS AND LEVEL TO PLACEHOLDER CONGRATS MSG
                     congratsAnimation(congratsImg);
 
@@ -333,9 +336,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
 
     // TextWatcher for data fields
     private final TextWatcher playerNumTextWatcher = new TextWatcher() {
-
-        boolean changed = false;
-
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             // Not needed
@@ -374,6 +374,8 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String text = parent.getItemAtPosition(position).toString();
+
+        // Difficulty
         if (text.equals("Easy")) {
             factor = 0.75;
             session.setGameLevel("Easy");
@@ -388,6 +390,20 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             session.setAchievementLevel(new Achievements(lowScore, highScore, factor));
         }
         Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
+
+        // Theme
+        if (text.equals("Nut")) {
+            session.getAchievementLevel().setTheme(Achievements.NUT);
+        }
+        else if (text.equals("Emoji")) {
+            session.getAchievementLevel().setTheme(Achievements.EMOJI);
+        }
+        else if (text.equals("Middle Earth")) {
+            session.getAchievementLevel().setTheme(Achievements.MIDDLE_EARTH);
+        }
+        else {
+            session.getAchievementLevel().setTheme(Achievements.NONE);
+        }
 
         if (adapter != null) {
             achievement.setText("ACHIEVEMENT is: " + session.getAchievementLevel().getAchievement(adapter.getUpdatedCombinedScore(), intPlayers).getName());
