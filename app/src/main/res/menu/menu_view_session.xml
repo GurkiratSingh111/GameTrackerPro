@@ -7,11 +7,6 @@
         android:title="Save Session"
         app:showAsAction="always" />
     <item
-        android:id="@+id/menu_edit_session"
-        android:icon="@drawable/ic_baseline_edit_24"
-        android:title="Edit Session"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/menu_delete_session"
         android:icon="@drawable/ic_baseline_delete_forever_24"
         android:title="Delete Session"
