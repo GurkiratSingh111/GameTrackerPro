@@ -9,7 +9,7 @@
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Enter Score"
+        android:text="@string/enter_score"
         android:gravity="center_vertical"
         android:layout_weight="0.5" />
 
