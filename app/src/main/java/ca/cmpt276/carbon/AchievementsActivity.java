@@ -96,6 +96,10 @@ public class AchievementsActivity extends AppCompatActivity implements AdapterVi
         public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             try {
+                if (etNumPlayers.getText().toString().equals("")) {
+                    num = 0;
+                    updatePoints();
+                }
                 num = Integer.parseInt(etNumPlayers.getText().toString());
 
                 if (num <= 0) {
