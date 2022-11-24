@@ -43,37 +43,37 @@ import ca.cmpt276.carbon.model.Session;
 public class SessionsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     // Variables
-    private int sessionIndex;           // For add/edit sessions
-    private int configIndex;            // Game index of gameConfig
-    private EditText totalPlayers;      // Total players of a single session
-    private EditText totalScore;        // Total score of all players in a session
-    private TextView achievement;       // Display achievement of player
+    private int sessionIndex;                    // For add/edit sessions
+    private int configIndex;                     // Game index of gameConfig
+    private EditText totalPlayers;               // Total players of a single session
+    private EditText totalScore;                 // Total score of all players in a session
+    private TextView achievement;                // Display achievement of player
 
-    private int lowScore;               // Low score of game
-    private int highScore;              // High score of game
-    private int intPlayers;             // Integer of total players
-    private int intScore;               // Integer of total score
+    private int lowScore;                        // Low score of game
+    private int highScore;                       // High score of game
+    private int intPlayers;                      // Integer of total players
+    private int intScore;                        // Integer of total score
     private double factor;
-    private String stringPlayers;       // String of total players
-    private String stringScore;         // String of total score
+    private String stringPlayers;                // String of total players
+    private String stringScore;                  // String of total score
 
     // Dropdown variables
-    private String achievementTheme;    // Theme for Achievement in Session
-    private String theme;               // Theme for Session
-    private String difficulty;          // Difficulty for Session
+    private String achievementTheme;             // Theme for Achievement in Session
+    private String theme;                        // Theme for Session
+    private String difficulty;                   // Difficulty for Session
 
     // Objects
-    private Session session;            // Session for add session
+    private Session session;                     // Session for add session
 
     // Singleton
     private GameConfig gameConfiguration;
 
-    private int combinedScore;          // Combined score of all playerse
+    private int combinedScore;                   // Combined score of all players
     private int prevNumPlayers;
 
-    private List<Integer> scoreList;    // List of score of players
-    private ListView listView;          // ListView of score of players
-    private ListviewAdapter adapter;    // Adapter for listView
+    private List<Integer> scoreList;             // List of score of players
+    private ListView listView;                   // ListView of score of players
+    private ListviewAdapter adapter;             // Adapter for listView
 
     // Congratulations message
     private AlertDialog.Builder congratsMsg;
@@ -132,7 +132,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
 
             initializePlayerScores();
 
-            // Set dropdown fields
+            // Populate dropdown fields
             populateDropdownDifficulty(difficultySpinner);
             populateDropdownTheme(themeSpinner);
 
@@ -172,15 +172,12 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         highScore = i.getIntExtra("HIGH_SCORE", -1);
 
         achievementTheme =Achievements.NONE;
-        theme = "None";
-        difficulty = "Normal";
         factor = 1.0;
 
         // Initialize achievement levels
         session.setAchievementLevel(new Achievements(lowScore, highScore, factor));
     }
     private void initializePlayerScores() {
-
         listView = findViewById(R.id.lvPlayerScores);
         listView.setItemsCanFocus(true);
 
@@ -195,8 +192,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         listView.setAdapter(adapter);
 
         totalScore.setText("" + adapter.getUpdatedCombinedScore());
-        achievement.setText("ACHIEVEMENT is: " + session.getAchievementLevel().getAchievement(adapter.getUpdatedCombinedScore(), intPlayers).getName());
-
+        achievement.setText("ACHIEVEMENT is: " + session.getAchievementLevel().getAchievement(intScore, intPlayers).getName());
     }
     private void initializeSpinner() {
         // Difficulty spinner
@@ -306,6 +302,10 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
                     session.setPlayers(intPlayers);
                     session.setTotalScore(intScore);
                     session.setPlayerScoreList(scoreList);
+                    session.setSessionDifficulty(difficulty);
+                    session.setSessionTheme(theme);
+                    session.setAchievementLevel(new Achievements(lowScore, highScore, factor));
+                    session.getAchievementLevel().setTheme(achievementTheme);
 
                     gameConfiguration.getGame(configIndex).addSession(session);
 
@@ -391,7 +391,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String text = parent.getItemAtPosition(position).toString();
-
 
         // Difficulty
         if (text.equals("Easy")) {
