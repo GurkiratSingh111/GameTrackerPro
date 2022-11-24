@@ -171,6 +171,11 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         lowScore = i.getIntExtra("LOW_SCORE", -1);
         highScore = i.getIntExtra("HIGH_SCORE", -1);
 
+        achievementTheme =Achievements.NONE;
+        theme = "None";
+        difficulty = "Normal";
+        factor = 1.0;
+
         // Initialize achievement levels
         session.setAchievementLevel(new Achievements(lowScore, highScore, factor));
     }
