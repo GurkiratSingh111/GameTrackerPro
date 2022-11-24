@@ -213,6 +213,14 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             Toast.makeText(SessionsActivity.this, "Number of players can't be empty", Toast.LENGTH_SHORT).show();
             return;
         }
+        else {
+            if (intPlayers < 1 || intPlayers > 25) {
+                Toast.makeText(SessionsActivity.this, "Number of players must be between 1 and 25", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
+
 
         listView = findViewById(R.id.lvPlayerScores);
         listView.setItemsCanFocus(true);
@@ -313,8 +321,9 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
 
     private void revertUnsavedChanged() {
 
-        if (oldScoreList.size() != 0)
-        gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setPlayerScoreList(oldScoreList);
+        if (oldScoreList.size() != 0) {
+            gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setPlayerScoreList(oldScoreList);
+        }
     }
 
     // Toolbar widget helper methods
