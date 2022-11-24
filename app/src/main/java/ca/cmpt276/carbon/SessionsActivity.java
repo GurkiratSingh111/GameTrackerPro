@@ -181,6 +181,11 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
     }
     private void initializePlayerScores() {
 
+        if (totalPlayers.getText().toString().isEmpty()) {
+            Toast.makeText(SessionsActivity.this, "Number of players can't be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         listView = findViewById(R.id.lvPlayerScores);
         listView.setItemsCanFocus(true);
 
