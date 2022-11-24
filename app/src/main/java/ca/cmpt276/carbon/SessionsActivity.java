@@ -313,7 +313,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
 
     private void revertUnsavedChanged() {
 
-        if (oldScoreList != null)
+        if (oldScoreList.size() != 0)
         gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setPlayerScoreList(oldScoreList);
     }
 
