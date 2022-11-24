@@ -178,6 +178,12 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         session.setAchievementLevel(new Achievements(lowScore, highScore, factor));
     }
     private void initializePlayerScores() {
+
+        if (totalPlayers.getText().toString().isEmpty()) {
+            Toast.makeText(SessionsActivity.this, "Number of players can't be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         listView = findViewById(R.id.lvPlayerScores);
         listView.setItemsCanFocus(true);
 
@@ -302,10 +308,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
                     session.setPlayers(intPlayers);
                     session.setTotalScore(intScore);
                     session.setPlayerScoreList(scoreList);
-                    session.setSessionDifficulty(difficulty);
-                    session.setSessionTheme(theme);
-                    session.setAchievementLevel(new Achievements(lowScore, highScore, factor));
-                    session.getAchievementLevel().setTheme(achievementTheme);
 
                     gameConfiguration.getGame(configIndex).addSession(session);
 
