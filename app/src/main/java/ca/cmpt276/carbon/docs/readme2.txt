@@ -6,7 +6,20 @@ Limitations:
 
 Constraints:
 
-    Player count set to 4 for the moment.
+    Player count arbitrarily set from 1 to 25 players. Modularization is implemented,
+    however in order to prevent user burden, the max player number is limited.
+
+Non-Repeatable Bugs:
+
+    Sometimes the fields inside the EditText for entering player scores will make the
+    keyboard flash between number/alphabet layout a couple of times. Application
+    resumes normal operation after flashing is finished. We were not able to replicate
+    the bug on a consistent basis and you might notice it in testing.
+
+
+Extension for Iteration 2:
+
+    ** 2 day extension granted by Dr. Brian for iteration 2. **
 
 
 Acknowledgements and Credits:
