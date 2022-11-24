@@ -58,12 +58,14 @@ public class ListviewAdapter extends BaseAdapter {
         return position;
     }
 
+    // For future use
     public void setAdapterNumPlayers(int players) {
         this.intPlayers = players;
     }
     public void setScoreList(List<Integer> scoreList) {
         this.list = scoreList;
     }
+
     public int getUpdatedCombinedScore() {
         int updatedCombScore = 0;
         for (int i = 0; i < list.size(); i++) {
@@ -72,7 +74,6 @@ public class ListviewAdapter extends BaseAdapter {
         return updatedCombScore;
     }
 
-    // TODO - CHANGE TEXT WATCHER
 
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
@@ -108,9 +109,6 @@ public class ListviewAdapter extends BaseAdapter {
 
         holder.editText.addTextChangedListener(new TextWatcher() {
 
-            boolean scoreChanged = false;
-            boolean numPlayerChanged = false;
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // do nothing
@@ -121,8 +119,6 @@ public class ListviewAdapter extends BaseAdapter {
 
                 final int pos = holder.editText.getId();
                 final EditText etPlayerScore = (EditText) holder.editText;
-                scoreChanged = false;
-                numPlayerChanged = false;
 
                 if (etPlayerScore.getText().toString().isEmpty()) {
                     list.set(pos, 0);
