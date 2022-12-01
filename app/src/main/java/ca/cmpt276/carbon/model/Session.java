@@ -82,6 +82,4 @@ public class Session {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("MMM d @ hh:mm a");
         return currentTime.format(format);
     }
-
-
 }

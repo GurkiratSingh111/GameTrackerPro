@@ -149,7 +149,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             difficulty = session.getSessionDifficulty();
             theme = session.getSessionTheme();
             achievementTheme = session.getAchievementLevel().getTheme();
-
         }
 
         findViewById(R.id.btnSetNumPlayers).setOnClickListener( v -> {
@@ -219,8 +218,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
                 return;
             }
         }
-
-
 
         listView = findViewById(R.id.lvPlayerScores);
         listView.setItemsCanFocus(true);
@@ -361,7 +358,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
 
                     // Play congratulations message
                     congratsAnimation(congratsImg);
-
                 }
                 // Editing existing session
                 else {
