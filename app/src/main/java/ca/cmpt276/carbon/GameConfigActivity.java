@@ -4,17 +4,24 @@ import static ca.cmpt276.carbon.MainActivity.NAME;
 import static ca.cmpt276.carbon.MainActivity.SHARED_PREFS;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +36,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
@@ -45,52 +54,46 @@ import ca.cmpt276.carbon.model.Session;
  */
 public class GameConfigActivity extends AppCompatActivity {
 
-    // Intent extra Constant
-    private static final String EXTRA_GAME_INDEX = "gameIndex: ";
+    // Constants
+    private static final String EXTRA_GAME_INDEX = "gameIndex: ";  // Intent
+    private static final int REQUEST_CODE = 101;                   // Camera request code
 
-    private GameConfig gameConfiguration;
-    private Game game= new Game();
-    private List<String> gameSessions;
+    // Variables
+    private List<String> gameSessions;                             // List of Sessions played for display
 
-    // index passed in by the editing game intent call
-    private int index;
+    private int index;                                             // Intent for editing gameConfig
 
-    // Edit text fields for the three fields on screen
-    private EditText gameName, lowScore, highScore;
-    private int numLowScore, numHighScore;
+    private EditText gameName, lowScore, highScore;                // EditText for fields of game name and low/high score
+    private int numLowScore, numHighScore;                         // Int of low/high score
 
-    // Variables for indexed game retrieval
-    private String indexedGameName;
-    private int indexedLowScore, indexedHighScore;
+    private String indexedGameName;                                // Index of a gameConfig's name
+    private int indexedLowScore, indexedHighScore;                 // Indexes of a gameConfig's low/high score
 
-    // Variables for storing old game information for editing config
-    private String oldGameName;
-    private int oldLowScore, oldHighScore;
+    private String oldGameName;                                    // Old value of gameConfig name for editing
+    private int oldLowScore, oldHighScore;                         // Old value of gameConfig low/high score for editing
+    private String newGameName;                                    // New value of storing name of gameConfig
+    private int newLowScore, newHighScore;                         // New value of storing low/high score of gameConfig
 
-    // Variables for storing new game information for editing config
-    private String newGameName;
-    private int newLowScore, newHighScore;
+    private Boolean isEditGameConfig = false;                      // Boolean that keeps track of if you are viewing/editing a gameConfig
 
-    // bool to keep track if you're in editing mode or viewing mode
-    // this will also be used later to update the game session scores
-    private Boolean isEditGameConfig = false;
+    private Button viewAchievements;                               // Button to view Achievements
+    private Button takePhotoBtn;
+    private FloatingActionButton btnAddSession;                    // Add new session button
 
-    // view achievement level button
-    private Button viewAchievements;
-    TextView selectIcon;
-    // Add new session button
-    FloatingActionButton btnAddSession;
+    private TextView selectIcon;                                   // TextView for "Select your game icon"
 
-    // For printing sessions played
-    private ListView sessionList;
+    private ListView sessionList;                                  // For printing sessions played
 
-    GridLayout gridImageLayout;
-    ImageView selectedImage;
+    GridLayout gridImageLayout;                                    // Grid of Images
+    ImageView selectedImage;                                       // Current selected image from grid
 
-    // empty state images and text
-    TextView welcomeScreenMsg;
-    ImageView welcomeImage;
-    ImageView welcomePointer;
+    TextView welcomeScreenMsg;                                     // Empty state message for no sessions in List
+    ImageView welcomeImage;                                        // Empty state image for no sessions in List
+    ImageView welcomePointer;                                      // Empty state pointer for no sessions in List
+
+    // Objects
+    private GameConfig gameConfiguration;                          // Stores a List of Games
+    private Game game = new Game();                                // New Game object
 
     // Build an intent int input is the index of the game clicked
     public static Intent makeLaunchIntent(Context c, int input) {
@@ -140,6 +143,23 @@ public class GameConfigActivity extends AppCompatActivity {
 
         // Initialize add session button
         btnAddSession = findViewById(R.id.btnAddNewSession);
+
+        // Enable camera permissions
+        if (ContextCompat.checkSelfPermission(GameConfigActivity.this, Manifest.permission.CAMERA) !=
+                PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(GameConfigActivity.this, new String[]{
+                    Manifest.permission.CAMERA
+            }, 100);
+        }
+
+        // Initialize photo button
+        takePhotoBtn = findViewById(R.id.takePhotoBtn);
+        takePhotoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getCameraPermissions();
+            }
+        });
 
         // if index is -1, you're on add game screen
         if(index == -1) {
@@ -690,4 +710,21 @@ public class GameConfigActivity extends AppCompatActivity {
         selectedImage.setImageResource(R.drawable.img6);
     }
 
+    // Enable camera permissions
+    private void getCameraPermissions() {
+        if (ContextCompat.checkSelfPermission(GameConfigActivity.this, Manifest.permission.CAMERA)
+            != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(GameConfigActivity.this, new String[]{
+                    Manifest.permission.CAMERA}, REQUEST_CODE);
+            }
+        else {
+//            openCamera();
+        }
+    }
+
+    // Override for camera
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 }

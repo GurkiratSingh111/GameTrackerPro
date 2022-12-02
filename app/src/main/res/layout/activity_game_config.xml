@@ -115,7 +115,7 @@
         android:id="@+id/btnViewAchievements"
         android:layout_width="94dp"
         android:layout_height="48dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginBottom="24dp"
         android:text="@string/levels"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -279,5 +279,16 @@
         app:layout_constraintBottom_toBottomOf="@+id/selectGameIcon"
         app:layout_constraintStart_toEndOf="@+id/selectGameIcon"
         app:layout_constraintTop_toTopOf="@+id/selectGameIcon" />
+
+    <Button
+        android:id="@+id/takePhotoBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Take Photo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.959" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
