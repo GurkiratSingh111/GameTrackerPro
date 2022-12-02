@@ -1,0 +1,28 @@
+
+Development Process
+
+Include a mention of what your team used as a unit of 1 work.
+
+Gahee - Done by 19th
+Friendly UI - make the UI easy to use, add images.
+Unit of work = 3
+
+Garry - Done by 19th
+Game Played Difficulty - add easy, normal and Hard difficulty levels.
+Unit of work = 4.5
+
+Max - Done by 19th
+Edit Game Played - edit theme and difficulty. Implement nicer UI for sessions.
+Unit of work = 4.5
+
+Garry - Done by 21st
+JUnit testing - implement tests for a class
+Unit of work = 5
+
+Gahee - Done by 19th
+Achievement Improvements - add animations, sound effects, pictures, themes.
+Unit of work = 5.5
+
+TJ - Done by the 18th
+Score Calculator - make the score calculator dynamic to allow user to add/edit multiple players.
+Unit of work =  10
