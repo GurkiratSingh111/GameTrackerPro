@@ -42,6 +42,7 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,40 +57,38 @@ public class GameConfigActivity extends AppCompatActivity {
 
     // Constants
     private static final String EXTRA_GAME_INDEX = "gameIndex: ";  // Intent
-    private static final int REQUEST_CODE = 101;                   // Camera request code
+    private static final int PERMISSION_CODE = 100;                // Camera permission code
+    private static final int CAMERA_REQUEST_CODE = 101;            // Camera request code
 
     // Variables
     private List<String> gameSessions;                             // List of Sessions played for display
+    private ListView sessionList;                                  // For printing sessions played
 
     private int index;                                             // Intent for editing gameConfig
+    private Boolean isEditGameConfig = false;                      // Boolean that keeps track of if you are viewing/editing a gameConfig
 
     private EditText gameName, lowScore, highScore;                // EditText for fields of game name and low/high score
     private int numLowScore, numHighScore;                         // Int of low/high score
 
     private String indexedGameName;                                // Index of a gameConfig's name
     private int indexedLowScore, indexedHighScore;                 // Indexes of a gameConfig's low/high score
-
     private String oldGameName;                                    // Old value of gameConfig name for editing
     private int oldLowScore, oldHighScore;                         // Old value of gameConfig low/high score for editing
     private String newGameName;                                    // New value of storing name of gameConfig
     private int newLowScore, newHighScore;                         // New value of storing low/high score of gameConfig
 
-    private Boolean isEditGameConfig = false;                      // Boolean that keeps track of if you are viewing/editing a gameConfig
-
     private Button viewAchievements;                               // Button to view Achievements
-    private Button takePhotoBtn;
-    private FloatingActionButton btnAddSession;                    // Add new session button
+    private Button takePhotoBtn;                                   // Button for taking photos
+    private FloatingActionButton btnAddSession;                    // Floating Action Button for creating new Session
 
     private TextView selectIcon;                                   // TextView for "Select your game icon"
 
-    private ListView sessionList;                                  // For printing sessions played
+    private GridLayout gridImageLayout;                            // Grid of Images
+    private ImageView selectedImage;                               // Current selected image from grid
 
-    GridLayout gridImageLayout;                                    // Grid of Images
-    ImageView selectedImage;                                       // Current selected image from grid
-
-    TextView welcomeScreenMsg;                                     // Empty state message for no sessions in List
-    ImageView welcomeImage;                                        // Empty state image for no sessions in List
-    ImageView welcomePointer;                                      // Empty state pointer for no sessions in List
+    private TextView welcomeScreenMsg;                             // Empty state message for no sessions in List
+    private ImageView welcomeImage;                                // Empty state image for no sessions in List
+    private ImageView welcomePointer;                              // Empty state pointer for no sessions in List
 
     // Objects
     private GameConfig gameConfiguration;                          // Stores a List of Games
@@ -143,14 +142,6 @@ public class GameConfigActivity extends AppCompatActivity {
 
         // Initialize add session button
         btnAddSession = findViewById(R.id.btnAddNewSession);
-
-        // Enable camera permissions
-        if (ContextCompat.checkSelfPermission(GameConfigActivity.this, Manifest.permission.CAMERA) !=
-                PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(GameConfigActivity.this, new String[]{
-                    Manifest.permission.CAMERA
-            }, 100);
-        }
 
         // Initialize photo button
         takePhotoBtn = findViewById(R.id.takePhotoBtn);
@@ -712,19 +703,62 @@ public class GameConfigActivity extends AppCompatActivity {
 
     // Enable camera permissions
     private void getCameraPermissions() {
+        // Check for if camera permission is granted
+        // Else, open camera
         if (ContextCompat.checkSelfPermission(GameConfigActivity.this, Manifest.permission.CAMERA)
             != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(GameConfigActivity.this, new String[]{
-                    Manifest.permission.CAMERA}, REQUEST_CODE);
+                    Manifest.permission.CAMERA}, PERMISSION_CODE);
             }
         else {
-//            openCamera();
+            openCamera();
         }
     }
 
     // Override for camera
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openCamera();
+            }
+            else {
+                Toast.makeText(this, "Camera permissions are not enabled.", Toast.LENGTH_SHORT).show();
+            }
+        }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    // Open the camera
+    private void openCamera() {
+        Intent open = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(open, CAMERA_REQUEST_CODE);
+    }
+
+    // Store the image in phone directory
+    private void storeImage(Bitmap image) {
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == CAMERA_REQUEST_CODE) {
+            try {
+                // Check if user decides to use image
+                if (data == null) {
+                    throw new NullPointerException();
+                }
+
+                // Save image
+                Bitmap image = (Bitmap) data.getExtras().get("data");
+                selectedImage.setImageBitmap(image);
+            }
+            // If user decides to cancel in Camera
+            catch (NullPointerException e) {
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

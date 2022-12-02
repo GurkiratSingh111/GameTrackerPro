@@ -8,9 +8,8 @@ import ca.cmpt276.carbon.R;
  * Game Class stores the game name, highScore, lowScore and the imageID.
  */
 public class Game {
-
-    ArrayList<Session> sessionsList;
-
+    // Variables
+    private ArrayList<Session> sessionsList;
     private String gameName;
     private int highScore;
     private int lowScore;
