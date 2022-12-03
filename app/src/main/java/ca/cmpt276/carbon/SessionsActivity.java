@@ -386,7 +386,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             try {
                 if (!totalPlayers.getText().toString().equals("")) {
 
