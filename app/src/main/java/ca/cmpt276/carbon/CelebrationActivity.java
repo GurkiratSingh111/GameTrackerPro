@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -42,6 +43,7 @@ public class CelebrationActivity extends AppCompatActivity implements AdapterVie
     Spinner spThemes;
     private ImageView imgCurAch;
     private ImageView imgNextAch;
+    private Button btnAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,11 @@ public class CelebrationActivity extends AppCompatActivity implements AdapterVie
 
         congratsAnimation(congratsImg);
         setInfo();
+
+        // Initialize button
+        findViewById(R.id.btnAnimation).setOnClickListener(v -> {
+            congratsAnimation(congratsImg);
+        });
     }
 
     private void initializeDropdown() {
@@ -100,7 +107,7 @@ public class CelebrationActivity extends AppCompatActivity implements AdapterVie
         else if (achievement.getTheme().equals(Achievements.EMOJI)) {
             spThemes.setSelection(2);
         }
-        else {
+        else if (achievement.getTheme().equals(Achievements.MIDDLE_EARTH)){
             spThemes.setSelection(3);
         }
         spThemes.setOnItemSelectedListener(this);
@@ -151,8 +158,8 @@ public class CelebrationActivity extends AppCompatActivity implements AdapterVie
         setText();
     }
 
-    private int calculatePointsNeeded() {
-        int nextScore =  (int) achievement.getLevelByID(levelID + 1).getMin() * numOfPlayers;
+    private double calculatePointsNeeded() {
+        double nextScore = achievement.getLevelByID(levelID + 1).getMin() * numOfPlayers;
         return nextScore - score;
     }
 
@@ -175,7 +182,6 @@ public class CelebrationActivity extends AppCompatActivity implements AdapterVie
     }
 
     private void congratsAnimation(ImageView img) {
-        img.setVisibility(View.VISIBLE);
         fadeAnimation(img);
         bounceAnimation(img);
         playSound();

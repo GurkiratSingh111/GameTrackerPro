@@ -79,24 +79,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvNextAch" />
 
-    <TextView
-        android:id="@+id/tvLvlID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAnimation" />
-
     <View
         android:id="@+id/divider"
         android:layout_width="1dp"
         android:layout_height="450dp"
-        android:layout_marginStart="68dp"
         android:layout_marginTop="16dp"
         android:background="?android:attr/listDivider"
         android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spThemeCeleb" />
 
