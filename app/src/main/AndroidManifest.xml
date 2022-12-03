@@ -14,7 +14,7 @@
         android:theme="@style/Theme.Carbon.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".Celebration"
+            android:name=".CelebrationActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
