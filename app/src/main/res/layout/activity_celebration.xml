@@ -11,7 +11,8 @@
         android:layout_height="57dp"
         android:theme="@style/Theme.Carbon.AppBarOverlay"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tbCelebration"

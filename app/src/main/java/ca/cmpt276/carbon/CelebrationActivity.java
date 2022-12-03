@@ -49,17 +49,22 @@ public class CelebrationActivity extends AppCompatActivity implements AdapterVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_celebration);
-
         gameConfig = GameConfig.getInstance();
-        curSession = gameConfig.getGame(gameIndex).getSessionAtIndex(sessionIndex);
 
         // Receive intent
         Intent intent = getIntent();
-        achievement = curSession.getAchievementLevel();
         intentLevel = (AchievementLevel) intent.getExtras().getSerializable("LEVEL");
         score = (int) intent.getIntExtra("SCORE", 0);
         numOfPlayers = (int) intent.getIntExtra("PLAYERS", 0);
+        gameIndex = (int) intent.getIntExtra("GAME_INDEX", -1);
         levelID = intentLevel.getId();
+        sessionIndex = (int) intent.getIntExtra("SESSION_INDEX", -1);
+        if (sessionIndex < 0) {
+            sessionIndex = gameConfig.getGame(gameIndex).getSize() - 1;
+        }
+
+        curSession = gameConfig.getGame(gameIndex).getSessionAtIndex(sessionIndex);
+        achievement = curSession.getAchievementLevel();
 
         // Enable toolbar
         Toolbar toolbar = findViewById(R.id.tbCelebration);
@@ -113,16 +118,12 @@ public class CelebrationActivity extends AppCompatActivity implements AdapterVie
         spThemes.setOnItemSelectedListener(this);
     }
 
-    private void changeSessionTheme(String theme) {
-        curSession.setSessionTheme(theme);
-        curSession.getAchievementLevel().setTheme(theme);
-    }
-
     @Override
     // Toolbar widgets for save and delete session
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                gameConfig.getGame(gameIndex).setSessionAtIndex(sessionIndex, curSession);
                 finish();
                 return true;
             default:
@@ -203,27 +204,33 @@ public class CelebrationActivity extends AppCompatActivity implements AdapterVie
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String text = parent.getItemAtPosition(position).toString();
+        String theme = null;
 
         // Theme
         if (text.equals("Nut")) {
             achievement.setTheme(Achievements.NUT);
             curSession.setSessionTheme((Achievements.NUT));
+            theme = Achievements.NUT;
 
         }
         else if (text.equals("Emoji")) {
             achievement.setTheme(Achievements.EMOJI);
             curSession.setSessionTheme((Achievements.EMOJI));
+            theme = Achievements.EMOJI;
         }
         else if (text.equals("Middle Earth")) {
             achievement.setTheme(Achievements.MIDDLE_EARTH);
             curSession.setSessionTheme((Achievements.MIDDLE_EARTH));
+            theme = Achievements.MIDDLE_EARTH;
         }
         else if (text.equals("None")) {
             achievement.setTheme(Achievements.NONE);
             curSession.setSessionTheme((Achievements.NONE));
+            theme = Achievements.NONE;
         }
+        gameConfig.getGame(gameIndex).getSessionAtIndex(sessionIndex).setSessionTheme(text);
+        gameConfig.getGame(gameIndex).getSessionAtIndex(sessionIndex).getAchievementLevel().setTheme(theme);
         setInfo();
-        changeSessionTheme(text);
     }
 
     @Override
