@@ -206,6 +206,12 @@ public class GameConfigActivity extends AppCompatActivity {
             // are you editing?
             isEditGameConfig = false;
 
+            // Check if a photo was taken
+            if (game.isPhotoTaken()) {
+                image_uri = game.getPhoto();
+                isPhotoTaken = true;
+            }
+
             // Display the game and its sessions (if any)
             displayGame();
 
@@ -376,7 +382,7 @@ public class GameConfigActivity extends AppCompatActivity {
         viewAchievements.setVisibility(View.VISIBLE);
         btnAddSession.setVisibility(View.VISIBLE);
         sessionList.setVisibility(View.VISIBLE);
-
+        takePhotoBtn.setVisibility(View.GONE);
     }
 
     // enables text fields because you're editing game config
@@ -390,7 +396,7 @@ public class GameConfigActivity extends AppCompatActivity {
         btnAddSession.setVisibility(View.GONE);
         sessionList.setVisibility(View.GONE);
         selectedImage.setVisibility(View.GONE);
-
+        takePhotoBtn.setVisibility(View.VISIBLE);
     }
 
     // displays the game information when clicked in list view
@@ -578,6 +584,10 @@ public class GameConfigActivity extends AppCompatActivity {
         oldLowScore = game.getLowScore();
         oldHighScore = game.getHighScore();
 
+        // Store previously taken photo (if any)
+        if (isPhotoTaken) {
+            image_uri = game.getPhoto();
+        }
     }
 
     // Set previous values if cancelled mid way
@@ -612,6 +622,12 @@ public class GameConfigActivity extends AppCompatActivity {
         game.setGameName(newGameName);
         game.setHighScore(newHighScore);
         game.setLowScore(newLowScore);
+
+        // Check if a photo was taken
+        if (isPhotoTaken) {
+            game.setPhotoTaken(true);
+            game.setPhoto(image_uri);
+        }
 
         finish();
     }
@@ -756,8 +772,6 @@ public class GameConfigActivity extends AppCompatActivity {
         openCamera.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
         startActivityIfNeeded(openCamera, CAMERA_REQUEST_CODE);
     }
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

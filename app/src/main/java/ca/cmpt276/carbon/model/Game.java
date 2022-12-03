@@ -81,7 +81,6 @@ public class Game {
         this.photo = photo.toString();
     }
 
-
     // Add, replace, delete new session
     public void addSession(Session s) {
         sessionsList.add(s);
