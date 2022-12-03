@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -41,7 +43,7 @@ import ca.cmpt276.carbon.model.GameConfig;
 import ca.cmpt276.carbon.model.Session;
 
 /**
- *This activity allows the user to add game configurations, edit and delete game configurations too.
+ * This activity allows the user to add game configurations, edit and delete game configurations too.
  */
 public class GameConfigActivity extends AppCompatActivity {
 
@@ -49,7 +51,7 @@ public class GameConfigActivity extends AppCompatActivity {
     private static final String EXTRA_GAME_INDEX = "gameIndex: ";
 
     private GameConfig gameConfiguration;
-    private Game game= new Game();
+    private Game game = new Game();
     private List<String> gameSessions;
 
     // index passed in by the editing game intent call
@@ -142,7 +144,7 @@ public class GameConfigActivity extends AppCompatActivity {
         btnAddSession = findViewById(R.id.btnAddNewSession);
 
         // if index is -1, you're on add game screen
-        if(index == -1) {
+        if (index == -1) {
 
             // hide the session empty state images
             hideMascotOnAddConfig();
@@ -283,10 +285,10 @@ public class GameConfigActivity extends AppCompatActivity {
                 int players = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getPlayers();
                 int score = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTotalScore();
                 String level = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getAchievementLevel().getAchievement(score, players).getName();
-                String difficultyLevel= gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getSessionDifficulty();
+                String difficultyLevel = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getSessionDifficulty();
 
                 gameSessions.add("Time played: " + time + "\nTotal Players: " + players +
-                        "\nScore: " + score + "\nLevel: " + level + "\nDifficulty Level: "+ difficultyLevel);
+                        "\nScore: " + score + "\nLevel: " + level + "\nDifficulty Level: " + difficultyLevel);
             }
         }
         // Array adapter for ListView
@@ -325,8 +327,6 @@ public class GameConfigActivity extends AppCompatActivity {
 
             return sessionsView;
         }
-
-
     }
 
     // For adding a session inside game config
@@ -355,7 +355,6 @@ public class GameConfigActivity extends AppCompatActivity {
         viewAchievements.setVisibility(View.VISIBLE);
         btnAddSession.setVisibility(View.VISIBLE);
         sessionList.setVisibility(View.VISIBLE);
-
     }
 
     // enables text fields because you're editing game config
@@ -369,7 +368,6 @@ public class GameConfigActivity extends AppCompatActivity {
         btnAddSession.setVisibility(View.GONE);
         sessionList.setVisibility(View.GONE);
         selectedImage.setVisibility(View.GONE);
-
     }
 
     // displays the game information when clicked in list view
@@ -394,8 +392,7 @@ public class GameConfigActivity extends AppCompatActivity {
             disableEditText(gameName);
             disableEditText(lowScore);
             disableEditText(highScore);
-        }
-        else {
+        } else {
             // enable editing once the edit button in toolbar pressed
             enableEditText(gameName);
             enableEditText(lowScore);
@@ -420,18 +417,17 @@ public class GameConfigActivity extends AppCompatActivity {
             return;
         }
 
-        if(name.isEmpty() || score1.isEmpty() || score2.isEmpty()) {
+        if (name.isEmpty() || score1.isEmpty() || score2.isEmpty()) {
             Toast.makeText(this, "Fields must not be empty", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(!highScore.getText().toString().equals("") && !lowScore.getText().toString().equals(""))
-        {
+        if (!highScore.getText().toString().equals("") && !lowScore.getText().toString().equals("")) {
             numLowScore = Integer.parseInt(score1);
             numHighScore = Integer.parseInt(score2);
         }
 
-        if (numHighScore <= numLowScore ) {
+        if (numHighScore <= numLowScore) {
             Toast.makeText(this, "High score must be greater than Low score", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -476,6 +472,7 @@ public class GameConfigActivity extends AppCompatActivity {
                 //Toast.makeText(AddGameActivity.this, "must not be empty", Toast.LENGTH_SHORT).show();
             }
         }
+
         @Override
         public void afterTextChanged(Editable s) {
             // not needed
@@ -578,7 +575,7 @@ public class GameConfigActivity extends AppCompatActivity {
             return;
         }
 
-        if (newHighScore <= newLowScore ) {
+        if (newHighScore <= newLowScore) {
             Toast.makeText(this, "High score must be greater than Low score", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -664,30 +661,34 @@ public class GameConfigActivity extends AppCompatActivity {
         game.setImageID(tappedImage);
         selectedImage.setImageResource(R.drawable.img1);
     }
+
     public void imageView2Clicked(View view) {
         int tappedImage = R.drawable.img2;
         game.setImageID(tappedImage);
         selectedImage.setImageResource(R.drawable.img2);
     }
+
     public void imageView3Clicked(View view) {
         int tappedImage = R.drawable.img3;
         game.setImageID(tappedImage);
         selectedImage.setImageResource(R.drawable.img3);
     }
+
     public void imageView4Clicked(View view) {
         int tappedImage = R.drawable.img4;
         game.setImageID(tappedImage);
         selectedImage.setImageResource(R.drawable.img4);
     }
+
     public void imageView5Clicked(View view) {
         int tappedImage = R.drawable.img5;
         game.setImageID(tappedImage);
         selectedImage.setImageResource(R.drawable.img5);
     }
+
     public void imageView6Clicked(View view) {
         int tappedImage = R.drawable.img6;
         game.setImageID(tappedImage);
         selectedImage.setImageResource(R.drawable.img6);
     }
-
 }
