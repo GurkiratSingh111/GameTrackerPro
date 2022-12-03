@@ -20,6 +20,8 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
+import java.text.DecimalFormat;
+
 import ca.cmpt276.carbon.model.AchievementLevel;
 import ca.cmpt276.carbon.model.Achievements;
 import ca.cmpt276.carbon.model.GameConfig;
@@ -43,7 +45,7 @@ public class CelebrationActivity extends AppCompatActivity implements AdapterVie
     Spinner spThemes;
     private ImageView imgCurAch;
     private ImageView imgNextAch;
-    private Button btnAnimation;
+    private static DecimalFormat REAL_FORMATTER = new DecimalFormat("#.##");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,8 +141,8 @@ public class CelebrationActivity extends AppCompatActivity implements AdapterVie
             tvNextAch.setText("Maximum level achieved! Great job!");
         }
         else {
-            tvNextAch.setText("You need " + calculatePointsNeeded() + " more point(s) for next " +
-                    "achievement " + achievement.getLevelByID(levelID + 1).getName());
+            tvNextAch.setText("You need " + REAL_FORMATTER.format(calculatePointsNeeded()) +
+                    " more point(s) for next achievement " + achievement.getLevelByID(levelID + 1).getName());
         }
     }
 
