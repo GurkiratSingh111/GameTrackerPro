@@ -89,6 +89,10 @@ public class Game {
         sessionsList.remove(index);
     }
 
+    public void setSessionAtIndex(int index, Session session) {
+        this.sessionsList.set(index, session);
+    }
+
     // Helper methods
     public Session getSessionAtIndex(int index) {
         return sessionsList.get(index);

@@ -8,7 +8,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.Manifest;
 import android.content.ContentValues;
 import android.content.Context;
@@ -38,6 +37,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -45,10 +45,6 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,12 +53,12 @@ import ca.cmpt276.carbon.model.GameConfig;
 import ca.cmpt276.carbon.model.Session;
 
 /**
- *This activity allows the user to add game configurations, edit and delete game configurations too.
+ * This activity allows the user to add game configurations, edit and delete game configurations too.
  */
 public class GameConfigActivity extends AppCompatActivity {
 
-    // Constants
-    private static final String EXTRA_GAME_INDEX = "gameIndex: ";  // Intent
+    // Intent extra Constant
+    private static final String EXTRA_GAME_INDEX = "gameIndex: ";
     private static final int PERMISSION_CODE = 100;                // Camera permission code
     private static final int CAMERA_REQUEST_CODE = 101;            // Camera request code
 
@@ -310,10 +306,10 @@ public class GameConfigActivity extends AppCompatActivity {
                 int players = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getPlayers();
                 int score = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTotalScore();
                 String level = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getAchievementLevel().getAchievement(score, players).getName();
-                String difficultyLevel= gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getSessionDifficulty();
+                String difficultyLevel = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getSessionDifficulty();
 
                 gameSessions.add("Time played: " + time + "\nTotal Players: " + players +
-                        "\nScore: " + score + "\nLevel: " + level + "\nDifficulty Level: "+ difficultyLevel);
+                        "\nScore: " + score + "\nLevel: " + level + "\nDifficulty Level: " + difficultyLevel);
             }
         }
         // Array adapter for ListView
@@ -352,8 +348,6 @@ public class GameConfigActivity extends AppCompatActivity {
 
             return sessionsView;
         }
-
-
     }
 
     // For adding a session inside game config
@@ -421,8 +415,7 @@ public class GameConfigActivity extends AppCompatActivity {
             disableEditText(gameName);
             disableEditText(lowScore);
             disableEditText(highScore);
-        }
-        else {
+        } else {
             // enable editing once the edit button in toolbar pressed
             enableEditText(gameName);
             enableEditText(lowScore);
@@ -447,18 +440,17 @@ public class GameConfigActivity extends AppCompatActivity {
             return;
         }
 
-        if(name.isEmpty() || score1.isEmpty() || score2.isEmpty()) {
+        if (name.isEmpty() || score1.isEmpty() || score2.isEmpty()) {
             Toast.makeText(this, "Fields must not be empty", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(!highScore.getText().toString().equals("") && !lowScore.getText().toString().equals(""))
-        {
+        if (!highScore.getText().toString().equals("") && !lowScore.getText().toString().equals("")) {
             numLowScore = Integer.parseInt(score1);
             numHighScore = Integer.parseInt(score2);
         }
 
-        if (numHighScore <= numLowScore ) {
+        if (numHighScore <= numLowScore) {
             Toast.makeText(this, "High score must be greater than Low score", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -508,6 +500,7 @@ public class GameConfigActivity extends AppCompatActivity {
                 //Toast.makeText(AddGameActivity.this, "must not be empty", Toast.LENGTH_SHORT).show();
             }
         }
+
         @Override
         public void afterTextChanged(Editable s) {
             // not needed
@@ -614,7 +607,7 @@ public class GameConfigActivity extends AppCompatActivity {
             return;
         }
 
-        if (newHighScore <= newLowScore ) {
+        if (newHighScore <= newLowScore) {
             Toast.makeText(this, "High score must be greater than Low score", Toast.LENGTH_SHORT).show();
             return;
         }

@@ -74,6 +74,4 @@ public class GameConfig implements Iterable<Game> {
     public Iterator<Game> iterator() {
         return gamesList.iterator();
     }
-
-
 }
