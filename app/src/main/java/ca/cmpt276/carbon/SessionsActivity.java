@@ -1,10 +1,7 @@
 package ca.cmpt276.carbon;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -13,7 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,9 +21,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,11 +71,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
     private ListView listView;                   // ListView of score of players
     private ListviewAdapter adapter;             // Adapter for listView
 
-    // Congratulations message
-    private AlertDialog.Builder congratsMsg;
-    private ImageView congratsImg;
-    private MediaPlayer congratsSound;
-
     // Spinners
     private Spinner difficultySpinner;  // Difficulty dropdown
     private Spinner themeSpinner;       // Theme dropdown
@@ -105,7 +93,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         // Initialization/intents
         initializeSession();
         initializeSpinner();
-        initializeCongratsMessage();
 
         oldScoreList = new ArrayList<>();
 
@@ -200,7 +187,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         lowScore = i.getIntExtra("LOW_SCORE", -1);
         highScore = i.getIntExtra("HIGH_SCORE", -1);
 
-        achievementTheme =Achievements.NONE;
+        achievementTheme = Achievements.NONE;
         factor = 1.0;
 
         // Initialize achievement levels
@@ -249,15 +236,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         themeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         themeSpinner.setAdapter(themeAdapter);
         themeSpinner.setOnItemSelectedListener(this);
-    }
-    private void initializeCongratsMessage() {
-        // Initialize Congratulations pop-up
-        congratsMsg = new AlertDialog.Builder(this);
-        congratsImg = findViewById(R.id.imgCongrats);
-        congratsImg.setVisibility(View.GONE);
-
-        // If user clicks out of alert, finish activity
-        congratsMsg.setOnDismissListener(dialog -> finish());
     }
 
     // Spinner initialization methods for edit session
@@ -328,6 +306,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         try {
             if (!totalPlayers.getText().toString().isEmpty()) {
 
+                combinedScore = 0;
                 for (int i = 0; i < scoreList.size(); i++) {
                     if (scoreList.get(i) == null) {
                         throw new IllegalArgumentException();
@@ -357,7 +336,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
                     gameConfiguration.getGame(configIndex).addSession(session);
 
                     // Play congratulations message
-                    congratsAnimation(congratsImg);
+                    openCelebrationActivity();
                 }
                 // Editing existing session
                 else {
@@ -425,7 +404,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             catch (IllegalArgumentException e) {
                 Toast.makeText(SessionsActivity.this, "Must have 1 to 25 Players.", Toast.LENGTH_SHORT).show();
             }
-
         }
 
         @Override
@@ -487,65 +465,16 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         //Nothing here
     }
 
-    private void fadeAnimation(ImageView img) {
-        YoYo.with(Techniques.FadeIn)
-                .duration(2000)
-                .playOn(img);
-    }
+    private void openCelebrationActivity() {
+        Intent intent = new Intent(SessionsActivity.this, CelebrationActivity.class);
 
-    private void bounceAnimation(ImageView img) {
-        YoYo.with(Techniques.Bounce)
-                .duration(700)
-                .repeat(3)
-                .playOn(img);
-    }
-
-    private void congratsAnimation(ImageView img) {
-        img.setVisibility(View.VISIBLE);
-        fadeAnimation(img);
-        bounceAnimation(img);
-        playSound();
-
-        // Delay pop up for animation
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                congratsMsg();
-            }
-        }, 2700);
-    }
-
-    private void congratsMsg() {
-        // Allow user to exit by clicking outside of alert box
-        congratsMsg.setCancelable(true);
-
-        // Alert display
-        congratsMsg.setTitle("Congratulations")
-                .setMessage("You've added a new session!")
-                .setIcon(session.getAchievementLevel().getAchievement(intScore, intPlayers).getImage())
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                }).show();
-    }
-
-    // Play sound method
-    private void playSound() {
-        congratsSound = MediaPlayer.create(this, R.raw.win);
-
-        congratsSound.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                congratsSound.start();
-            }
-        });
-        congratsSound.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                congratsSound.release();
-            }
-        });
+        // Send current achievement object to celebration class and start the activity
+        intent.putExtra("ACHIEVEMENT", currentAchievement);
+        intent.putExtra("LEVEL", currentAchievement.getAchievement(adapter.getUpdatedCombinedScore(), intPlayers));
+        intent.putExtra("SCORE", combinedScore);
+        intent.putExtra("PLAYERS", intPlayers);
+        intent.putExtra("GAME_INDEX", configIndex);
+        intent.putExtra("SESSION_INDEX", sessionIndex);
+        startActivity(intent);
     }
 }
