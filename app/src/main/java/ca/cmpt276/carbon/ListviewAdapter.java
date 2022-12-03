@@ -74,7 +74,6 @@ public class ListviewAdapter extends BaseAdapter {
         return updatedCombScore;
     }
 
-
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
         final ViewHolder holder;
@@ -131,19 +130,15 @@ public class ListviewAdapter extends BaseAdapter {
                 for (int i = 0; i < list.size(); i++) {
                     combinedScore += (int) list.get(i);
                 }
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 // do nothing
             }
-
         });
-
         return convertView;
     }
-
 }
 
 class ViewHolder {

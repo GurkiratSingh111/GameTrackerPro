@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- "Mark Favorite", should appear as action button if possible -->
+
+    <!-- This is the tool bar for celebration page -->
+    <item
+        android:id="@+id/action_add_game"
+        android:title="Celebration!"
+        app:showAsAction="always"/>
+
+</menu>
