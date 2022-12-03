@@ -337,6 +337,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
 
                     // Play congratulations message
                     openCelebrationActivity();
+                    finish();
                 }
                 // Editing existing session
                 else {
