@@ -182,7 +182,14 @@ public class MainActivity extends AppCompatActivity {
             String str = gameList.get(position);
             Game g = gameConfiguration.getGame(position);
             ImageView imageView = itemView.findViewById(R.id.item_icon);
-            imageView.setImageResource(g.getImageID());
+            // If photo is not taken, use default image
+            // Else, use photo taken
+            if (!g.isPhotoTaken()) {
+                imageView.setImageResource(g.getImageID());
+            }
+            else {
+                imageView.setImageURI(g.getPhoto());
+            }
 
             TextView makeText = itemView.findViewById(R.id.textView);
             makeText.setText(str);

@@ -1,5 +1,6 @@
 package ca.cmpt276.carbon.model;
 
+import android.net.Uri;
 import java.util.ArrayList;
 
 import ca.cmpt276.carbon.R;
@@ -14,13 +15,8 @@ public class Game {
     private int highScore;
     private int lowScore;
     private int imageID;
-
-    public int getImageID() {
-        return imageID;
-    }
-    public void setImageID(int imageID) {
-        this.imageID = imageID;
-    }
+    private boolean isPhotoTaken;
+    private String photo;
 
     // default constructor
     public Game() {
@@ -28,7 +24,8 @@ public class Game {
         highScore = 0;
         lowScore = 0;
         gameName = "";
-        imageID= R.drawable.p1;
+        imageID = R.drawable.p1;
+        isPhotoTaken = false;
     }
 
     // custom constructor with parameters
@@ -39,6 +36,7 @@ public class Game {
         this.sessionsList = new ArrayList<>();
     }
 
+    // Getter/Setter methods
     public int getHighScore() {
         return highScore;
     }
@@ -59,6 +57,31 @@ public class Game {
         this.gameName = gameName;
     }
 
+    public int getImageID() {
+        return imageID;
+    }
+    public void setImageID(int imageID) {
+        this.imageID = imageID;
+    }
+
+    public boolean isPhotoTaken() {
+        return isPhotoTaken;
+    }
+    public void setPhotoTaken(boolean photoTaken) {
+        isPhotoTaken = photoTaken;
+    }
+
+    public Uri getPhoto() {
+        if (photo == null) {
+            return null;
+        }
+        return Uri.parse(photo);
+    }
+    public void setPhoto(Uri photo) {
+        this.photo = photo.toString();
+    }
+
+
     // Add, replace, delete new session
     public void addSession(Session s) {
         sessionsList.add(s);
@@ -76,5 +99,4 @@ public class Game {
     public int getSize() {
         return sessionsList.size();
     }
-
 }

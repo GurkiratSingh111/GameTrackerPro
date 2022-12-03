@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,7 +18,9 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -43,6 +46,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,6 +95,9 @@ public class GameConfigActivity extends AppCompatActivity {
     private TextView welcomeScreenMsg;                             // Empty state message for no sessions in List
     private ImageView welcomeImage;                                // Empty state image for no sessions in List
     private ImageView welcomePointer;                              // Empty state pointer for no sessions in List
+
+    private Uri image_uri;                                         // Storage for photos taken by camera
+    private boolean isPhotoTaken;                                  // Check if a photo was taken
 
     // Objects
     private GameConfig gameConfiguration;                          // Stores a List of Games
@@ -145,6 +154,7 @@ public class GameConfigActivity extends AppCompatActivity {
 
         // Initialize photo button
         takePhotoBtn = findViewById(R.id.takePhotoBtn);
+        isPhotoTaken = false;
         takePhotoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,7 +163,7 @@ public class GameConfigActivity extends AppCompatActivity {
         });
 
         // if index is -1, you're on add game screen
-        if(index == -1) {
+        if (index == -1) {
 
             // hide the session empty state images
             hideMascotOnAddConfig();
@@ -453,6 +463,11 @@ public class GameConfigActivity extends AppCompatActivity {
         game.setHighScore(numHighScore);
         game.setLowScore(numLowScore);
 
+        // Add image to Game if a photo was taken
+        if (isPhotoTaken) {
+            game.setPhoto(image_uri);
+            game.setPhotoTaken(true);
+        }
 
         // add game to configs
         gameConfiguration.addGame(game);
@@ -701,7 +716,7 @@ public class GameConfigActivity extends AppCompatActivity {
         selectedImage.setImageResource(R.drawable.img6);
     }
 
-    // Enable camera permissions
+    // Enable camera permissions or open camera if already enabled
     private void getCameraPermissions() {
         // Check for if camera permission is granted
         // Else, open camera
@@ -731,34 +746,28 @@ public class GameConfigActivity extends AppCompatActivity {
 
     // Open the camera
     private void openCamera() {
-        Intent open = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(open, CAMERA_REQUEST_CODE);
+        ContentValues value = new ContentValues();
+        value.put(MediaStore.Images.Media.TITLE, "Photo");
+        value.put(MediaStore.Images.Media.DESCRIPTION, "Camera");
+        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, value);
+
+        // Open camera
+        Intent openCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        openCamera.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
+        startActivityIfNeeded(openCamera, CAMERA_REQUEST_CODE);
     }
 
-    // Store the image in phone directory
-    private void storeImage(Bitmap image) {
 
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == CAMERA_REQUEST_CODE) {
-            try {
-                // Check if user decides to use image
-                if (data == null) {
-                    throw new NullPointerException();
-                }
-
-                // Save image
-                Bitmap image = (Bitmap) data.getExtras().get("data");
-                selectedImage.setImageBitmap(image);
-            }
-            // If user decides to cancel in Camera
-            catch (NullPointerException e) {
-                Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show();
+        // Get image if accepted
+        if (resultCode == -1) {
+            if (requestCode == CAMERA_REQUEST_CODE && data != null) {
+                selectedImage.setImageURI(image_uri);
+                isPhotoTaken = true;
             }
         }
-
         super.onActivityResult(requestCode, resultCode, data);
     }
 }
