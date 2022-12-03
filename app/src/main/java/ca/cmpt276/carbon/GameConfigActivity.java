@@ -762,7 +762,7 @@ public class GameConfigActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         // Get image if accepted
-        if (resultCode == -1) {
+        if (resultCode == -1) {     // -1 = photo taken, 0 = no photo taken
             if (requestCode == CAMERA_REQUEST_CODE && data != null) {
                 selectedImage.setImageURI(image_uri);
                 isPhotoTaken = true;
