@@ -21,7 +21,7 @@
     <string name="low_score_hint">low score</string>
     <string name="high_score_hint">high score</string>
     <string name="levels">Levels</string>
-    <string name="select_your_game_icon">SELECT YOUR GAME ICON:</string>
+    <string name="current_game_image">CURRENT IMAGE:</string>
     <string name="hmmm_there_seems_to_be_no_sessions_here_nwhy_don_t_you_click_this_button_to_add_a_new_session">Hmmm, there seems to be no sessions here!\nWhy don\'t you click this button to add a new session!</string>
     <string name="image_device">image device</string>
     <string name="image_cards">image cards</string>
@@ -68,6 +68,7 @@
     <string name="set">set</string>
     <string name="Theme">THEME</string>
     <string name="enter_score">Enter Score</string>
+    <string name="take_photo">Take Photo</string>
     <string-array name="levels">
         <item>Normal</item>
         <item>Easy</item>
