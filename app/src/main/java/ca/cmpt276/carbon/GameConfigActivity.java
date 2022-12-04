@@ -162,7 +162,46 @@ public class GameConfigActivity extends AppCompatActivity {
             setupGameConfigDataFields();
         }
         //else if you're in viewing game mode and there are no sessions
+        else if(index >=0 && gameConfiguration.getGamesList().get(index).getSize()==0)
+        {
+            btnStatistics.setVisibility(View.GONE);
+            // Populate game sessions
+            populateGameSessions(index);
 
+            // ListView for Sessions
+            registerClickCallback();
+
+            viewAchievements.setVisibility(View.VISIBLE);
+            btnAddSession.setVisibility(View.VISIBLE);
+            gridImageLayout.setVisibility(View.GONE);
+            selectIcon.setVisibility(View.GONE);
+            selectedImage.setVisibility(View.GONE);
+
+            // Change title to show editing game instead
+            getSupportActionBar().setTitle("Game Sessions");
+
+            // Get the game at index
+            game = gameConfiguration.getGame(index);
+
+            // are you editing?
+            isEditGameConfig = false;
+
+            // Display the game and its sessions (if any)
+            displayGame();
+
+            // Button for add session
+            btnAddSession.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(GameConfigActivity.this, SessionsActivity.class);
+                    i.putExtra("SESSION_INDEX", -1);
+                    i.putExtra("GAME_INDEX", index);
+                    i.putExtra("LOW_SCORE", game.getLowScore());
+                    i.putExtra("HIGH_SCORE", game.getHighScore());
+                    startActivity(i);
+                }
+            });
+        }
         // else you're in viewing game mode -
         // in this mode, you can edit the HS, LS, add a session, remove session etc.
         else if (index >= 0) {
@@ -223,9 +262,6 @@ public class GameConfigActivity extends AppCompatActivity {
         {
             btnStatistics.setVisibility(View.VISIBLE);
         }
-
-
-
     }
 
     // Saves data for next launch
