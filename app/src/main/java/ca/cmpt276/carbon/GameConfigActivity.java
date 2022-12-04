@@ -215,6 +215,16 @@ public class GameConfigActivity extends AppCompatActivity {
         if (index != -1) {
             populateGameSessions(index);
         }
+        if(index >=0 && gameConfiguration.getGamesList().get(index).getSize()==0)
+        {
+            btnStatistics.setVisibility(View.GONE);
+        }
+        else
+        {
+            btnStatistics.setVisibility(View.VISIBLE);
+        }
+
+
 
     }
 
