@@ -68,7 +68,7 @@
     <string name="set">set</string>
     <string name="Theme">THEME</string>
     <string name="enter_score">Enter Score</string>
-    <string-array name= "levels">
+    <string-array name="levels">
         <item>Normal</item>
         <item>Easy</item>
         <item>Hard</item>
