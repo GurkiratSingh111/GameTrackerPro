@@ -21,7 +21,7 @@ public class AchievementStatistics extends AppCompatActivity {
     BarChart barChart;
     //Singleton object
     private GameConfig gameConfiguration;
-
+    private int[] countSessions;
     public static final String SESSION_INDEX="INDEX";
 
     private int gameIndex;
@@ -32,18 +32,16 @@ public class AchievementStatistics extends AppCompatActivity {
         extractDataFromIntent();
         gameConfiguration = GameConfig.getInstance();
 
+        arrayListOfLevels();
         barGraphStatistics();
     }
-
-    //This function manages the required functionality of the Bar Graph
-    private void barGraphStatistics()
-    {
-        int[] countSessions =new int[10];
+    //This function creates an array of levels where each index corresponds to each level and each index stores the count of
+    //levels
+    private void arrayListOfLevels() {
+        countSessions =new int[10];
         for(int i=0;i<countSessions.length;i++) {
             countSessions[i]=0;
         }
-        barChart = findViewById(R.id.barGraph);
-        ArrayList<BarEntry> barEntries =new ArrayList<>();
         for(int i=0;i<gameConfiguration.getGamesList().get(gameIndex).getSize();i++) {
             int players = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getPlayers();
             int score = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTotalScore();
@@ -87,6 +85,14 @@ public class AchievementStatistics extends AppCompatActivity {
             else
                 countSessions[9]++;
         }
+    }
+
+    //This function manages the required functionality of the Bar Graph
+    private void barGraphStatistics()
+    {
+
+        barChart = findViewById(R.id.barGraph);
+        ArrayList<BarEntry> barEntries =new ArrayList<>();
         for(int i=0; i<countSessions.length ;i++){
             int value = countSessions[i];
             BarEntry barEntry = new BarEntry((i+1), value);
