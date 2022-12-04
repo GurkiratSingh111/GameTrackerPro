@@ -64,6 +64,12 @@ public class MainActivity extends AppCompatActivity {
             Intent i = GameConfigActivity.makeLaunchIntent(MainActivity.this, -1);
             startActivity(i);
         });
+
+        // Open about page
+        findViewById(R.id.btnAbout).setOnClickListener( v -> {
+            Intent i = new Intent (MainActivity.this, AboutActivity.class);
+            startActivity(i);
+        });
     }
 
     // Saves data for next launch
