@@ -157,18 +157,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/totalScoreTextView" />
 
-    <ImageView
-        android:id="@+id/imgCongrats"
-        android:layout_width="396dp"
-        android:layout_height="196dp"
-        android:layout_marginTop="192dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.266"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/congrats"
-        tools:visibility="gone" />
-
     <Button
         android:id="@+id/btnSetNumPlayers"
         android:layout_width="82dp"

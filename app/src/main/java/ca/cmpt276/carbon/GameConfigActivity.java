@@ -4,15 +4,21 @@ import static ca.cmpt276.carbon.MainActivity.NAME;
 import static ca.cmpt276.carbon.MainActivity.SHARED_PREFS;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import android.Manifest;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -23,12 +29,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
@@ -41,57 +49,49 @@ import ca.cmpt276.carbon.model.GameConfig;
 import ca.cmpt276.carbon.model.Session;
 
 /**
- *This activity allows the user to add game configurations, edit and delete game configurations too.
+ * This activity allows the user to add game configurations, edit and delete game configurations too.
  */
 public class GameConfigActivity extends AppCompatActivity {
 
     // Intent extra Constant
     private static final String EXTRA_GAME_INDEX = "gameIndex: ";
+    private static final int PERMISSION_CODE = 100;                // Camera permission code
+    private static final int CAMERA_REQUEST_CODE = 101;            // Camera request code
 
-    private GameConfig gameConfiguration;
-    private Game game= new Game();
-    private List<String> gameSessions;
+    // Variables
+    private List<String> gameSessions;                             // List of Sessions played for display
+    private ListView sessionList;                                  // For printing sessions played
 
-    // index passed in by the editing game intent call
-    private int index;
+    private int index;                                             // Intent for editing gameConfig
+    private Boolean isEditGameConfig = false;                      // Boolean that keeps track of if you are viewing/editing a gameConfig
 
-    // Edit text fields for the three fields on screen
-    private EditText gameName, lowScore, highScore;
-    private int numLowScore, numHighScore;
+    private EditText gameName, lowScore, highScore;                // EditText for fields of game name and low/high score
+    private int numLowScore, numHighScore;                         // Int of low/high score
 
-    // Variables for indexed game retrieval
-    private String indexedGameName;
-    private int indexedLowScore, indexedHighScore;
+    private String indexedGameName;                                // Index of a gameConfig's name
+    private int indexedLowScore, indexedHighScore;                 // Indexes of a gameConfig's low/high score
+    private String oldGameName;                                    // Old value of gameConfig name for editing
+    private int oldLowScore, oldHighScore;                         // Old value of gameConfig low/high score for editing
+    private String newGameName;                                    // New value of storing name of gameConfig
+    private int newLowScore, newHighScore;                         // New value of storing low/high score of gameConfig
 
-    // Variables for storing old game information for editing config
-    private String oldGameName;
-    private int oldLowScore, oldHighScore;
+    private Button viewAchievements;                               // Button to view Achievements
+    private Button takePhotoBtn;                                   // Button for taking photos
+    private FloatingActionButton btnAddSession;                    // Floating Action Button for creating new Session
 
-    // Variables for storing new game information for editing config
-    private String newGameName;
-    private int newLowScore, newHighScore;
-    private Button btnStatistics;
+    private TextView gamePicture;                                  // TextView for "Select your game icon"
+    private ImageView gamePhoto;                                   // Current image for the Game
 
-    // bool to keep track if you're in editing mode or viewing mode
-    // this will also be used later to update the game session scores
-    private Boolean isEditGameConfig = false;
+    private TextView welcomeScreenMsg;                             // Empty state message for no sessions in List
+    private ImageView welcomeImage;                                // Empty state image for no sessions in List
+    private ImageView welcomePointer;                              // Empty state pointer for no sessions in List
 
-    // view achievement level button
-    private Button viewAchievements;
-    TextView selectIcon;
-    // Add new session button
-    FloatingActionButton btnAddSession;
+    private Uri image_uri;                                         // Storage for photos taken by camera
+    private boolean isPhotoTaken;                                  // Check if a photo was taken
 
-    // For printing sessions played
-    private ListView sessionList;
-
-    GridLayout gridImageLayout;
-    ImageView selectedImage;
-
-    // empty state images and text
-    TextView welcomeScreenMsg;
-    ImageView welcomeImage;
-    ImageView welcomePointer;
+    // Objects
+    private GameConfig gameConfiguration;                          // Stores a List of Games
+    private Game game = new Game();                                // New Game object
 
     // Build an intent int input is the index of the game clicked
     public static Intent makeLaunchIntent(Context c, int input) {
@@ -99,6 +99,7 @@ public class GameConfigActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_GAME_INDEX, input);
         return intent;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,10 +110,8 @@ public class GameConfigActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // setup grid and images
-        gridImageLayout = findViewById(R.id.gridLayout);
-        selectIcon = findViewById(R.id.selectGameIcon);
-        selectedImage = findViewById(R.id.imageViewSelectedImage);
-        btnStatistics =findViewById(R.id.btnStats);
+        gamePicture = findViewById(R.id.selectGameIcon);
+        gamePhoto = findViewById(R.id.imageViewSelectedImage);
 
         // View achievements
         viewAchievements = findViewById(R.id.btnViewAchievements);
@@ -142,8 +141,18 @@ public class GameConfigActivity extends AppCompatActivity {
         // Initialize add session button
         btnAddSession = findViewById(R.id.btnAddNewSession);
 
+        // Initialize photo button
+        takePhotoBtn = findViewById(R.id.takePhotoBtn);
+        isPhotoTaken = false;
+        takePhotoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getCameraPermissions();
+            }
+        });
+
         // if index is -1, you're on add game screen
-        if(index == -1) {
+        if (index == -1) {
 
             // hide the session empty state images
             hideMascotOnAddConfig();
@@ -156,51 +165,9 @@ public class GameConfigActivity extends AppCompatActivity {
 
             // Make button invisible
             btnAddSession.setVisibility(View.GONE);
-            gridImageLayout.setVisibility(View.VISIBLE);
-            btnStatistics.setVisibility(View.GONE);
+
             // get user inputs
             setupGameConfigDataFields();
-        }
-        //else if you're in viewing game mode and there are no sessions
-        else if(index >=0 && gameConfiguration.getGamesList().get(index).getSize()==0)
-        {
-            btnStatistics.setVisibility(View.GONE);
-            // Populate game sessions
-            populateGameSessions(index);
-
-            // ListView for Sessions
-            registerClickCallback();
-
-            viewAchievements.setVisibility(View.VISIBLE);
-            btnAddSession.setVisibility(View.VISIBLE);
-            gridImageLayout.setVisibility(View.GONE);
-            selectIcon.setVisibility(View.GONE);
-            selectedImage.setVisibility(View.GONE);
-
-            // Change title to show editing game instead
-            getSupportActionBar().setTitle("Game Sessions");
-
-            // Get the game at index
-            game = gameConfiguration.getGame(index);
-
-            // are you editing?
-            isEditGameConfig = false;
-
-            // Display the game and its sessions (if any)
-            displayGame();
-
-            // Button for add session
-            btnAddSession.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(GameConfigActivity.this, SessionsActivity.class);
-                    i.putExtra("SESSION_INDEX", -1);
-                    i.putExtra("GAME_INDEX", index);
-                    i.putExtra("LOW_SCORE", game.getLowScore());
-                    i.putExtra("HIGH_SCORE", game.getHighScore());
-                    startActivity(i);
-                }
-            });
         }
         // else you're in viewing game mode -
         // in this mode, you can edit the HS, LS, add a session, remove session etc.
@@ -214,9 +181,6 @@ public class GameConfigActivity extends AppCompatActivity {
 
             viewAchievements.setVisibility(View.VISIBLE);
             btnAddSession.setVisibility(View.VISIBLE);
-            gridImageLayout.setVisibility(View.GONE);
-            selectIcon.setVisibility(View.GONE);
-            selectedImage.setVisibility(View.GONE);
 
             // Change title to show editing game instead
             getSupportActionBar().setTitle("Game Sessions");
@@ -226,6 +190,13 @@ public class GameConfigActivity extends AppCompatActivity {
 
             // are you editing?
             isEditGameConfig = false;
+
+            // Check if a photo was taken
+            if (game.isPhotoTaken()) {
+                image_uri = game.getPhoto();
+                gamePhoto.setImageURI(image_uri);
+                isPhotoTaken = true;
+            }
 
             // Display the game and its sessions (if any)
             displayGame();
@@ -333,10 +304,10 @@ public class GameConfigActivity extends AppCompatActivity {
                 int players = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getPlayers();
                 int score = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getTotalScore();
                 String level = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getAchievementLevel().getAchievement(score, players).getName();
-                String difficultyLevel= gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getSessionDifficulty();
+                String difficultyLevel = gameConfiguration.getGame(gameIndex).getSessionAtIndex(i).getSessionDifficulty();
 
                 gameSessions.add("Time played: " + time + "\nTotal Players: " + players +
-                        "\nScore: " + score + "\nLevel: " + level + "\nDifficulty Level: "+ difficultyLevel);
+                        "\nScore: " + score + "\nLevel: " + level + "\nDifficulty Level: " + difficultyLevel);
             }
         }
         // Array adapter for ListView
@@ -375,8 +346,6 @@ public class GameConfigActivity extends AppCompatActivity {
 
             return sessionsView;
         }
-
-
     }
 
     // For adding a session inside game config
@@ -405,7 +374,7 @@ public class GameConfigActivity extends AppCompatActivity {
         viewAchievements.setVisibility(View.VISIBLE);
         btnAddSession.setVisibility(View.VISIBLE);
         sessionList.setVisibility(View.VISIBLE);
-
+        takePhotoBtn.setVisibility(View.GONE);
     }
 
     // enables text fields because you're editing game config
@@ -418,8 +387,7 @@ public class GameConfigActivity extends AppCompatActivity {
         viewAchievements.setVisibility(View.GONE);
         btnAddSession.setVisibility(View.GONE);
         sessionList.setVisibility(View.GONE);
-        selectedImage.setVisibility(View.GONE);
-
+        takePhotoBtn.setVisibility(View.VISIBLE);
     }
 
     // displays the game information when clicked in list view
@@ -444,8 +412,7 @@ public class GameConfigActivity extends AppCompatActivity {
             disableEditText(gameName);
             disableEditText(lowScore);
             disableEditText(highScore);
-        }
-        else {
+        } else {
             // enable editing once the edit button in toolbar pressed
             enableEditText(gameName);
             enableEditText(lowScore);
@@ -470,18 +437,17 @@ public class GameConfigActivity extends AppCompatActivity {
             return;
         }
 
-        if(name.isEmpty() || score1.isEmpty() || score2.isEmpty()) {
+        if (name.isEmpty() || score1.isEmpty() || score2.isEmpty()) {
             Toast.makeText(this, "Fields must not be empty", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(!highScore.getText().toString().equals("") && !lowScore.getText().toString().equals(""))
-        {
+        if (!highScore.getText().toString().equals("") && !lowScore.getText().toString().equals("")) {
             numLowScore = Integer.parseInt(score1);
             numHighScore = Integer.parseInt(score2);
         }
 
-        if (numHighScore <= numLowScore ) {
+        if (numHighScore <= numLowScore) {
             Toast.makeText(this, "High score must be greater than Low score", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -492,6 +458,11 @@ public class GameConfigActivity extends AppCompatActivity {
         game.setHighScore(numHighScore);
         game.setLowScore(numLowScore);
 
+        // Add image to Game if a photo was taken
+        if (isPhotoTaken) {
+            game.setPhoto(image_uri);
+            game.setPhotoTaken(true);
+        }
 
         // add game to configs
         gameConfiguration.addGame(game);
@@ -526,6 +497,7 @@ public class GameConfigActivity extends AppCompatActivity {
                 //Toast.makeText(AddGameActivity.this, "must not be empty", Toast.LENGTH_SHORT).show();
             }
         }
+
         @Override
         public void afterTextChanged(Editable s) {
             // not needed
@@ -602,6 +574,10 @@ public class GameConfigActivity extends AppCompatActivity {
         oldLowScore = game.getLowScore();
         oldHighScore = game.getHighScore();
 
+        // Store previously taken photo (if any)
+        if (isPhotoTaken) {
+            image_uri = game.getPhoto();
+        }
     }
 
     // Set previous values if cancelled mid way
@@ -628,7 +604,7 @@ public class GameConfigActivity extends AppCompatActivity {
             return;
         }
 
-        if (newHighScore <= newLowScore ) {
+        if (newHighScore <= newLowScore) {
             Toast.makeText(this, "High score must be greater than Low score", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -636,6 +612,12 @@ public class GameConfigActivity extends AppCompatActivity {
         game.setGameName(newGameName);
         game.setHighScore(newHighScore);
         game.setLowScore(newLowScore);
+
+        // Check if a photo was taken
+        if (isPhotoTaken) {
+            game.setPhotoTaken(true);
+            game.setPhoto(image_uri);
+        }
 
         finish();
     }
@@ -708,36 +690,45 @@ public class GameConfigActivity extends AppCompatActivity {
                 }).show();
     }
 
-    // Methods to change game icons
-    public void imageView1Clicked(View view) {
-        int tappedImage = R.drawable.img1;
-        game.setImageID(tappedImage);
-        selectedImage.setImageResource(R.drawable.img1);
+    // Enable camera permissions or open camera if already enabled
+    private void getCameraPermissions() {
+        // Check for if camera permission is granted
+        // Else, open camera
+        if (ContextCompat.checkSelfPermission(GameConfigActivity.this, Manifest.permission.CAMERA)
+            != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(GameConfigActivity.this, new String[]{
+                    Manifest.permission.CAMERA}, PERMISSION_CODE);
+            }
+        else {
+            openCamera();
+        }
     }
-    public void imageView2Clicked(View view) {
-        int tappedImage = R.drawable.img2;
-        game.setImageID(tappedImage);
-        selectedImage.setImageResource(R.drawable.img2);
+
+    // Override for camera
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openCamera();
+            }
+            else {
+                Toast.makeText(this, "Camera permissions are not enabled.", Toast.LENGTH_SHORT).show();
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-    public void imageView3Clicked(View view) {
-        int tappedImage = R.drawable.img3;
-        game.setImageID(tappedImage);
-        selectedImage.setImageResource(R.drawable.img3);
-    }
-    public void imageView4Clicked(View view) {
-        int tappedImage = R.drawable.img4;
-        game.setImageID(tappedImage);
-        selectedImage.setImageResource(R.drawable.img4);
-    }
-    public void imageView5Clicked(View view) {
-        int tappedImage = R.drawable.img5;
-        game.setImageID(tappedImage);
-        selectedImage.setImageResource(R.drawable.img5);
-    }
-    public void imageView6Clicked(View view) {
-        int tappedImage = R.drawable.img6;
-        game.setImageID(tappedImage);
-        selectedImage.setImageResource(R.drawable.img6);
+
+    // Open the camera
+    private void openCamera() {
+        ContentValues value = new ContentValues();
+        value.put(MediaStore.Images.Media.TITLE, "Photo");
+        value.put(MediaStore.Images.Media.DESCRIPTION, "Camera");
+        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, value);
+
+        // Open camera
+        Intent openCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        openCamera.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
+        startActivityIfNeeded(openCamera, CAMERA_REQUEST_CODE);
     }
 
     public void onClickStatistics(View view)
@@ -747,4 +738,15 @@ public class GameConfigActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        // Get image if accepted
+        if (resultCode == -1) {     // -1 = photo taken, 0 = no photo taken
+            if (requestCode == CAMERA_REQUEST_CODE && data != null) {
+                gamePhoto.setImageURI(image_uri);
+                isPhotoTaken = true;
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

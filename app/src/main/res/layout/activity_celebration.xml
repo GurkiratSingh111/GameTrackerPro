@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CelebrationActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="412dp"
+        android:layout_height="57dp"
+        android:theme="@style/Theme.Carbon.AppBarOverlay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbCelebration"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ImageView
+        android:id="@+id/imgCongrats"
+        android:layout_width="259dp"
+        android:layout_height="118dp"
+        android:layout_marginTop="76dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/congrats" />
+
+    <TextView
+        android:id="@+id/tvCurAch"
+        android:layout_width="220dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="60dp"
+        android:text="Achievement Level: ACHIEVEMENT LEVEL"
+        android:textAlignment="viewStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.284"
+        app:layout_constraintStart_toEndOf="@+id/divider"
+        app:layout_constraintTop_toBottomOf="@+id/spThemeCeleb" />
+
+    <TextView
+        android:id="@+id/tvNextAch"
+        android:layout_width="222dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="40dp"
+        android:text="You were n away from ACHIEVEMENT LEVEL"
+        android:textAlignment="textStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toEndOf="@+id/divider"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurAch" />
+
+    <Spinner
+        android:id="@+id/spThemeCeleb"
+        android:layout_width="164dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgCongrats" />
+
+    <Button
+        android:id="@+id/btnAnimation"
+        android:layout_width="128dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="80dp"
+        android:text="Animation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvNextAch" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="1dp"
+        android:layout_height="450dp"
+        android:layout_marginTop="16dp"
+        android:background="?android:attr/listDivider"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spThemeCeleb" />
+
+    <ImageView
+        android:id="@+id/imgCurAch"
+        android:layout_width="52dp"
+        android:layout_height="62dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/cool"
+        app:layout_constraintBottom_toBottomOf="@+id/tvCurAch"
+        app:layout_constraintEnd_toStartOf="@+id/divider"
+        app:layout_constraintTop_toTopOf="@+id/tvCurAch" />
+
+    <ImageView
+        android:id="@+id/imgNextAch"
+        android:layout_width="52dp"
+        android:layout_height="62dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/cool"
+        app:layout_constraintBottom_toBottomOf="@+id/tvNextAch"
+        app:layout_constraintEnd_toStartOf="@+id/divider"
+        app:layout_constraintTop_toTopOf="@+id/tvNextAch" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

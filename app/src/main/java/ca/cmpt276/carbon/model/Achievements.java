@@ -1,19 +1,19 @@
 package ca.cmpt276.carbon.model;
 
 
-import android.util.Log;
 
+import java.io.Serializable;
 import ca.cmpt276.carbon.R;
-;
+
 
 /**
  *Achievement class consists of private attributes AchievementLevel
  * which defines each Achievement Level. It also has other attributes lowScore,
  * highScore, deltaScore, intializeAchievements which intializes all the
  * AchievementLevels and getAchievement function which returns the AchievementLevel
-
  */
-public class Achievements {
+
+public class Achievements implements Serializable {
     private AchievementLevel LVL_MAX;
     private AchievementLevel LVL_8;
     private AchievementLevel LVL_7;
@@ -71,55 +71,55 @@ public class Achievements {
 
     // No theme
     public void initializeNoneAchievements(double factor) {
-        LVL_MAX = new AchievementLevel(factor*(highScore), INF, "Level 10", R.drawable.empty);
-        LVL_8 = new AchievementLevel(factor*(highScore - deltaScore),factor*highScore, "Level 9", R.drawable.empty);
-        LVL_7 = new AchievementLevel(factor*(highScore - 2 * deltaScore),factor*(highScore - deltaScore), "Level 8", R.drawable.empty);
-        LVL_6 = new AchievementLevel(factor*(highScore - 3 * deltaScore),factor*(highScore - 2 * deltaScore), "Level 7", R.drawable.empty);
-        LVL_5 = new AchievementLevel(factor*(highScore - 4 * deltaScore),factor*(highScore - 3 * deltaScore), "Level 6", R.drawable.empty);
-        LVL_4 = new AchievementLevel(factor*(highScore - 5 * deltaScore),factor*(highScore - 4 * deltaScore), "Level 5", R.drawable.empty);
-        LVL_3 = new AchievementLevel(factor*(highScore - 6 * deltaScore),factor*(highScore - 5 * deltaScore), "Level 4", R.drawable.empty);
-        LVL_2 = new AchievementLevel(factor*(highScore - 7 * deltaScore), factor*(highScore - 6 * deltaScore), "Level 3", R.drawable.empty);
-        LVL_1 = new AchievementLevel(factor*(lowScore), factor*(highScore - 7 * deltaScore), "Level 2", R.drawable.empty);
-        LVL_MIN = new AchievementLevel(NEG_INF,factor*lowScore, "Level 1", R.drawable.empty);
+        LVL_MAX = new AchievementLevel(factor*(highScore), INF, "Level 10", R.drawable.empty, 9);
+        LVL_8 = new AchievementLevel(factor*(highScore - deltaScore),factor*highScore, "Level 9", R.drawable.empty, 8);
+        LVL_7 = new AchievementLevel(factor*(highScore - 2 * deltaScore),factor*(highScore - deltaScore), "Level 8", R.drawable.empty, 7);
+        LVL_6 = new AchievementLevel(factor*(highScore - 3 * deltaScore),factor*(highScore - 2 * deltaScore), "Level 7", R.drawable.empty, 6);
+        LVL_5 = new AchievementLevel(factor*(highScore - 4 * deltaScore),factor*(highScore - 3 * deltaScore), "Level 6", R.drawable.empty, 5);
+        LVL_4 = new AchievementLevel(factor*(highScore - 5 * deltaScore),factor*(highScore - 4 * deltaScore), "Level 5", R.drawable.empty, 4);
+        LVL_3 = new AchievementLevel(factor*(highScore - 6 * deltaScore),factor*(highScore - 5 * deltaScore), "Level 4", R.drawable.empty, 3);
+        LVL_2 = new AchievementLevel(factor*(highScore - 7 * deltaScore), factor*(highScore - 6 * deltaScore), "Level 3", R.drawable.empty, 2);
+        LVL_1 = new AchievementLevel(factor*(lowScore), factor*(highScore - 7 * deltaScore), "Level 2", R.drawable.empty, 1);
+        LVL_MIN = new AchievementLevel(NEG_INF,factor*lowScore, "Level 1", R.drawable.empty, 0);
     }
 
     public void initializeNutAchievements(double factor) {
-        LVL_MAX = new AchievementLevel(factor*(highScore), INF, "Master Macadamia", R.drawable.macadamia);
-        LVL_8 = new AchievementLevel(factor*(highScore - deltaScore),factor*highScore, "Amazing Almond", R.drawable.almond);
-        LVL_7 = new AchievementLevel(factor*(highScore - 2 * deltaScore),factor*(highScore - deltaScore), "Pretty Pecan", R.drawable.pecan);
-        LVL_6 = new AchievementLevel(factor*(highScore - 3 * deltaScore),factor*(highScore - 2 * deltaScore), "Crazy CornNut", R.drawable.cornnut);
-        LVL_5 = new AchievementLevel(factor*(highScore - 4 * deltaScore),factor*(highScore - 3 * deltaScore), "Wacky Walnut", R.drawable.walnut);
-        LVL_4 = new AchievementLevel(factor*(highScore - 5 * deltaScore),factor*(highScore - 4 * deltaScore), "Savvy SoyNut", R.drawable.soynut);
-        LVL_3 = new AchievementLevel(factor*(highScore - 6 * deltaScore),factor*(highScore - 5 * deltaScore), "Crafty Cashew", R.drawable.cashew);
-        LVL_2 = new AchievementLevel(factor*(highScore - 7 * deltaScore), factor*(highScore - 6 * deltaScore), "Happy Hazelnut", R.drawable.hazelnut);
-        LVL_1 = new AchievementLevel(factor*(lowScore), factor*(highScore - 7 * deltaScore), "Playful Pistachio", R.drawable.pistachio);
-        LVL_MIN = new AchievementLevel(NEG_INF,factor*lowScore, "Pleasant Peanut", R.drawable.peanut);
+        LVL_MAX = new AchievementLevel(factor*(highScore), INF, "Master Macadamia", R.drawable.macadamia, 9);
+        LVL_8 = new AchievementLevel(factor*(highScore - deltaScore),factor*highScore, "Amazing Almond", R.drawable.almond, 8);
+        LVL_7 = new AchievementLevel(factor*(highScore - 2 * deltaScore),factor*(highScore - deltaScore), "Pretty Pecan", R.drawable.pecan, 7);
+        LVL_6 = new AchievementLevel(factor*(highScore - 3 * deltaScore),factor*(highScore - 2 * deltaScore), "Crazy CornNut", R.drawable.cornnut, 6);
+        LVL_5 = new AchievementLevel(factor*(highScore - 4 * deltaScore),factor*(highScore - 3 * deltaScore), "Wacky Walnut", R.drawable.walnut, 5);
+        LVL_4 = new AchievementLevel(factor*(highScore - 5 * deltaScore),factor*(highScore - 4 * deltaScore), "Savvy SoyNut", R.drawable.soynut, 4);
+        LVL_3 = new AchievementLevel(factor*(highScore - 6 * deltaScore),factor*(highScore - 5 * deltaScore), "Crafty Cashew", R.drawable.cashew, 3);
+        LVL_2 = new AchievementLevel(factor*(highScore - 7 * deltaScore), factor*(highScore - 6 * deltaScore), "Happy Hazelnut", R.drawable.hazelnut, 2);
+        LVL_1 = new AchievementLevel(factor*(lowScore), factor*(highScore - 7 * deltaScore), "Playful Pistachio", R.drawable.pistachio, 1);
+        LVL_MIN = new AchievementLevel(NEG_INF,factor*lowScore, "Pleasant Peanut", R.drawable.peanut, 0);
     }
 
     public void initializeEmojiAchievements(double factor) {
-        LVL_MAX = new AchievementLevel(factor*(highScore), INF, "Star Struck Stella", R.drawable.starstruck);
-        LVL_8 = new AchievementLevel(factor*(highScore - deltaScore),factor*highScore, "Cool Catherine", R.drawable.cool);
-        LVL_7 = new AchievementLevel(factor*(highScore - 2 * deltaScore),factor*(highScore - deltaScore), "Happy Hank", R.drawable.happy);
-        LVL_6 = new AchievementLevel(factor*(highScore - 3 * deltaScore),factor*(highScore - 2 * deltaScore), "Nerdy Ned", R.drawable.nerd);
-        LVL_5 = new AchievementLevel(factor*(highScore - 4 * deltaScore),factor*(highScore - 3 * deltaScore), "Sassy Sarah", R.drawable.sassy);
-        LVL_4 = new AchievementLevel(factor*(highScore - 5 * deltaScore),factor*(highScore - 4 * deltaScore), "Smiley Sally", R.drawable.slight_smile);
-        LVL_3 = new AchievementLevel(factor*(highScore - 6 * deltaScore),factor*(highScore - 5 * deltaScore), "Bored Bobby", R.drawable.bored);
-        LVL_2 = new AchievementLevel(factor*(highScore - 7 * deltaScore), factor*(highScore - 6 * deltaScore), "Worried Wart", R.drawable.worried);
-        LVL_1 = new AchievementLevel(factor*(lowScore), factor*(highScore - 7 * deltaScore), "Crying Crabby", R.drawable.crying);
-        LVL_MIN = new AchievementLevel(NEG_INF,factor*lowScore, "Swearing Sam", R.drawable.swear);
+        LVL_MAX = new AchievementLevel(factor*(highScore), INF, "Star Struck Stella", R.drawable.starstruck, 9);
+        LVL_8 = new AchievementLevel(factor*(highScore - deltaScore),factor*highScore, "Cool Catherine", R.drawable.cool, 8);
+        LVL_7 = new AchievementLevel(factor*(highScore - 2 * deltaScore),factor*(highScore - deltaScore), "Happy Hank", R.drawable.happy, 7);
+        LVL_6 = new AchievementLevel(factor*(highScore - 3 * deltaScore),factor*(highScore - 2 * deltaScore), "Nerdy Ned", R.drawable.nerd, 6);
+        LVL_5 = new AchievementLevel(factor*(highScore - 4 * deltaScore),factor*(highScore - 3 * deltaScore), "Sassy Sarah", R.drawable.sassy, 5);
+        LVL_4 = new AchievementLevel(factor*(highScore - 5 * deltaScore),factor*(highScore - 4 * deltaScore), "Smiley Sally", R.drawable.slight_smile, 4);
+        LVL_3 = new AchievementLevel(factor*(highScore - 6 * deltaScore),factor*(highScore - 5 * deltaScore), "Bored Bobby", R.drawable.bored, 3);
+        LVL_2 = new AchievementLevel(factor*(highScore - 7 * deltaScore), factor*(highScore - 6 * deltaScore), "Worried Wart", R.drawable.worried, 2);
+        LVL_1 = new AchievementLevel(factor*(lowScore), factor*(highScore - 7 * deltaScore), "Crying Crabby", R.drawable.crying, 1);
+        LVL_MIN = new AchievementLevel(NEG_INF,factor*lowScore, "Swearing Sam", R.drawable.swear, 0);
     }
 
     public void initializeMiddleEarthAchievements(double factor) {
-        LVL_MAX = new AchievementLevel(factor*(highScore), INF, "Wonderful Wizard", R.drawable.wizard);
-        LVL_8 = new AchievementLevel(factor*(highScore - deltaScore),factor*highScore, "Festive Fairy", R.drawable.fairy);
-        LVL_7 = new AchievementLevel(factor*(highScore - 2 * deltaScore),factor*(highScore - deltaScore), "Shy Sidekick", R.drawable.sidekick);
-        LVL_6 = new AchievementLevel(factor*(highScore - 3 * deltaScore),factor*(highScore - 2 * deltaScore), "Brave Bird", R.drawable.siren);
-        LVL_5 = new AchievementLevel(factor*(highScore - 4 * deltaScore),factor*(highScore - 3 * deltaScore), "Humble Human", R.drawable.human);
-        LVL_4 = new AchievementLevel(factor*(highScore - 5 * deltaScore),factor*(highScore - 4 * deltaScore), "Soulful Spirit", R.drawable.spirit);
-        LVL_3 = new AchievementLevel(factor*(highScore - 6 * deltaScore),factor*(highScore - 5 * deltaScore), "Viscous Viking", R.drawable.viking);
-        LVL_2 = new AchievementLevel(factor*(highScore - 7 * deltaScore), factor*(highScore - 6 * deltaScore), "Easy Elf", R.drawable.elf);
-        LVL_1 = new AchievementLevel(factor*(lowScore), factor*(highScore - 7 * deltaScore), "Greasy Gargoyle", R.drawable.gargoyle);
-        LVL_MIN = new AchievementLevel(NEG_INF,factor*lowScore, "Odourish Orc", R.drawable.orc);
+        LVL_MAX = new AchievementLevel(factor*(highScore), INF, "Wonderful Wizard", R.drawable.wizard, 9);
+        LVL_8 = new AchievementLevel(factor*(highScore - deltaScore),factor*highScore, "Festive Fairy", R.drawable.fairy, 8);
+        LVL_7 = new AchievementLevel(factor*(highScore - 2 * deltaScore),factor*(highScore - deltaScore), "Shy Sidekick", R.drawable.sidekick, 7);
+        LVL_6 = new AchievementLevel(factor*(highScore - 3 * deltaScore),factor*(highScore - 2 * deltaScore), "Brave Bird", R.drawable.siren, 6);
+        LVL_5 = new AchievementLevel(factor*(highScore - 4 * deltaScore),factor*(highScore - 3 * deltaScore), "Humble Human", R.drawable.human, 5);
+        LVL_4 = new AchievementLevel(factor*(highScore - 5 * deltaScore),factor*(highScore - 4 * deltaScore), "Soulful Spirit", R.drawable.spirit, 4);
+        LVL_3 = new AchievementLevel(factor*(highScore - 6 * deltaScore),factor*(highScore - 5 * deltaScore), "Viscous Viking", R.drawable.viking, 3);
+        LVL_2 = new AchievementLevel(factor*(highScore - 7 * deltaScore), factor*(highScore - 6 * deltaScore), "Easy Elf", R.drawable.elf, 2);
+        LVL_1 = new AchievementLevel(factor*(lowScore), factor*(highScore - 7 * deltaScore), "Greasy Gargoyle", R.drawable.gargoyle, 1);
+        LVL_MIN = new AchievementLevel(NEG_INF,factor*lowScore, "Odourish Orc", R.drawable.orc, 0);
     }
 
     // Returns AchievementLevel object from score and number of players
@@ -190,6 +190,42 @@ public class Achievements {
             return LVL_8;
         }
         else if (level.equals("MIN")) {
+            return LVL_MIN;
+        }
+        else {
+            throw new IllegalArgumentException("not valid level");
+        }
+    }
+
+    public AchievementLevel getLevelByID(int id) {
+        if (id == 9) {
+            return LVL_MAX;
+        }
+        else if (id == 1) {
+            return LVL_1;
+        }
+        else if (id == 2) {
+            return LVL_2;
+        }
+        else if (id == 3) {
+            return LVL_3;
+        }
+        else if (id == 4) {
+            return LVL_4;
+        }
+        else if (id == 5) {
+            return LVL_5;
+        }
+        else if (id == 6) {
+            return LVL_6;
+        }
+        else if (id == 7) {
+            return LVL_7;
+        }
+        else if (id == 8) {
+            return LVL_8;
+        }
+        else if (id == 0) {
             return LVL_MIN;
         }
         else {

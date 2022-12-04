@@ -1,10 +1,7 @@
 package ca.cmpt276.carbon;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -13,7 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,9 +21,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,15 +66,11 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
     private int prevNumPlayers;
 
     private List<Integer> scoreList;             // List of score of players
+    private List<Integer> tempScoreList;         // Temporary list of scores for num player changes
     private List<Integer> currScoreList;
     private List<Integer> oldScoreList;
     private ListView listView;                   // ListView of score of players
     private ListviewAdapter adapter;             // Adapter for listView
-
-    // Congratulations message
-    private AlertDialog.Builder congratsMsg;
-    private ImageView congratsImg;
-    private MediaPlayer congratsSound;
 
     // Spinners
     private Spinner difficultySpinner;  // Difficulty dropdown
@@ -105,9 +94,9 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         // Initialization/intents
         initializeSession();
         initializeSpinner();
-        initializeCongratsMessage();
 
         oldScoreList = new ArrayList<>();
+        tempScoreList = new ArrayList<>();
 
         // If index is -1, go to add new session screen
         if (sessionIndex == -1) {
@@ -118,6 +107,19 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             totalScore.addTextChangedListener(playerNumTextWatcher);
             totalPlayers.addTextChangedListener(playerNumTextWatcher);
             scoreList = new ArrayList<>();
+
+            // set default players the first time you create the session
+            intPlayers = 1;
+            intScore = 0;
+            totalPlayers.setText("" + 2);
+
+            // initialize achievement
+            currentAchievement = new Achievements(lowScore, highScore, factor);
+            currentAchievement.setTheme(achievementTheme);
+
+            // display default player count, scores and achievement
+            initializePlayerScores();
+            updateAchievementAndScore();
         }
         else {
             // Set title to Edit Session
@@ -130,6 +132,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             currScoreList = gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).getPlayerScoreList();
             scoreList = gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).getPlayerScoreList();
             oldScoreList.addAll(currScoreList);
+            tempScoreList.addAll(currScoreList);
 
             currentAchievement = session.getAchievementLevel();
 
@@ -149,7 +152,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             difficulty = session.getSessionDifficulty();
             theme = session.getSessionTheme();
             achievementTheme = session.getAchievementLevel().getTheme();
-
         }
 
         findViewById(R.id.btnSetNumPlayers).setOnClickListener( v -> {
@@ -167,7 +169,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         listView = findViewById(R.id.lvPlayerScores);
         listView.setItemsCanFocus(true);
 
-        adapter = new ListviewAdapter( SessionsActivity.this, currScoreList, totalScore, achievement, combinedScore, session.getAchievementLevel(), prevNumPlayers, totalPlayers);
+        adapter = new ListviewAdapter( SessionsActivity.this, currScoreList, tempScoreList, totalScore, achievement, combinedScore, session.getAchievementLevel(), prevNumPlayers, totalPlayers);
         listView.setAdapter(adapter);
 
         int oldScore = 0;
@@ -201,7 +203,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         lowScore = i.getIntExtra("LOW_SCORE", -1);
         highScore = i.getIntExtra("HIGH_SCORE", -1);
 
-        achievementTheme =Achievements.NONE;
+        achievementTheme = Achievements.NONE;
         factor = 1.0;
 
         // Initialize achievement levels
@@ -220,10 +222,21 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             }
         }
 
-
-
         listView = findViewById(R.id.lvPlayerScores);
         listView.setItemsCanFocus(true);
+
+        if (tempScoreList.size() > scoreList.size()) {
+            scoreList.clear();
+            scoreList.addAll(tempScoreList);
+        }
+
+        while(tempScoreList.size() < intPlayers) {
+            tempScoreList.add(0);
+        }
+
+        for (int i = 0; i < tempScoreList.size(); i++) {
+            System.out.println("" + tempScoreList.get(i));
+        }
 
         while (scoreList.size() < intPlayers) {
             scoreList.add(0);
@@ -232,9 +245,8 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             scoreList.remove(scoreList.size()-1);
         }
 
-        adapter = new ListviewAdapter( SessionsActivity.this, scoreList, totalScore, achievement, combinedScore, session.getAchievementLevel(), prevNumPlayers, totalPlayers);
+        adapter = new ListviewAdapter( SessionsActivity.this, scoreList, tempScoreList, totalScore, achievement, combinedScore, session.getAchievementLevel(), prevNumPlayers, totalPlayers);
         listView.setAdapter(adapter);
-
         totalScore.setText("" + adapter.getUpdatedCombinedScore());
         achievement.setText("ACHIEVEMENT is: " + currentAchievement.getAchievement(adapter.getUpdatedCombinedScore(), intPlayers).getName());
     }
@@ -252,15 +264,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         themeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         themeSpinner.setAdapter(themeAdapter);
         themeSpinner.setOnItemSelectedListener(this);
-    }
-    private void initializeCongratsMessage() {
-        // Initialize Congratulations pop-up
-        congratsMsg = new AlertDialog.Builder(this);
-        congratsImg = findViewById(R.id.imgCongrats);
-        congratsImg.setVisibility(View.GONE);
-
-        // If user clicks out of alert, finish activity
-        congratsMsg.setOnDismissListener(dialog -> finish());
     }
 
     // Spinner initialization methods for edit session
@@ -331,6 +334,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         try {
             if (!totalPlayers.getText().toString().isEmpty()) {
 
+                combinedScore = 0;
                 for (int i = 0; i < scoreList.size(); i++) {
                     if (scoreList.get(i) == null) {
                         throw new IllegalArgumentException();
@@ -344,6 +348,9 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
                 for (int i = 0; i < intPlayers; i++) {
                     combinedScore += scoreList.get(i);
                 }
+
+                // clear the old list after using it for creation
+                tempScoreList.clear();
 
                 intScore = combinedScore;
 
@@ -360,8 +367,8 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
                     gameConfiguration.getGame(configIndex).addSession(session);
 
                     // Play congratulations message
-                    congratsAnimation(congratsImg);
-
+                    openCelebrationActivity();
+                    finish();
                 }
                 // Editing existing session
                 else {
@@ -410,7 +417,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             try {
                 if (!totalPlayers.getText().toString().equals("")) {
 
@@ -429,7 +435,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             catch (IllegalArgumentException e) {
                 Toast.makeText(SessionsActivity.this, "Must have 1 to 25 Players.", Toast.LENGTH_SHORT).show();
             }
-
         }
 
         @Override
@@ -491,65 +496,16 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         //Nothing here
     }
 
-    private void fadeAnimation(ImageView img) {
-        YoYo.with(Techniques.FadeIn)
-                .duration(2000)
-                .playOn(img);
-    }
+    private void openCelebrationActivity() {
+        Intent intent = new Intent(SessionsActivity.this, CelebrationActivity.class);
 
-    private void bounceAnimation(ImageView img) {
-        YoYo.with(Techniques.Bounce)
-                .duration(700)
-                .repeat(3)
-                .playOn(img);
-    }
-
-    private void congratsAnimation(ImageView img) {
-        img.setVisibility(View.VISIBLE);
-        fadeAnimation(img);
-        bounceAnimation(img);
-        playSound();
-
-        // Delay pop up for animation
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                congratsMsg();
-            }
-        }, 2700);
-    }
-
-    private void congratsMsg() {
-        // Allow user to exit by clicking outside of alert box
-        congratsMsg.setCancelable(true);
-
-        // Alert display
-        congratsMsg.setTitle("Congratulations")
-                .setMessage("You've added a new session!")
-                .setIcon(session.getAchievementLevel().getAchievement(intScore, intPlayers).getImage())
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                }).show();
-    }
-
-    // Play sound method
-    private void playSound() {
-        congratsSound = MediaPlayer.create(this, R.raw.win);
-
-        congratsSound.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                congratsSound.start();
-            }
-        });
-        congratsSound.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                congratsSound.release();
-            }
-        });
+        // Send current achievement object to celebration class and start the activity
+        intent.putExtra("ACHIEVEMENT", currentAchievement);
+        intent.putExtra("LEVEL", currentAchievement.getAchievement(adapter.getUpdatedCombinedScore(), intPlayers));
+        intent.putExtra("SCORE", combinedScore);
+        intent.putExtra("PLAYERS", intPlayers);
+        intent.putExtra("GAME_INDEX", configIndex);
+        intent.putExtra("SESSION_INDEX", sessionIndex);
+        startActivity(intent);
     }
 }
