@@ -19,8 +19,11 @@ import ca.cmpt276.carbon.model.GameConfig;
 public class AchievementStatistics extends AppCompatActivity {
 
     BarChart barChart;
+    //Singleton object
     private GameConfig gameConfiguration;
+
     public static final String SESSION_INDEX="INDEX";
+
     private int gameIndex;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +31,11 @@ public class AchievementStatistics extends AppCompatActivity {
         setContentView(R.layout.activity_achievement_statistics);
         extractDataFromIntent();
         gameConfiguration = GameConfig.getInstance();
+
         barGraphStatistics();
     }
+
+    //This function manages the required functionality of the Bar Graph
     private void barGraphStatistics()
     {
         int[] countSessions =new int[10];
