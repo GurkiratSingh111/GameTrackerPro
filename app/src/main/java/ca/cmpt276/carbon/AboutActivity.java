@@ -7,8 +7,12 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.text.method.LinkMovementMethod;
+import android.widget.TextView;
 
 public class AboutActivity extends AppCompatActivity {
+
+    private TextView tvCitations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +26,8 @@ public class AboutActivity extends AppCompatActivity {
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("About Page");
+        tvCitations = findViewById(R.id.tvCitations);
+        tvCitations.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     @Override
@@ -35,6 +41,4 @@ public class AboutActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
 }

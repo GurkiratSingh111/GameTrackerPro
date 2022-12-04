@@ -7,13 +7,12 @@
     tools:context=".AboutActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout2"
-        android:layout_width="412dp"
-        android:layout_height="57dp"
+        android:id="@+id/appBarAbout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:theme="@style/Theme.Carbon.AppBarOverlay"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintStart_toStartOf="parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tbAbout"
@@ -37,7 +36,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarAbout" />
 
     <TextView
         android:id="@+id/tvDevelopers"
@@ -45,8 +44,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="Developed by Gahee, TJ, Max, Garry"
-        app:layout_constraintTop_toBottomOf="@+id/tvTeamName"
-        tools:layout_editor_absoluteX="95dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTeamName" />
 
     <TextView
         android:id="@+id/tvCredit"
@@ -55,16 +55,19 @@
         android:layout_marginTop="32dp"
         android:text="Acknowledgements and Credits:"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/tvDevelopers"
-        tools:layout_editor_absoluteX="102dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDevelopers" />
 
     <TextView
         android:id="@+id/tvCitations"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_width="326dp"
+        android:layout_height="406dp"
+        android:layout_marginTop="16dp"
         android:text="@string/citation"
         android:textAlignment="center"
-        app:layout_constraintTop_toBottomOf="@+id/tvCredit"
-        tools:layout_editor_absoluteX="130dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCredit" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
