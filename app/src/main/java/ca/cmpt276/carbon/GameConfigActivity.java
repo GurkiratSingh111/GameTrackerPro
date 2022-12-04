@@ -15,15 +15,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,7 +29,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -83,10 +79,8 @@ public class GameConfigActivity extends AppCompatActivity {
     private Button takePhotoBtn;                                   // Button for taking photos
     private FloatingActionButton btnAddSession;                    // Floating Action Button for creating new Session
 
-    private TextView selectIcon;                                   // TextView for "Select your game icon"
-
-    private GridLayout gridImageLayout;                            // Grid of Images
-    private ImageView selectedImage;                               // Current selected image from grid
+    private TextView gamePicture;                                  // TextView for "Select your game icon"
+    private ImageView gamePhoto;                                   // Current image for the Game
 
     private TextView welcomeScreenMsg;                             // Empty state message for no sessions in List
     private ImageView welcomeImage;                                // Empty state image for no sessions in List
@@ -116,9 +110,8 @@ public class GameConfigActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // setup grid and images
-        gridImageLayout = findViewById(R.id.gridLayout);
-        selectIcon = findViewById(R.id.selectGameIcon);
-        selectedImage = findViewById(R.id.imageViewSelectedImage);
+        gamePicture = findViewById(R.id.selectGameIcon);
+        gamePhoto = findViewById(R.id.imageViewSelectedImage);
 
         // View achievements
         viewAchievements = findViewById(R.id.btnViewAchievements);
@@ -172,7 +165,6 @@ public class GameConfigActivity extends AppCompatActivity {
 
             // Make button invisible
             btnAddSession.setVisibility(View.GONE);
-            gridImageLayout.setVisibility(View.VISIBLE);
 
             // get user inputs
             setupGameConfigDataFields();
@@ -189,9 +181,6 @@ public class GameConfigActivity extends AppCompatActivity {
 
             viewAchievements.setVisibility(View.VISIBLE);
             btnAddSession.setVisibility(View.VISIBLE);
-            gridImageLayout.setVisibility(View.GONE);
-            selectIcon.setVisibility(View.GONE);
-            selectedImage.setVisibility(View.GONE);
 
             // Change title to show editing game instead
             getSupportActionBar().setTitle("Game Sessions");
@@ -205,6 +194,7 @@ public class GameConfigActivity extends AppCompatActivity {
             // Check if a photo was taken
             if (game.isPhotoTaken()) {
                 image_uri = game.getPhoto();
+                gamePhoto.setImageURI(image_uri);
                 isPhotoTaken = true;
             }
 
@@ -389,7 +379,6 @@ public class GameConfigActivity extends AppCompatActivity {
         viewAchievements.setVisibility(View.GONE);
         btnAddSession.setVisibility(View.GONE);
         sessionList.setVisibility(View.GONE);
-        selectedImage.setVisibility(View.GONE);
         takePhotoBtn.setVisibility(View.VISIBLE);
     }
 
@@ -693,38 +682,6 @@ public class GameConfigActivity extends AppCompatActivity {
                 }).show();
     }
 
-    // Methods to change game icons
-    public void imageView1Clicked(View view) {
-        int tappedImage = R.drawable.img1;
-        game.setImageID(tappedImage);
-        selectedImage.setImageResource(R.drawable.img1);
-    }
-    public void imageView2Clicked(View view) {
-        int tappedImage = R.drawable.img2;
-        game.setImageID(tappedImage);
-        selectedImage.setImageResource(R.drawable.img2);
-    }
-    public void imageView3Clicked(View view) {
-        int tappedImage = R.drawable.img3;
-        game.setImageID(tappedImage);
-        selectedImage.setImageResource(R.drawable.img3);
-    }
-    public void imageView4Clicked(View view) {
-        int tappedImage = R.drawable.img4;
-        game.setImageID(tappedImage);
-        selectedImage.setImageResource(R.drawable.img4);
-    }
-    public void imageView5Clicked(View view) {
-        int tappedImage = R.drawable.img5;
-        game.setImageID(tappedImage);
-        selectedImage.setImageResource(R.drawable.img5);
-    }
-    public void imageView6Clicked(View view) {
-        int tappedImage = R.drawable.img6;
-        game.setImageID(tappedImage);
-        selectedImage.setImageResource(R.drawable.img6);
-    }
-
     // Enable camera permissions or open camera if already enabled
     private void getCameraPermissions() {
         // Check for if camera permission is granted
@@ -771,7 +728,7 @@ public class GameConfigActivity extends AppCompatActivity {
         // Get image if accepted
         if (resultCode == -1) {     // -1 = photo taken, 0 = no photo taken
             if (requestCode == CAMERA_REQUEST_CODE && data != null) {
-                selectedImage.setImageURI(image_uri);
+                gamePhoto.setImageURI(image_uri);
                 isPhotoTaken = true;
             }
         }
