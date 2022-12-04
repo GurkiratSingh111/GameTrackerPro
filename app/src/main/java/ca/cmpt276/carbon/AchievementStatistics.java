@@ -14,9 +14,6 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
-
-import ca.cmpt276.carbon.model.AchievementLevel;
-import ca.cmpt276.carbon.model.Achievements;
 import ca.cmpt276.carbon.model.GameConfig;
 
 public class AchievementStatistics extends AppCompatActivity {
@@ -32,9 +29,6 @@ public class AchievementStatistics extends AppCompatActivity {
         extractDataFromIntent();
         gameConfiguration = GameConfig.getInstance();
         barGraphStatistics();
-
-
-
     }
     private void barGraphStatistics()
     {
@@ -103,7 +97,6 @@ public class AchievementStatistics extends AppCompatActivity {
         barChart.getDescription().setEnabled(true);
         barChart.getDescription().setTextColor(Color.BLACK);
         barChart.getDescription().setTextSize(17.5f);
-
     }
 
     private void extractDataFromIntent() {
