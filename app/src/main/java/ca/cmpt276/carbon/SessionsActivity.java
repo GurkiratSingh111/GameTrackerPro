@@ -105,6 +105,19 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             totalScore.addTextChangedListener(playerNumTextWatcher);
             totalPlayers.addTextChangedListener(playerNumTextWatcher);
             scoreList = new ArrayList<>();
+
+            // set default players the first time you create the session
+            intPlayers = 1;
+            intScore = 0;
+            totalPlayers.setText("" + 2);
+
+            // initialize achievement
+            currentAchievement = new Achievements(lowScore, highScore, factor);
+            currentAchievement.setTheme(achievementTheme);
+
+            // display default player count, scores and achievement
+            initializePlayerScores();
+            updateAchievementAndScore();
         }
         else {
             // Set title to Edit Session
