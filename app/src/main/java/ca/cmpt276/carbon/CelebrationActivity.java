@@ -121,7 +121,7 @@ public class CelebrationActivity extends AppCompatActivity implements AdapterVie
     }
 
     @Override
-    // Toolbar widgets for save and delete session
+    // Toolbar widgets
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:

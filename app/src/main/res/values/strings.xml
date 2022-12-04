@@ -69,6 +69,10 @@
     <string name="Theme">THEME</string>
     <string name="enter_score">Enter Score</string>
     <string name="take_photo">Take Photo</string>
+    <string name="citation"><a href="https://opencoursehub.cs.sfu.ca/bfraser/grav-cms/cmpt276/course-info/styleguide">Java Coding Style Guide</a>
+<a href="https://docs.google.com/document/d/1ZFkuWKJSAzXJ5x8lxpcNyBdG_q0m-4rmBwGiG3jlEBc/edit?usp=sharing">Images</a>
+<a href="https://themushroomkingdom.net/wav.shtml">Celebration Sound</a>
+    </string>
     <string-array name="levels">
         <item>Normal</item>
         <item>Easy</item>
