@@ -23,6 +23,7 @@ public class ListviewAdapter extends BaseAdapter {
     private int combinedScore;
 
     private List<Integer> list;
+    private List<Integer> tempList;
 
     private EditText totalScore;        // Total score of all players in a session
     private EditText totalPlayers;
@@ -31,10 +32,11 @@ public class ListviewAdapter extends BaseAdapter {
 
     private LayoutInflater layoutInflater;
 
-    public ListviewAdapter(Context context, List<Integer> list, EditText totalScore, TextView achievement,
+    public ListviewAdapter(Context context, List<Integer> list, List<Integer> tempList, EditText totalScore, TextView achievement,
                            int combinedScore, Achievements level, int intPlayers, EditText totalPlayers) {
         this.context = context;
         this.list = list;
+        this.tempList = tempList;
         this.achievement = achievement;
         this.totalScore = totalScore;
         this.combinedScore = combinedScore;
@@ -121,9 +123,11 @@ public class ListviewAdapter extends BaseAdapter {
 
                 if (etPlayerScore.getText().toString().isEmpty()) {
                     list.set(pos, 0);
+                    tempList.set(pos, 0);
                 }
                 else {
                     list.set(pos, Integer.parseInt(etPlayerScore.getText().toString()));
+                    tempList.set(pos, Integer.parseInt(etPlayerScore.getText().toString()));
                 }
 
                 combinedScore = 0;
