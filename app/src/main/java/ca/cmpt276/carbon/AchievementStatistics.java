@@ -90,7 +90,6 @@ public class AchievementStatistics extends AppCompatActivity {
     //This function manages the required functionality of the Bar Graph
     private void barGraphStatistics()
     {
-
         barChart = findViewById(R.id.barGraph);
         ArrayList<BarEntry> barEntries =new ArrayList<>();
         for(int i=0; i<countSessions.length ;i++){
@@ -102,7 +101,7 @@ public class AchievementStatistics extends AppCompatActivity {
         barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         barDataSet.setValueTextSize(16f);
         barChart.setFitBars(true);
-        barDataSet.setDrawValues(true);
+        barDataSet.setDrawValues(false);
         barChart.setData(new BarData(barDataSet));
         barChart.animateY(5000);
         barChart.getDescription().setText("LV1 LV2 LV3 LV4 LV5 LV6 LV7 LV8 LV9 LV10");
