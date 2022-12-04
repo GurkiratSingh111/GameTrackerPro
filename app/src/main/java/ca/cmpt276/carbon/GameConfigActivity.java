@@ -79,14 +79,13 @@ public class GameConfigActivity extends AppCompatActivity {
     private Button takePhotoBtn;                                   // Button for taking photos
     private FloatingActionButton btnAddSession;                    // Floating Action Button for creating new Session
 
-    private TextView gamePicture;                                  // TextView for "Select your game icon"
     private ImageView gamePhoto;                                   // Current image for the Game
 
     private TextView welcomeScreenMsg;                             // Empty state message for no sessions in List
     private ImageView welcomeImage;                                // Empty state image for no sessions in List
     private ImageView welcomePointer;                              // Empty state pointer for no sessions in List
 
-    private Uri image_uri;                                         // Storage for photos taken by camera
+    private Uri game_image_uri;                                    // Storage for photos taken by camera
     private boolean isPhotoTaken;                                  // Check if a photo was taken
 
     // Objects
@@ -110,7 +109,6 @@ public class GameConfigActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // setup grid and images
-        gamePicture = findViewById(R.id.selectGameIcon);
         gamePhoto = findViewById(R.id.imageViewSelectedImage);
 
         // View achievements
@@ -142,7 +140,7 @@ public class GameConfigActivity extends AppCompatActivity {
         btnAddSession = findViewById(R.id.btnAddNewSession);
 
         // Initialize photo button
-        takePhotoBtn = findViewById(R.id.takePhotoBtn);
+        takePhotoBtn = findViewById(R.id.gameTakePhotoBtn);
         isPhotoTaken = false;
         takePhotoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,8 +191,8 @@ public class GameConfigActivity extends AppCompatActivity {
 
             // Check if a photo was taken
             if (game.isPhotoTaken()) {
-                image_uri = game.getPhoto();
-                gamePhoto.setImageURI(image_uri);
+                game_image_uri = game.getPhoto();
+                gamePhoto.setImageURI(game_image_uri);
                 isPhotoTaken = true;
             }
 
@@ -331,7 +329,26 @@ public class GameConfigActivity extends AppCompatActivity {
             String str = gameSessions.get(position);
             Session session = game.getSessionAtIndex(position);
             ImageView imageView = sessionsView.findViewById(R.id.sessions_icon);
-            imageView.setImageResource(session.getAchievementLevel().getAchievement(session.getTotalScore(), session.getPlayers()).getImage());
+            ImageView photoView = sessionsView.findViewById(R.id.sessions_photo_icon);
+
+            // Check if session has a theme and use image if yes
+            // Else use a default image
+            if (!session.getSessionTheme().equals("None")) {
+                imageView.setImageResource(session.getAchievementLevel().getAchievement(session.getTotalScore(), session.getPlayers()).getImage());
+            }
+            else {
+                imageView.setImageResource(R.drawable.p1);
+            }
+
+            // If photo was not taken, use default image
+            // Else, use photo taken
+            if (!session.isPhotoTaken()) {
+                photoView.setImageResource(R.drawable.p1);
+            }
+            else {
+                photoView.setImageURI(session.getPhoto());
+            }
+
 
             TextView displayText = sessionsView.findViewById(R.id.sessionsText);
             displayText.setText(str);
@@ -452,7 +469,7 @@ public class GameConfigActivity extends AppCompatActivity {
 
         // Add image to Game if a photo was taken
         if (isPhotoTaken) {
-            game.setPhoto(image_uri);
+            game.setPhoto(game_image_uri);
             game.setPhotoTaken(true);
         }
 
@@ -568,7 +585,7 @@ public class GameConfigActivity extends AppCompatActivity {
 
         // Store previously taken photo (if any)
         if (isPhotoTaken) {
-            image_uri = game.getPhoto();
+            game_image_uri = game.getPhoto();
         }
     }
 
@@ -608,7 +625,7 @@ public class GameConfigActivity extends AppCompatActivity {
         // Check if a photo was taken
         if (isPhotoTaken) {
             game.setPhotoTaken(true);
-            game.setPhoto(image_uri);
+            game.setPhoto(game_image_uri);
         }
 
         finish();
@@ -715,11 +732,11 @@ public class GameConfigActivity extends AppCompatActivity {
         ContentValues value = new ContentValues();
         value.put(MediaStore.Images.Media.TITLE, "Photo");
         value.put(MediaStore.Images.Media.DESCRIPTION, "Camera");
-        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, value);
+        game_image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, value);
 
         // Open camera
         Intent openCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        openCamera.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
+        openCamera.putExtra(MediaStore.EXTRA_OUTPUT, game_image_uri);
         startActivityIfNeeded(openCamera, CAMERA_REQUEST_CODE);
     }
 
@@ -728,7 +745,7 @@ public class GameConfigActivity extends AppCompatActivity {
         // Get image if accepted
         if (resultCode == -1) {     // -1 = photo taken, 0 = no photo taken
             if (requestCode == CAMERA_REQUEST_CODE && data != null) {
-                gamePhoto.setImageURI(image_uri);
+                gamePhoto.setImageURI(game_image_uri);
                 isPhotoTaken = true;
             }
         }

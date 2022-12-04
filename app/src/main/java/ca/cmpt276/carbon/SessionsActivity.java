@@ -1,7 +1,12 @@
 package ca.cmpt276.carbon;
 
+import android.Manifest;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -9,7 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,6 +28,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,42 +43,49 @@ import ca.cmpt276.carbon.model.Session;
  * achievement level
  */
 public class SessionsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+    // Constants
+    private static final int PERMISSION_CODE = 200;     // Camera permission code
+    private static final int CAMERA_REQUEST_CODE = 201; // Camera request code
 
     // Variables
-    private int sessionIndex;                    // For add/edit sessions
-    private int configIndex;                     // Game index of gameConfig
-    private EditText totalPlayers;               // Total players of a single session
-    private EditText totalScore;                 // Total score of all players in a session
-    private TextView achievement;                // Display achievement of player
+    private int sessionIndex;                           // For add/edit sessions
+    private int configIndex;                            // Game index of gameConfig
+    private EditText totalPlayers;                      // Total players of a single session
+    private EditText totalScore;                        // Total score of all players in a session
+    private TextView achievement;                       // Display achievement of player
+    private Button takePhotoBtn;                        // Button for taking photos
+    private Uri sessions_image_uri;                     // Storage for photo taken
+    private boolean isPhotoTaken;                       // Check if a photo was taken
+    private ImageView sessionPhoto;                     // Current image for the session
 
-    private int lowScore;                        // Low score of game
-    private int highScore;                       // High score of game
-    private int intPlayers;                      // Integer of total players
-    private int intScore;                        // Integer of total score
-    private double factor;
-    private String stringPlayers;                // String of total players
-    private String stringScore;                  // String of total score
+    private int lowScore;                               // Low score of game
+    private int highScore;                              // High score of game
+    private int intPlayers;                             // Integer of total players
+    private int intScore;                               // Integer of total score
+    private double factor;                              // Double of factor for difficulty
+    private String stringPlayers;                       // String of total players
+    private String stringScore;                         // String of total score
 
     // Dropdown variables
-    private String achievementTheme;             // Theme for Achievement in Session
-    private String theme;                        // Theme for Session
-    private String difficulty;                   // Difficulty for Session
+    private String achievementTheme;                    // Theme for Achievement in Session
+    private String theme;                               // Theme for Session
+    private String difficulty;                          // Difficulty for Session
 
     // Objects
-    private Session session;                     // Session for add session
-    private Achievements currentAchievement;     // Current Achievement of session
+    private Session session;                            // Session for add session
+    private Achievements currentAchievement;            // Current Achievement of session
 
     // Singleton
     private GameConfig gameConfiguration;
 
-    private int combinedScore;                   // Combined score of all players
+    private int combinedScore;                          // Combined score of all players
     private int prevNumPlayers;
 
-    private List<Integer> scoreList;             // List of score of players
-    private List<Integer> currScoreList;
-    private List<Integer> oldScoreList;
-    private ListView listView;                   // ListView of score of players
-    private ListviewAdapter adapter;             // Adapter for listView
+    private List<Integer> scoreList;                    // List of score of players
+    private List<Integer> currScoreList;                // List of current score of players
+    private List<Integer> oldScoreList;                 // List of old score of players
+    private ListView listView;                          // ListView of score of players
+    private ListviewAdapter adapter;                    // Adapter for listView
 
     // Spinners
     private Spinner difficultySpinner;  // Difficulty dropdown
@@ -142,6 +158,13 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             //initializePlayerScores();
             initializePlayerScoresOld();
 
+            // Check if a photo was taken
+            if (session.isPhotoTaken()) {
+                sessions_image_uri = session.getPhoto();
+                sessionPhoto.setImageURI(sessions_image_uri);
+                isPhotoTaken = true;
+            }
+
             // Populate dropdown fields
             populateDropdownDifficulty(difficultySpinner);
             populateDropdownTheme(themeSpinner);
@@ -192,6 +215,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         totalScore.setEnabled(false);
 
         achievement = findViewById(R.id.achievementTextView);
+        sessionPhoto = findViewById(R.id.imageViewSessionsImage);
 
         // Get Intent
         Intent i = getIntent();
@@ -205,6 +229,16 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
 
         // Initialize achievement levels
         session.setAchievementLevel(new Achievements(lowScore, highScore, factor));
+
+        // Initialize photo button
+        takePhotoBtn = findViewById(R.id.sessionsTakePhotoBtn);
+        isPhotoTaken = false;
+        takePhotoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getCameraPermissions();
+            }
+        });
     }
     private void initializePlayerScores() {
 
@@ -346,6 +380,12 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
                     session.setSessionDifficulty(difficulty);
                     session.setAchievementLevel(currentAchievement);
 
+                    // Check if image was taken
+                    if (isPhotoTaken) {
+                        session.setPhoto(sessions_image_uri);
+                        session.setPhotoTaken(true);
+                    }
+
                     gameConfiguration.getGame(configIndex).addSession(session);
 
                     // Play congratulations message
@@ -362,6 +402,12 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
                     gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setSessionTheme(theme);
                     gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setSessionDifficulty(difficulty);
                     gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).getAchievementLevel().setTheme(achievementTheme);
+
+                    // Check if a new photo was taken
+                    if (isPhotoTaken) {
+                        gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setPhoto(sessions_image_uri);
+                        gameConfiguration.getGame(configIndex).getSessionAtIndex(sessionIndex).setPhotoTaken(true);
+                    }
                     finish();
                 }
 
@@ -489,5 +535,58 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         intent.putExtra("GAME_INDEX", configIndex);
         intent.putExtra("SESSION_INDEX", sessionIndex);
         startActivity(intent);
+    }
+
+    // Get camera permissions
+    private void getCameraPermissions() {
+        // Check for if camera permission is granted
+        // Else, open camera
+        if (ContextCompat.checkSelfPermission(SessionsActivity.this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(SessionsActivity.this, new String[]{
+                    Manifest.permission.CAMERA}, PERMISSION_CODE);
+        }
+        else {
+            openCamera();
+        }
+    }
+
+    // Override for camera
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openCamera();
+            }
+            else {
+                Toast.makeText(this, "Camera permissions are not enabled.", Toast.LENGTH_SHORT).show();
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    // Open the camera
+    private void openCamera() {
+        ContentValues value = new ContentValues();
+        value.put(MediaStore.Images.Media.TITLE, "Photo");
+        value.put(MediaStore.Images.Media.DESCRIPTION, "Camera");
+        sessions_image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, value);
+
+        // Open camera
+        Intent openCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        openCamera.putExtra(MediaStore.EXTRA_OUTPUT, sessions_image_uri);
+        startActivityIfNeeded(openCamera, CAMERA_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        // Get image if accepted
+        if (resultCode == -1) {     // -1 = photo taken, 0 = no photo taken
+            if (requestCode == CAMERA_REQUEST_CODE && data != null) {
+                sessionPhoto.setImageURI(sessions_image_uri);
+                isPhotoTaken = true;
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

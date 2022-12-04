@@ -208,7 +208,7 @@
         app:layout_constraintTop_toTopOf="@+id/selectGameIcon" />
 
     <Button
-        android:id="@+id/takePhotoBtn"
+        android:id="@+id/gameTakePhotoBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="31dp"
