@@ -70,6 +70,7 @@ public class GameConfigActivity extends AppCompatActivity {
     // Variables for storing new game information for editing config
     private String newGameName;
     private int newLowScore, newHighScore;
+    private Button btnStatistics;
 
     // bool to keep track if you're in editing mode or viewing mode
     // this will also be used later to update the game session scores
@@ -98,7 +99,6 @@ public class GameConfigActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_GAME_INDEX, input);
         return intent;
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +112,7 @@ public class GameConfigActivity extends AppCompatActivity {
         gridImageLayout = findViewById(R.id.gridLayout);
         selectIcon = findViewById(R.id.selectGameIcon);
         selectedImage = findViewById(R.id.imageViewSelectedImage);
+        btnStatistics =findViewById(R.id.btnStats);
 
         // View achievements
         viewAchievements = findViewById(R.id.btnViewAchievements);
@@ -156,10 +157,12 @@ public class GameConfigActivity extends AppCompatActivity {
             // Make button invisible
             btnAddSession.setVisibility(View.GONE);
             gridImageLayout.setVisibility(View.VISIBLE);
-
+            btnStatistics.setVisibility(View.GONE);
             // get user inputs
             setupGameConfigDataFields();
         }
+        //else if you're in viewing game mode and there are no sessions
+
         // else you're in viewing game mode -
         // in this mode, you can edit the HS, LS, add a session, remove session etc.
         else if (index >= 0) {
@@ -212,6 +215,7 @@ public class GameConfigActivity extends AppCompatActivity {
         if (index != -1) {
             populateGameSessions(index);
         }
+
     }
 
     // Saves data for next launch
@@ -688,6 +692,13 @@ public class GameConfigActivity extends AppCompatActivity {
         int tappedImage = R.drawable.img6;
         game.setImageID(tappedImage);
         selectedImage.setImageResource(R.drawable.img6);
+    }
+
+    public void onClickStatistics(View view)
+    {
+        Intent intent = AchievementStatistics.makeIntent(GameConfigActivity.this,index);
+        //intent.putExtra(AchievementStatistics.SESSION_INDEX,index);
+        startActivity(intent);
     }
 
 }
