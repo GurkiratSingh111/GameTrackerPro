@@ -74,7 +74,7 @@ public class GameConfigActivity extends AppCompatActivity {
     private int oldLowScore, oldHighScore;                         // Old value of gameConfig low/high score for editing
     private String newGameName;                                    // New value of storing name of gameConfig
     private int newLowScore, newHighScore;                         // New value of storing low/high score of gameConfig
-
+    private Button btnStatistics;                                  // Button to view Sessions Statistics
     private Button viewAchievements;                               // Button to view Achievements
     private Button takePhotoBtn;                                   // Button for taking photos
     private FloatingActionButton btnAddSession;                    // Floating Action Button for creating new Session
@@ -110,7 +110,7 @@ public class GameConfigActivity extends AppCompatActivity {
 
         // setup grid and images
         gamePhoto = findViewById(R.id.imageViewSelectedImage);
-
+        btnStatistics =findViewById(R.id.btnStats);
         // View achievements
         viewAchievements = findViewById(R.id.btnViewAchievements);
         viewAchievements.setVisibility(View.GONE);
@@ -148,10 +148,10 @@ public class GameConfigActivity extends AppCompatActivity {
                 getCameraPermissions();
             }
         });
-
         // if index is -1, you're on add game screen
         if (index == -1) {
 
+            btnStatistics.setVisibility(View.GONE);
             // hide the session empty state images
             hideMascotOnAddConfig();
 
@@ -163,10 +163,56 @@ public class GameConfigActivity extends AppCompatActivity {
 
             // Make button invisible
             btnAddSession.setVisibility(View.GONE);
-
+            //btnStatistics.setVisibility(View.GONE);
             // get user inputs
             setupGameConfigDataFields();
         }
+        //when you are in viewing game mode
+        //There are no sessions in that game.
+        else if(index >=0 && gameConfiguration.getGamesList().get(index).getSize()==0)
+        {
+            btnStatistics.setVisibility(View.GONE);
+            populateGameSessions(index);
+
+            // ListView for Sessions
+            registerClickCallback();
+
+            viewAchievements.setVisibility(View.VISIBLE);
+            btnAddSession.setVisibility(View.VISIBLE);
+
+            // Change title to show editing game instead
+            getSupportActionBar().setTitle("Game Sessions");
+
+            // Get the game at index
+            game = gameConfiguration.getGame(index);
+
+            // are you editing?
+            isEditGameConfig = false;
+
+            // Check if a photo was taken
+            if (game.isPhotoTaken()) {
+                game_image_uri = game.getPhoto();
+                gamePhoto.setImageURI(game_image_uri);
+                isPhotoTaken = true;
+            }
+
+            // Display the game and its sessions (if any)
+            displayGame();
+
+            // Button for add session
+            btnAddSession.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(GameConfigActivity.this, SessionsActivity.class);
+                    i.putExtra("SESSION_INDEX", -1);
+                    i.putExtra("GAME_INDEX", index);
+                    i.putExtra("LOW_SCORE", game.getLowScore());
+                    i.putExtra("HIGH_SCORE", game.getHighScore());
+                    startActivity(i);
+                }
+            });
+        }
+
         // else you're in viewing game mode -
         // in this mode, you can edit the HS, LS, add a session, remove session etc.
         else if (index >= 0) {
@@ -223,6 +269,16 @@ public class GameConfigActivity extends AppCompatActivity {
         if (index != -1) {
             populateGameSessions(index);
         }
+        //When there are no sessions or if we are creating a new game
+        if((index >=0 && gameConfiguration.getGamesList().get(index).getSize()==0) || (index==-1))
+        {
+            btnStatistics.setVisibility(View.GONE);
+        }
+        else
+        {
+            btnStatistics.setVisibility(View.VISIBLE);
+        }
+
     }
 
     // Saves data for next launch
@@ -262,6 +318,7 @@ public class GameConfigActivity extends AppCompatActivity {
             welcomeScreenMsg.setVisibility(View.VISIBLE);
             welcomeImage.setVisibility(View.VISIBLE);
             welcomePointer.setVisibility(View.VISIBLE);
+            btnStatistics.setVisibility(View.GONE);
         }
         // otherwise, show list
         else {
@@ -269,6 +326,7 @@ public class GameConfigActivity extends AppCompatActivity {
             welcomeScreenMsg.setVisibility(View.GONE);
             welcomeImage.setVisibility(View.GONE);
             welcomePointer.setVisibility(View.GONE);
+            btnStatistics.setVisibility(View.GONE);
         }
     }
 
@@ -704,10 +762,10 @@ public class GameConfigActivity extends AppCompatActivity {
         // Check for if camera permission is granted
         // Else, open camera
         if (ContextCompat.checkSelfPermission(GameConfigActivity.this, Manifest.permission.CAMERA)
-            != PackageManager.PERMISSION_GRANTED) {
+                != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(GameConfigActivity.this, new String[]{
                     Manifest.permission.CAMERA}, PERMISSION_CODE);
-            }
+        }
         else {
             openCamera();
         }
@@ -751,4 +809,12 @@ public class GameConfigActivity extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    public void onClickStatistics(View view)
+    {
+        Intent intent = AchievementStatistics.makeIntent(GameConfigActivity.this,index);
+        //intent.putExtra(AchievementStatistics.SESSION_INDEX,index);
+        startActivity(intent);
+    }
 }
+

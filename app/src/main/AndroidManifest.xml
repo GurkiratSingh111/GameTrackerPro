@@ -24,6 +24,13 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".AchievementStatistics"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".AchievementsActivity"
             android:exported="false">
             <meta-data
