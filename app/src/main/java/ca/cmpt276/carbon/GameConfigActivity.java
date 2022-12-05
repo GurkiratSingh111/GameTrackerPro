@@ -148,7 +148,6 @@ public class GameConfigActivity extends AppCompatActivity {
                 getCameraPermissions();
             }
         });
-
         // if index is -1, you're on add game screen
         if (index == -1) {
 
@@ -168,6 +167,8 @@ public class GameConfigActivity extends AppCompatActivity {
             // get user inputs
             setupGameConfigDataFields();
         }
+        //when you are in viewing game mode
+        //There are no sessions in that game.
         else if(index >=0 && gameConfiguration.getGamesList().get(index).getSize()==0)
         {
             btnStatistics.setVisibility(View.GONE);
@@ -268,7 +269,8 @@ public class GameConfigActivity extends AppCompatActivity {
         if (index != -1) {
             populateGameSessions(index);
         }
-        if((index >=0 && gameConfiguration.getGamesList().get(index).getSize()==0) ||(index==-1))
+        //When there are no sessions or if we are creating a new game
+        if((index >=0 && gameConfiguration.getGamesList().get(index).getSize()==0) || (index==-1))
         {
             btnStatistics.setVisibility(View.GONE);
         }
