@@ -74,19 +74,18 @@ public class GameConfigActivity extends AppCompatActivity {
     private int oldLowScore, oldHighScore;                         // Old value of gameConfig low/high score for editing
     private String newGameName;                                    // New value of storing name of gameConfig
     private int newLowScore, newHighScore;                         // New value of storing low/high score of gameConfig
-
+    private Button btnStatistics;                                  // Button to view Sessions Statistics
     private Button viewAchievements;                               // Button to view Achievements
     private Button takePhotoBtn;                                   // Button for taking photos
     private FloatingActionButton btnAddSession;                    // Floating Action Button for creating new Session
 
-    private TextView gamePicture;                                  // TextView for "Select your game icon"
     private ImageView gamePhoto;                                   // Current image for the Game
 
     private TextView welcomeScreenMsg;                             // Empty state message for no sessions in List
     private ImageView welcomeImage;                                // Empty state image for no sessions in List
     private ImageView welcomePointer;                              // Empty state pointer for no sessions in List
 
-    private Uri image_uri;                                         // Storage for photos taken by camera
+    private Uri game_image_uri;                                    // Storage for photos taken by camera
     private boolean isPhotoTaken;                                  // Check if a photo was taken
 
     // Objects
@@ -110,9 +109,8 @@ public class GameConfigActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // setup grid and images
-        gamePicture = findViewById(R.id.selectGameIcon);
         gamePhoto = findViewById(R.id.imageViewSelectedImage);
-
+        btnStatistics =findViewById(R.id.btnStats);
         // View achievements
         viewAchievements = findViewById(R.id.btnViewAchievements);
         viewAchievements.setVisibility(View.GONE);
@@ -142,7 +140,7 @@ public class GameConfigActivity extends AppCompatActivity {
         btnAddSession = findViewById(R.id.btnAddNewSession);
 
         // Initialize photo button
-        takePhotoBtn = findViewById(R.id.takePhotoBtn);
+        takePhotoBtn = findViewById(R.id.gameTakePhotoBtn);
         isPhotoTaken = false;
         takePhotoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,6 +152,7 @@ public class GameConfigActivity extends AppCompatActivity {
         // if index is -1, you're on add game screen
         if (index == -1) {
 
+            btnStatistics.setVisibility(View.GONE);
             // hide the session empty state images
             hideMascotOnAddConfig();
 
@@ -165,10 +164,54 @@ public class GameConfigActivity extends AppCompatActivity {
 
             // Make button invisible
             btnAddSession.setVisibility(View.GONE);
-
+            //btnStatistics.setVisibility(View.GONE);
             // get user inputs
             setupGameConfigDataFields();
         }
+        else if(index >=0 && gameConfiguration.getGamesList().get(index).getSize()==0)
+        {
+            btnStatistics.setVisibility(View.GONE);
+            populateGameSessions(index);
+
+            // ListView for Sessions
+            registerClickCallback();
+
+            viewAchievements.setVisibility(View.VISIBLE);
+            btnAddSession.setVisibility(View.VISIBLE);
+
+            // Change title to show editing game instead
+            getSupportActionBar().setTitle("Game Sessions");
+
+            // Get the game at index
+            game = gameConfiguration.getGame(index);
+
+            // are you editing?
+            isEditGameConfig = false;
+
+            // Check if a photo was taken
+            if (game.isPhotoTaken()) {
+                game_image_uri = game.getPhoto();
+                gamePhoto.setImageURI(game_image_uri);
+                isPhotoTaken = true;
+            }
+
+            // Display the game and its sessions (if any)
+            displayGame();
+
+            // Button for add session
+            btnAddSession.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(GameConfigActivity.this, SessionsActivity.class);
+                    i.putExtra("SESSION_INDEX", -1);
+                    i.putExtra("GAME_INDEX", index);
+                    i.putExtra("LOW_SCORE", game.getLowScore());
+                    i.putExtra("HIGH_SCORE", game.getHighScore());
+                    startActivity(i);
+                }
+            });
+        }
+
         // else you're in viewing game mode -
         // in this mode, you can edit the HS, LS, add a session, remove session etc.
         else if (index >= 0) {
@@ -193,8 +236,8 @@ public class GameConfigActivity extends AppCompatActivity {
 
             // Check if a photo was taken
             if (game.isPhotoTaken()) {
-                image_uri = game.getPhoto();
-                gamePhoto.setImageURI(image_uri);
+                game_image_uri = game.getPhoto();
+                gamePhoto.setImageURI(game_image_uri);
                 isPhotoTaken = true;
             }
 
@@ -225,7 +268,7 @@ public class GameConfigActivity extends AppCompatActivity {
         if (index != -1) {
             populateGameSessions(index);
         }
-        if(index >=0 && gameConfiguration.getGamesList().get(index).getSize()==0)
+        if((index >=0 && gameConfiguration.getGamesList().get(index).getSize()==0) ||(index==-1))
         {
             btnStatistics.setVisibility(View.GONE);
         }
@@ -233,6 +276,7 @@ public class GameConfigActivity extends AppCompatActivity {
         {
             btnStatistics.setVisibility(View.VISIBLE);
         }
+
     }
 
     // Saves data for next launch
@@ -272,6 +316,7 @@ public class GameConfigActivity extends AppCompatActivity {
             welcomeScreenMsg.setVisibility(View.VISIBLE);
             welcomeImage.setVisibility(View.VISIBLE);
             welcomePointer.setVisibility(View.VISIBLE);
+            btnStatistics.setVisibility(View.GONE);
         }
         // otherwise, show list
         else {
@@ -279,6 +324,7 @@ public class GameConfigActivity extends AppCompatActivity {
             welcomeScreenMsg.setVisibility(View.GONE);
             welcomeImage.setVisibility(View.GONE);
             welcomePointer.setVisibility(View.GONE);
+            btnStatistics.setVisibility(View.GONE);
         }
     }
 
@@ -339,7 +385,26 @@ public class GameConfigActivity extends AppCompatActivity {
             String str = gameSessions.get(position);
             Session session = game.getSessionAtIndex(position);
             ImageView imageView = sessionsView.findViewById(R.id.sessions_icon);
-            imageView.setImageResource(session.getAchievementLevel().getAchievement(session.getTotalScore(), session.getPlayers()).getImage());
+            ImageView photoView = sessionsView.findViewById(R.id.sessions_photo_icon);
+
+            // Check if session has a theme and use image if yes
+            // Else use a default image
+            if (!session.getSessionTheme().equals("None")) {
+                imageView.setImageResource(session.getAchievementLevel().getAchievement(session.getTotalScore(), session.getPlayers()).getImage());
+            }
+            else {
+                imageView.setImageResource(R.drawable.p1);
+            }
+
+            // If photo was not taken, use default image
+            // Else, use photo taken
+            if (!session.isPhotoTaken()) {
+                photoView.setImageResource(R.drawable.p1);
+            }
+            else {
+                photoView.setImageURI(session.getPhoto());
+            }
+
 
             TextView displayText = sessionsView.findViewById(R.id.sessionsText);
             displayText.setText(str);
@@ -460,7 +525,7 @@ public class GameConfigActivity extends AppCompatActivity {
 
         // Add image to Game if a photo was taken
         if (isPhotoTaken) {
-            game.setPhoto(image_uri);
+            game.setPhoto(game_image_uri);
             game.setPhotoTaken(true);
         }
 
@@ -576,7 +641,7 @@ public class GameConfigActivity extends AppCompatActivity {
 
         // Store previously taken photo (if any)
         if (isPhotoTaken) {
-            image_uri = game.getPhoto();
+            game_image_uri = game.getPhoto();
         }
     }
 
@@ -616,7 +681,7 @@ public class GameConfigActivity extends AppCompatActivity {
         // Check if a photo was taken
         if (isPhotoTaken) {
             game.setPhotoTaken(true);
-            game.setPhoto(image_uri);
+            game.setPhoto(game_image_uri);
         }
 
         finish();
@@ -695,10 +760,10 @@ public class GameConfigActivity extends AppCompatActivity {
         // Check for if camera permission is granted
         // Else, open camera
         if (ContextCompat.checkSelfPermission(GameConfigActivity.this, Manifest.permission.CAMERA)
-            != PackageManager.PERMISSION_GRANTED) {
+                != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(GameConfigActivity.this, new String[]{
                     Manifest.permission.CAMERA}, PERMISSION_CODE);
-            }
+        }
         else {
             openCamera();
         }
@@ -723,12 +788,24 @@ public class GameConfigActivity extends AppCompatActivity {
         ContentValues value = new ContentValues();
         value.put(MediaStore.Images.Media.TITLE, "Photo");
         value.put(MediaStore.Images.Media.DESCRIPTION, "Camera");
-        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, value);
+        game_image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, value);
 
         // Open camera
         Intent openCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        openCamera.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
+        openCamera.putExtra(MediaStore.EXTRA_OUTPUT, game_image_uri);
         startActivityIfNeeded(openCamera, CAMERA_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        // Get image if accepted
+        if (resultCode == -1) {     // -1 = photo taken, 0 = no photo taken
+            if (requestCode == CAMERA_REQUEST_CODE && data != null) {
+                gamePhoto.setImageURI(game_image_uri);
+                isPhotoTaken = true;
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public void onClickStatistics(View view)
@@ -737,16 +814,5 @@ public class GameConfigActivity extends AppCompatActivity {
         //intent.putExtra(AchievementStatistics.SESSION_INDEX,index);
         startActivity(intent);
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        // Get image if accepted
-        if (resultCode == -1) {     // -1 = photo taken, 0 = no photo taken
-            if (requestCode == CAMERA_REQUEST_CODE && data != null) {
-                gamePhoto.setImageURI(image_uri);
-                isPhotoTaken = true;
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 }
+
