@@ -70,6 +70,10 @@
     <string name="enter_score">Enter Score</string>
     <string name="take_photo">Take Photo</string>
     <string name="current_sessions_image">CURRENT IMAGE:</string>
+    <string name="citation"><a href="https://opencoursehub.cs.sfu.ca/bfraser/grav-cms/cmpt276/course-info/styleguide">Java Coding Style Guide</a>
+                \n<a href="https://fixed-meat-b95.notion.site/CMPT276-Team-Carbon-Image-Citations-4827299324c645f385cd871a88c5f8af">Images</a>
+                \n<a href="https://themushroomkingdom.net/wav.shtml">Celebration Sound</a>
+    </string>
     <string-array name="levels">
         <item>Normal</item>
         <item>Easy</item>

@@ -81,12 +81,13 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
     private int combinedScore;                          // Combined score of all players
     private int prevNumPlayers;
 
-    private List<Integer> scoreList;             // List of score of players
-    private List<Integer> tempScoreList;         // Temporary list of scores for num player changes
-    private List<Integer> currScoreList;
-    private List<Integer> oldScoreList;
-    private ListView listView;                   // ListView of score of players
-    private ListviewAdapter adapter;             // Adapter for listView
+    private List<Integer> scoreList;                    // List of score of players
+    private List<Integer> tempScoreList;                // Temporary list of scores for num player changes
+    private List<Integer> currScoreList;                // List of current score of players
+    private List<Integer> oldScoreList;                 // List of old score of players
+    private ListView listView;                          // ListView of score of players
+    private ListviewAdapter adapter;                    // Adapter for listView
+
 
     // Spinners
     private Spinner difficultySpinner;  // Difficulty dropdown
@@ -192,7 +193,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         listView = findViewById(R.id.lvPlayerScores);
         listView.setItemsCanFocus(true);
 
-        adapter = new ListviewAdapter( SessionsActivity.this, currScoreList, tempScoreList, totalScore, achievement, combinedScore, session.getAchievementLevel(), prevNumPlayers, totalPlayers);
+        adapter = new ListviewAdapter(SessionsActivity.this, currScoreList, tempScoreList, totalScore, achievement, combinedScore, session.getAchievementLevel(), prevNumPlayers, totalPlayers);
         listView.setAdapter(adapter);
 
         int oldScore = 0;
@@ -279,7 +280,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             scoreList.remove(scoreList.size()-1);
         }
 
-        adapter = new ListviewAdapter( SessionsActivity.this, scoreList, tempScoreList, totalScore, achievement, combinedScore, session.getAchievementLevel(), prevNumPlayers, totalPlayers);
+        adapter = new ListviewAdapter(SessionsActivity.this, scoreList, tempScoreList, totalScore, achievement, combinedScore, session.getAchievementLevel(), prevNumPlayers, totalPlayers);
         listView.setAdapter(adapter);
         totalScore.setText("" + adapter.getUpdatedCombinedScore());
         achievement.setText("ACHIEVEMENT is: " + currentAchievement.getAchievement(adapter.getUpdatedCombinedScore(), intPlayers).getName());

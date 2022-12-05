@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ca.cmpt276.carbon">
 
-    <uses-permission android:name="android.permission.CAMERA"></uses-permission>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -17,7 +17,21 @@
         android:theme="@style/Theme.Carbon.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".AboutActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".CelebrationActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".AchievementStatistics"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
