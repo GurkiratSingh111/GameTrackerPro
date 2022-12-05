@@ -318,7 +318,6 @@ public class GameConfigActivity extends AppCompatActivity {
             welcomeScreenMsg.setVisibility(View.VISIBLE);
             welcomeImage.setVisibility(View.VISIBLE);
             welcomePointer.setVisibility(View.VISIBLE);
-            btnStatistics.setVisibility(View.GONE);
         }
         // otherwise, show list
         else {
@@ -326,7 +325,6 @@ public class GameConfigActivity extends AppCompatActivity {
             welcomeScreenMsg.setVisibility(View.GONE);
             welcomeImage.setVisibility(View.GONE);
             welcomePointer.setVisibility(View.GONE);
-            btnStatistics.setVisibility(View.GONE);
         }
     }
 
