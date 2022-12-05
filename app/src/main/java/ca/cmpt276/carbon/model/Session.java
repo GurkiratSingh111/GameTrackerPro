@@ -1,5 +1,7 @@
 package ca.cmpt276.carbon.model;
 
+import android.net.Uri;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -18,6 +20,8 @@ public class Session {
     private String sessionDifficulty;           // Easy, Normal, Hard
     private String sessionTheme;                // None, Nut, Emoji, Middle Earth
     private List<Integer> playerScoreList;
+    private String photo;
+    private boolean isPhotoTaken;
 
     // Constructor
     public Session() {
@@ -27,6 +31,7 @@ public class Session {
         this.playerScoreList = new ArrayList<>();
         this.sessionDifficulty = "Normal";
         this.sessionTheme = "None";
+        this.isPhotoTaken = false;
     }
 
     // Getter/Setter methods
@@ -74,6 +79,23 @@ public class Session {
     }
     public void setPlayerScoreList(List<Integer> playerScoreList) {
         this.playerScoreList = playerScoreList;
+    }
+
+    public Uri getPhoto() {
+        if (photo == null) {
+            return null;
+        }
+        return Uri.parse(photo);
+    }
+    public void setPhoto(Uri photo) {
+        this.photo = photo.toString();
+    }
+
+    public boolean isPhotoTaken() {
+        return isPhotoTaken;
+    }
+    public void setPhotoTaken(boolean photoTaken) {
+        isPhotoTaken = photoTaken;
     }
 
     // Time format
