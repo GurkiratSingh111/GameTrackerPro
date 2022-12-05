@@ -16,6 +16,10 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.util.ArrayList;
 import ca.cmpt276.carbon.model.GameConfig;
 
+/**
+ * This activity shows a Bar Graph which depicts how many times each
+ * achievement level is earned.
+ */
 public class AchievementStatistics extends AppCompatActivity {
 
     BarChart barChart;
