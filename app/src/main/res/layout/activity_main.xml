@@ -45,6 +45,15 @@
         app:tint="@color/theme_yellow"
         tools:visibility="visible" />
 
+    <Button
+        android:id="@+id/btnAbout"
+        android:layout_width="99dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="24dp"
+        android:text="About"
+        app:layout_constraintBottom_toBottomOf="@+id/btnAddGame"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <ImageView
         android:id="@+id/imageViewPeanut"
         android:layout_width="280dp"
@@ -82,9 +91,10 @@
         android:layout_marginTop="56dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/appBarLayout">
+        app:layout_constraintTop_toTopOf="@+id/appBarLayout"
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -100,7 +110,9 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="32dp"
                 android:visibility="visible"
-                tools:visibility="invisible" />
+                tools:visibility="invisible">
+
+            </ListView>
         </LinearLayout>
     </ScrollView>
 
