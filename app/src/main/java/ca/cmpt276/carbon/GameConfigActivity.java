@@ -389,13 +389,13 @@ public class GameConfigActivity extends AppCompatActivity {
             ImageView imageView = sessionsView.findViewById(R.id.sessions_icon);
             ImageView photoView = sessionsView.findViewById(R.id.sessions_photo_icon);
 
-            // Check if session has a theme and use image if yes
+            // Check if session has a theme and use image if true
             // Else use a default image
             if (!session.getSessionTheme().equals("None")) {
                 imageView.setImageResource(session.getAchievementLevel().getAchievement(session.getTotalScore(), session.getPlayers()).getImage());
             }
             else {
-                imageView.setImageResource(R.drawable.p1);
+                imageView.setImageResource(R.drawable.p3);
             }
 
             // If photo was not taken, use default image
