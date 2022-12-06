@@ -380,6 +380,17 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
 
                 intPlayers = Integer.parseInt(stringPlayers);
 
+                if (intPlayers > 25) {
+                    throw new IllegalArgumentException("Can't have more than 25 players");
+                }
+                if (intPlayers < 1) {
+                    throw new IllegalArgumentException("Can't have less than 1 player");
+                }
+                int scoreListSize = scoreList.size();
+                if (intPlayers != scoreListSize) {
+                    throw new IllegalArgumentException("The player size was not set");
+                }
+
                 for (int i = 0; i < intPlayers; i++) {
                     combinedScore += scoreList.get(i);
                 }
@@ -435,7 +446,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
             }
         }
         catch (IllegalArgumentException e) {
-            Toast.makeText(SessionsActivity.this, "Players cannot be zero.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SessionsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
