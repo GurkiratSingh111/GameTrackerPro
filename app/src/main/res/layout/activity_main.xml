@@ -8,8 +8,8 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
-        android:layout_width="411dp"
-        android:layout_height="55dp"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
         android:theme="@style/Theme.Carbon.AppBarOverlay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,8 +56,8 @@
 
     <ImageView
         android:id="@+id/imageViewPeanut"
-        android:layout_width="280dp"
-        android:layout_height="280dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:contentDescription="@string/main_activity_image_peanut"
         android:src="@mipmap/ic_launcher_foreground"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -78,8 +78,8 @@
 
     <ImageView
         android:id="@+id/imgArrow"
-        android:layout_width="106dp"
-        android:layout_height="99dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:rotation="41"
         app:layout_constraintEnd_toEndOf="@+id/imageViewPeanut"
         app:layout_constraintTop_toBottomOf="@+id/imageViewPeanut"
@@ -94,7 +94,8 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/appBarLayout"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.0"
+        tools:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -109,6 +110,8 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="32dp"
+                android:minWidth="100dp"
+                android:minHeight="100dp"
                 android:visibility="visible"
                 tools:visibility="invisible">
 
