@@ -198,28 +198,27 @@
 
     <ImageView
         android:id="@+id/imageViewSelectedImage"
-        android:layout_width="88dp"
-        android:layout_height="78dp"
-        android:layout_marginStart="32dp"
+        android:layout_width="74dp"
+        android:layout_height="81dp"
+        android:layout_marginStart="8dp"
         android:contentDescription="@string/image_for_game_icon"
         android:src="@drawable/p1"
         app:layout_constraintBottom_toBottomOf="@+id/selectGameIcon"
         app:layout_constraintStart_toEndOf="@+id/selectGameIcon"
-        app:layout_constraintTop_toTopOf="@+id/selectGameIcon" />
+        app:layout_constraintTop_toTopOf="@+id/selectGameIcon"
+        app:layout_constraintVertical_bias="0.529" />
 
     <Button
         android:id="@+id/gameTakePhotoBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="592dp"
         android:layout_marginBottom="19dp"
         android:text="@string/take_photo"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewSelectedImage"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/appBarSession"
+        app:layout_constraintHorizontal_bias="0.7"
+        app:layout_constraintStart_toEndOf="@+id/imageViewSelectedImage"
+        app:layout_constraintTop_toTopOf="@+id/imageViewSelectedImage"
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
