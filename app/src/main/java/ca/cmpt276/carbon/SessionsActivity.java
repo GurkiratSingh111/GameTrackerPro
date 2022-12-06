@@ -160,7 +160,6 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
 
             totalPlayers.addTextChangedListener(playerNumTextWatcher);
 
-            //initializePlayerScores();
             initializePlayerScoresOld();
 
             // Check if a photo was taken
