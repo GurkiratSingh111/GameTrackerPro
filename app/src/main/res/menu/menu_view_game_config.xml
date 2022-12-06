@@ -5,19 +5,19 @@
     <item
         android:id="@+id/action_add_game"
         android:icon="@drawable/ic_baseline_save_24"
-        android:title="Add Game!"
+        android:title="@string/add_game1"
         app:showAsAction="always"/>
 
     <item
         android:id="@+id/action_edit_game"
         android:icon="@drawable/ic_baseline_edit_24"
-        android:title="Add Game!"
+        android:title="@string/add_game2"
         app:showAsAction="always"/>
 
     <item
         android:id="@+id/action_delete_game"
         android:icon="@drawable/ic_baseline_delete_forever_24"
-        android:title="Add Game!"
+        android:title="@string/add_game3"
         app:showAsAction="always"/>
 
 </menu>

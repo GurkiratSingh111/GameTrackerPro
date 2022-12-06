@@ -6,7 +6,6 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="Add_Game">addGame</string>
@@ -74,6 +73,22 @@
                 \n<a href="https://fixed-meat-b95.notion.site/CMPT276-Team-Carbon-Image-Citations-4827299324c645f385cd871a88c5f8af">Images</a>
                 \n<a href="https://themushroomkingdom.net/wav.shtml">Celebration Sound</a>
     </string>
+    <string name="team_carbon">Team Carbon</string>
+    <string name="developed_by_gahee_tj_max_garry">Developed by Gahee, TJ, Max, Garry</string>
+    <string name="acknowledgements_and_credits">Acknowledgements and Credits:</string>
+    <string name="achievement_level_achievement_level">Achievement Level: ACHIEVEMENT LEVEL</string>
+    <string name="you_were_n_away_from_achievement_level">You were n away from ACHIEVEMENT LEVEL</string>
+    <string name="animation">Animation</string>
+    <string name="stats">STATS</string>
+    <string name="about">About</string>
+    <string name="about_page">About Page</string>
+    <string name="add_game">Add Game!</string>
+    <string name="add_session">Add Session</string>
+    <string name="add_game1">Add Game!</string>
+    <string name="add_game2">Add Game!</string>
+    <string name="add_game3">Add Game!</string>
+    <string name="save_session">Save Session</string>
+    <string name="delete_session">Delete Session</string>
     <string-array name="levels">
         <item>Normal</item>
         <item>Easy</item>

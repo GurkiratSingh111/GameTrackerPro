@@ -7,7 +7,7 @@
     <item
         android:id="@+id/action_add_game"
         android:icon="@drawable/ic_baseline_save_24"
-        android:title="Add Game!"
+        android:title="@string/add_game"
         app:showAsAction="always"/>
 
 </menu>

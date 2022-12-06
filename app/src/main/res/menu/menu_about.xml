@@ -6,6 +6,6 @@
     <!-- This is the tool bar for about page -->
     <item
         android:id="@+id/action_add_game"
-        android:title="About Page"
+        android:title="@string/about_page"
         app:showAsAction="always"/>
 </menu>
