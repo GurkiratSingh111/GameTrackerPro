@@ -19,11 +19,6 @@ Non-Repeatable Bugs:
     the bug on a consistent basis and you might notice it in testing.
 
 
-Extension for Iteration 2:
-
-    ** 2 day extension granted by Dr. Brian for iteration 2. **
-
-
 Acknowledgements and Credits:
 
     Java Coding Style Guide:
