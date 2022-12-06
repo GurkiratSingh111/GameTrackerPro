@@ -280,7 +280,6 @@ public class GameConfigActivity extends AppCompatActivity {
         {
             btnStatistics.setVisibility(View.VISIBLE);
         }
-
     }
 
     // Saves data for next launch
@@ -365,8 +364,10 @@ public class GameConfigActivity extends AppCompatActivity {
         sessionList.setAdapter(adapter);
 
         // method to display empty state if no sessions
-        showEmptyState();
 
+        if (!isEditGameConfig) {
+            showEmptyState();
+        }
         adapter.notifyDataSetChanged();
     }
 
