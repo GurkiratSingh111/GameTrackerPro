@@ -520,8 +520,12 @@ public class GameConfigActivity extends AppCompatActivity {
             return;
         }
 
+        if (name.length() > 30) {
+            Toast.makeText(this, "Game name must not exceed 30 characters", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         // make a new game with given parameters
-        //game = new Game(name, numLowScore, numHighScore);
         game.setGameName(name);
         game.setHighScore(numHighScore);
         game.setLowScore(numLowScore);
