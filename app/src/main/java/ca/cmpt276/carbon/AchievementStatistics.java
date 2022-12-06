@@ -108,10 +108,10 @@ public class AchievementStatistics extends AppCompatActivity {
         barDataSet.setDrawValues(false);
         barChart.setData(new BarData(barDataSet));
         barChart.animateY(5000);
-        barChart.getDescription().setText("LV1 LV2 LV3 LV4 LV5 LV6 LV7 LV8 LV9 LV10");
+        barChart.getDescription().setText("L1 L2 L3 L4 L5 L6 L7 L8 L9 L10");
         barChart.getDescription().setEnabled(true);
         barChart.getDescription().setTextColor(Color.BLACK);
-        barChart.getDescription().setTextSize(17.5f);
+        barChart.getDescription().setTextSize(24f);
     }
 
     private void extractDataFromIntent() {
