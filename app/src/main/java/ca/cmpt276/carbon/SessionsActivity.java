@@ -55,6 +55,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
     private TextView achievement;                       // Display achievement of player
     private Button takePhotoBtn;                        // Button for taking photos
     private Uri sessions_image_uri;                     // Storage for photo taken
+    private Uri current_image_uri;                      // Current photo taken
     private boolean isPhotoTaken;                       // Check if a photo was taken
     private ImageView sessionPhoto;                     // Current image for the session
 
@@ -589,11 +590,11 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         ContentValues value = new ContentValues();
         value.put(MediaStore.Images.Media.TITLE, "Photo");
         value.put(MediaStore.Images.Media.DESCRIPTION, "Camera");
-        sessions_image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, value);
+        current_image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, value);
 
         // Open camera
         Intent openCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        openCamera.putExtra(MediaStore.EXTRA_OUTPUT, sessions_image_uri);
+        openCamera.putExtra(MediaStore.EXTRA_OUTPUT, current_image_uri);
         startActivityIfNeeded(openCamera, CAMERA_REQUEST_CODE);
     }
 
@@ -602,6 +603,7 @@ public class SessionsActivity extends AppCompatActivity implements AdapterView.O
         // Get image if accepted
         if (resultCode == -1) {     // -1 = photo taken, 0 = no photo taken
             if (requestCode == CAMERA_REQUEST_CODE && data != null) {
+                sessions_image_uri = current_image_uri;
                 sessionPhoto.setImageURI(sessions_image_uri);
                 isPhotoTaken = true;
             }
