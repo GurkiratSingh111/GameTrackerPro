@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -86,6 +87,7 @@ public class GameConfigActivity extends AppCompatActivity {
     private ImageView welcomePointer;                              // Empty state pointer for no sessions in List
 
     private Uri game_image_uri;                                    // Storage for photos taken by camera
+    private Uri current_image_uri;                                 // Current photo taken
     private boolean isPhotoTaken;                                  // Check if a photo was taken
 
     // Objects
@@ -788,11 +790,11 @@ public class GameConfigActivity extends AppCompatActivity {
         ContentValues value = new ContentValues();
         value.put(MediaStore.Images.Media.TITLE, "Photo");
         value.put(MediaStore.Images.Media.DESCRIPTION, "Camera");
-        game_image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, value);
+        current_image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, value);
 
         // Open camera
         Intent openCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        openCamera.putExtra(MediaStore.EXTRA_OUTPUT, game_image_uri);
+        openCamera.putExtra(MediaStore.EXTRA_OUTPUT, current_image_uri);
         startActivityIfNeeded(openCamera, CAMERA_REQUEST_CODE);
     }
 
@@ -800,7 +802,9 @@ public class GameConfigActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         // Get image if accepted
         if (resultCode == -1) {     // -1 = photo taken, 0 = no photo taken
+            Log.i("Photo code", Integer.toString(resultCode));
             if (requestCode == CAMERA_REQUEST_CODE && data != null) {
+                game_image_uri = current_image_uri;
                 gamePhoto.setImageURI(game_image_uri);
                 isPhotoTaken = true;
             }
