@@ -14,3 +14,12 @@ Scrum Master: Maxwell ZHang
 Product Owner: Gurkirat Singh Arora
 Repo Manager: Tejeshwar Grewal
 Team Member: Ga Hee Kim
+
+
+Roles of Iteration 3
+--------------------
+
+Scrum Master:  Ga Hee Kim
+Product Owner: Tejeshwar Grewal
+Repo Manager: Gurkirat Singh Arora
+Team Member: Maxwell Zhang
